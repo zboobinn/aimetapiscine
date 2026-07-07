@@ -45,6 +45,11 @@ Mémoire des choix structurants du projet. À tenir à jour à CHAQUE décision 
 - **Motif** : mesure dès le jour 1 sans bannière obligatoire ; pub prévue mais pas au lancement.
 - **Impact** : 21, 22.
 
+### 2026-07-07 — Projet Supabase cloud (région UE) provisionné, migration initiale appliquée
+- **Décision** : projet Supabase créé en région UE ; clés `anon` et `service_role` retenues (récupérées dans Supabase Studio, renseignées dans `.env.local`, jamais commitées). Migration `20260707000000_init_schema.sql` (enums, tables `profiles`/`products`/`orders`/`order_items`, index, séquence facture, trigger `on_auth_user_created`, policies RLS) appliquée avec succès sur le projet cloud ; tables visibles dans Studio avec RLS activée.
+- **Motif** : région UE pour la conformité RGPD (22) ; `service_role` indispensable aux webhooks/scripts serveur qui doivent contourner RLS (23), `anon` pour les clients navigateur/session.
+- **Impact** : 03, 14, 23, 26.
+
 ### EN ATTENTE — Frais de port : option A (inclus, « livraison offerte ») vs option B (forfait ~40 €)
 - **Décision** : non tranchée. Implémentation derrière `getShippingFee()` + env `SHIPPING_MODE` pour basculer sans refonte.
 - **Impact** : 09, 10, 12, 26.
