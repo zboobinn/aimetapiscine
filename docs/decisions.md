@@ -50,6 +50,11 @@ Mémoire des choix structurants du projet. À tenir à jour à CHAQUE décision 
 - **Motif** : région UE pour la conformité RGPD (22) ; `service_role` indispensable aux webhooks/scripts serveur qui doivent contourner RLS (23), `anon` pour les clients navigateur/session.
 - **Impact** : 03, 14, 23, 26.
 
+### 2026-07-07 — Import catalogue produits + validation d'environnement contextuelle
+- **Décision** : fichier pivot `data/catalog.json` (schéma Zod `src/lib/catalog/schema.ts`) importé de façon idempotente vers `public.products` via `scripts/import-catalog.ts` (`pnpm catalog:import`, upsert par `sku`, désactivation des SKU absents). Rempli avec 8 produits de TEST (tarifs/poids fictifs) — à remplacer par les vrais tarifs APF dès réception. En parallèle, `lib/env.ts` unique a été éclaté en `lib/env/` : schémas Zod regroupés par domaine (supabase public, supabase service_role, stripe, resend, revalidate, apf, business config, company) avec accesseurs paresseux (`getSupabaseServiceEnv()`, etc.) qui ne valident que les variables réellement utilisées par l'appelant ; `src/instrumentation.ts` appelle `assertFullEnv()` une fois au boot Next.js pour conserver l'échec strict exigé par 26 côté app.
+- **Motif** : le script d'import tourne hors runtime Next.js et ne doit dépendre ni de `server-only` (import direct de `@/lib/supabase/service-role` impossible hors build Next.js) ni de secrets Stripe/Resend/société qu'il n'utilise pas ; la validation globale d'un seul bloc bloquait `pnpm catalog:import` en environnement partiellement configuré.
+- **Impact** : 04, 26 ; `data/catalog.json`, `scripts/import-catalog.ts`, `src/lib/catalog/schema.ts`, `src/lib/env/`, `src/instrumentation.ts`, `src/lib/supabase/*`.
+
 ### EN ATTENTE — Frais de port : option A (inclus, « livraison offerte ») vs option B (forfait ~40 €)
 - **Décision** : non tranchée. Implémentation derrière `getShippingFee()` + env `SHIPPING_MODE` pour basculer sans refonte.
 - **Impact** : 09, 10, 12, 26.

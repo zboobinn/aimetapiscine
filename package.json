@@ -12,7 +12,7 @@
     "test:e2e": "playwright test",
     "db:migrate": "supabase migration up",
     "db:seed": "supabase db reset",
-    "catalog:import": "tsx scripts/import-catalog.ts",
+    "catalog:import": "tsx --env-file=.env.local scripts/import-catalog.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
   },
   "dependencies": {
