@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { Stepper } from "@/components/ui/stepper";
+import { CalculatorWizard } from "./calculator-wizard";
+import { parseCalculatorState } from "@/features/calculator";
+import { getAccessories, getMembranes } from "@/lib/catalog/data";
+import { getBusinessConfigEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Calculateur de pack | Membranes Armées",
@@ -7,7 +10,22 @@ export const metadata: Metadata = {
     "Renseignez les dimensions de votre bassin et obtenez un pack prêt à poser : membrane et accessoires calculés automatiquement.",
 };
 
-export default function CalculateurPage() {
+interface PageProps {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}
+
+export default async function CalculateurPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const urlSearchParams = new URLSearchParams(
+    Object.entries(resolvedSearchParams).flatMap(([key, value]) => {
+      if (value === undefined) return [];
+      return (Array.isArray(value) ? value : [value]).map((v) => [key, v] as [string, string]);
+    }),
+  );
+
+  const initialUrlState = parseCalculatorState(urlSearchParams);
+  const { LOSS_COEFF_BASE, LOSS_COEFF_STAIRS } = getBusinessConfigEnv();
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-12 sm:px-6">
       <header className="flex flex-col gap-2 pb-10">
@@ -20,22 +38,13 @@ export default function CalculateurPage() {
         </p>
       </header>
 
-      <Stepper
-        currentStep={1}
-        steps={[
-          { label: "Dimensions" },
-          { label: "Forme du bassin" },
-          { label: "Accessoires" },
-          { label: "Récapitulatif" },
-        ]}
+      <CalculatorWizard
+        initialUrlState={initialUrlState}
+        membranes={getMembranes()}
+        accessories={getAccessories()}
+        lossCoeffBase={LOSS_COEFF_BASE}
+        lossCoeffStairs={LOSS_COEFF_STAIRS}
       />
-
-      <div className="mt-10 flex flex-1 items-center justify-center rounded-lg border border-dashed border-border p-12 text-center">
-        <p className="max-w-md text-ink-muted">
-          Logique de calcul à venir (spec 08). Cette page est pour l&apos;instant
-          une coquille de navigation.
-        </p>
-      </div>
     </div>
   );
 }

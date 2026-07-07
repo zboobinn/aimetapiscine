@@ -1,5 +1,5 @@
 {
-  "note": "DONNÉES DE TEST — tarifs et poids fictifs, à remplacer par les tarifs réels APF (PDF fournisseur) avant toute mise en production. Structure et champs conformes à docs/04-catalogue-produits.md.",
+  "note": "DONNÉES DE TEST — tarifs, poids ET rendements accessoires (champ `coverage`) fictifs, à remplacer par les données réelles APF (PDF tarifaire + fiches techniques) avant toute mise en production. En particulier, `coverage.m2_per_unit` de COLLE-PVC-5KG est une conversion arithmétique provisoire (voir docs/decisions.md, entrée « Calculateur expert ») à refaire dès réception des vraies fiches techniques. Structure et champs conformes à docs/04-catalogue-produits.md.",
   "products": [
     {
       "sku": "APF-MEMB-UNI-BLEU",
@@ -83,7 +83,7 @@
       "weight_grams": 5200,
       "roll_area_m2": null,
       "unit": "bidon",
-      "coverage": { "kg_per_m2": 0.3 },
+      "coverage": { "m2_per_unit": 16.6 },
       "image": "/products/APF-COLLE-PVC-5KG.jpg",
       "in_stock": true
     },
