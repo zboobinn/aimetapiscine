@@ -1,0 +1,107 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Price } from "@/components/ui/price";
+import {
+  getAccessories,
+  getAccessoryBySlug,
+  getAccessoryCategoryLabel,
+  getAccessoryCategorySlug,
+} from "@/lib/catalog/data";
+
+export const revalidate = 3600;
+
+interface PageProps {
+  params: Promise<{ categorie: string; slug: string }>;
+}
+
+export function generateStaticParams() {
+  return getAccessories().map((produit) => ({
+    categorie: getAccessoryCategorySlug(produit.category),
+    slug: produit.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { categorie, slug } = await params;
+  const produit = getAccessoryBySlug(categorie, slug);
+
+  if (!produit) {
+    return { title: "Produit introuvable | Membranes Armées" };
+  }
+
+  return {
+    title: `${produit.name} | Membranes Armées`,
+    description: produit.description,
+  };
+}
+
+export default async function AccessoireFichePage({ params }: PageProps) {
+  const { categorie, slug } = await params;
+  const produit = getAccessoryBySlug(categorie, slug);
+
+  if (!produit) {
+    notFound();
+  }
+
+  const label = getAccessoryCategoryLabel(produit.category);
+
+  return (
+    <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <div className="pb-6">
+        <Breadcrumbs
+          items={[
+            { href: "/accessoires", label: "Accessoires" },
+            { href: `/accessoires/${categorie}`, label },
+            { href: `/accessoires/${categorie}/${slug}`, label: produit.name },
+          ]}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-surface">
+          <Image
+            src={produit.image}
+            alt={produit.name}
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <Badge variant="in-stock" className="w-fit">
+              En stock
+            </Badge>
+            <h1 className="font-heading text-3xl font-semibold text-ink">
+              {produit.name}
+            </h1>
+            <p className="text-ink-muted">{produit.description}</p>
+          </div>
+
+          <Price amountCents={produit.base_price_ht} role="b2c" size="lg" />
+
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-y border-border py-6 text-sm">
+            <dt className="text-ink-muted">Référence</dt>
+            <dd className="text-ink">{produit.slug}</dd>
+            <dt className="text-ink-muted">Poids</dt>
+            <dd className="text-ink">{(produit.weight_grams / 1000).toFixed(1)} kg</dd>
+            <dt className="text-ink-muted">Conditionnement</dt>
+            <dd className="text-ink">{produit.unit}</dd>
+          </dl>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button variant="primary" size="lg" className="w-full sm:w-auto">
+              Ajouter au panier
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

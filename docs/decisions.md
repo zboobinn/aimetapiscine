@@ -65,6 +65,16 @@ Mémoire des choix structurants du projet. À tenir à jour à CHAQUE décision 
 - **Motif** : `assertFullEnv()` bloquait `pnpm dev` dès la phase design system faute de variables de specs pas encore développées (Stripe 10, Resend 17, analytics 21, société 11/22). Le principe « échec explicite si variable requise manquante » (26) reste respecté, mais appliqué au bon moment : au boot pour le socle dont dépend toute l'app, au runtime pour le reste.
 - **Impact** : 26 ; `src/lib/env/index.ts`, `src/instrumentation.ts`, `.env.example` (sections « requises maintenant » vs « à venir »).
 
+### 2026-07-07 — Squelette de navigation et routes (07/06)
+- **Décision** : layout global (`Header` sticky avec menu hamburger client-only `MobileNav`, `Footer`) posé dans `src/components/layout/`, réutilisé par `RootLayout`. Toutes les routes de 07 créées en coquilles : `/`, `/membrane-armee` (+ `[gamme]` + `[gamme]/[couleur]`), `/accessoires` (+ `[categorie]` + `[categorie]/[slug]`), `/calculateur`, `/simulateur-3d`, `/panier`, `/commande/confirmation`, `/compte` (+ `/compte/pro`), `/connexion`, `/inscription`, `/mot-de-passe-oublie`, `/guides` (+ `[slug]`), pages légales. Hub et fiches en ISR (`revalidate = 3600`) avec `generateStaticParams` branché sur les 8 produits de test de `data/catalog.json` (nouveaux helpers dans `src/lib/catalog/data.ts`) ; `notFound()` propre si gamme/couleur/catégorie/slug absent. `noindex` posé sur panier, confirmation, compte et pages auth. Fil d'Ariane (`src/components/breadcrumbs.tsx`) sur les pages profondes. `/guides` utilise une liste placeholder (`guides-data.ts`) en attendant l'intégration MDX de 20.
+- **Motif** : poser la structure de navigation et le bon mode de rendu par page avant de brancher la logique métier (calculateur, panier, auth) ; catégories accessoires mappées vers des slugs FR lisibles (`feutres`, `colles`, `pvc-liquide`, `profils`, `solvants`) plutôt que les enums bruts du catalogue.
+- **Impact** : 06, 07 ; `src/app/**`, `src/components/layout/*`, `src/components/breadcrumbs.tsx`, `src/lib/catalog/data.ts`, `src/lib/utils/text.ts`.
+
+### 2026-07-07 — Correctif : fuite de la mention APF côté client
+- **Décision** : retrait de toute mention « APF »/« APF Pool Design » visible côté client — accroche d'accueil, `<title>`/description globaux, texte du simulateur 3D. Sur les fiches produit, le champ « Référence » affiche désormais `produit.slug` (identifiant client, stable) au lieu de `produit.sku` (préfixé `APF-...`, interne fournisseur).
+- **Motif** : violation directe de la règle blind shipping (01) — « ne jamais afficher ni logger de référence APF dans un livrable destiné au client » — repérée après revue du squelette de navigation. Le `sku` reste utilisé côté code (clé React, imports catalogue, `service_role`) car jamais rendu au DOM ; seul l'affichage client était concerné.
+- **Impact** : 01, 04, 07 ; `src/app/page.tsx`, `src/app/layout.tsx`, `src/app/simulateur-3d/page.tsx`, `src/app/membrane-armee/[gamme]/[couleur]/page.tsx`, `src/app/accessoires/[categorie]/[slug]/page.tsx`.
+
 ### EN ATTENTE — Frais de port : option A (inclus, « livraison offerte ») vs option B (forfait ~40 €)
 - **Décision** : non tranchée. Implémentation derrière `getShippingFee()` + env `SHIPPING_MODE` pour basculer sans refonte.
 - **Impact** : 09, 10, 12, 26.

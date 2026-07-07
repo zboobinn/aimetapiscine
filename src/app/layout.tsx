@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -16,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Membranes Armées — APF Pool Design",
+  title: "Membranes Armées — Vente directe fabricant",
   description:
-    "Membranes armées piscine et accessoires de pose en dropshipping direct APF Pool Design.",
+    "Membranes armées piscine et accessoires de pose, livrés en France métropolitaine.",
 };
 
 export default function RootLayout({
@@ -32,7 +34,9 @@ export default function RootLayout({
       className={`${manrope.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background font-body text-ink">
-        {children}
+        <Header />
+        <main className="flex flex-1 flex-col">{children}</main>
+        <Footer />
       </body>
     </html>
   );
