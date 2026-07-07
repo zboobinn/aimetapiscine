@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import {
   type CalculatorUrlState,
   type StairType,
 } from "@/features/calculator";
+import { useCartStore } from "@/features/cart";
 
 interface CalculatorWizardProps {
   initialUrlState: CalculatorUrlState | null;
@@ -67,6 +69,7 @@ export function CalculatorWizard({
   lossCoeffStairs,
 }: CalculatorWizardProps) {
   const router = useRouter();
+  const addPackLines = useCartStore((state) => state.addPackLines);
   const config = useMemo(
     () => defaultCalculatorConfig({ lossCoeffBase, lossCoeffStairs }),
     [lossCoeffBase, lossCoeffStairs],
@@ -156,10 +159,26 @@ export function CalculatorWizard({
   function handleAddToCart() {
     if (!result || !selectedMembrane) return;
 
-    // Interface de préparation pour le panier réel (09) : pas de store/API
-    // pour l'instant, juste la construction des lignes attendues.
     const draft = buildCartDraft(result, selectedMembrane);
-    console.info("[calculateur] pack prêt pour le panier (09 à venir) :", draft);
+    const calculatorParams = serializeCalculatorState({
+      input: {
+        pool: {
+          shape: "rectangle",
+          dimensions: {
+            length: Number(dimensions.length.replace(",", ".")),
+            width: Number(dimensions.width.replace(",", ".")),
+            depth: Number(dimensions.depth.replace(",", ".")),
+          },
+        },
+        stairType,
+      },
+      membraneSlug: selectedMembraneSlug,
+    }).toString();
+
+    addPackLines(
+      draft.map(({ sku, quantity }) => ({ sku, quantity })),
+      calculatorParams,
+    );
     setAddedToCart(true);
   }
 
@@ -442,10 +461,16 @@ function StepResult({
         <Button size="lg" className="w-full sm:w-auto" onClick={onAddToCart}>
           {addedToCart ? "Ajouté ✓" : "Ajouter le pack au panier"}
         </Button>
+        {addedToCart ? (
+          <Link
+            href="/panier"
+            className="flex min-h-11 items-center justify-center font-medium text-accent underline sm:justify-start"
+          >
+            Voir le panier
+          </Link>
+        ) : null}
       </div>
-      <p className="text-xs text-ink-muted">
-        Panier fonctionnel et remise pack -5 % à venir (specs 09 et 13).
-      </p>
+      <p className="text-xs text-ink-muted">Remise pack -5 % à venir (spec 13).</p>
     </div>
   );
 }

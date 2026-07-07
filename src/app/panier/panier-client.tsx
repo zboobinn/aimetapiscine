@@ -1,0 +1,239 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Price } from "@/components/ui/price";
+import { useCartStore, type CartLine } from "@/features/cart";
+import type { ResolveCartResponse, ResolvedCartLine } from "@/app/api/cart/resolve/route";
+
+interface DisplayLine {
+  line: CartLine;
+  resolved: ResolvedCartLine | undefined;
+}
+
+interface PackGroup {
+  packId: string;
+  calculatorParams: string;
+  lines: DisplayLine[];
+}
+
+function QuantityControl({
+  quantity,
+  onChange,
+}: {
+  quantity: number;
+  onChange: (next: number) => void;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <Button
+        variant="secondary"
+        size="sm"
+        className="h-9 w-9 px-0"
+        aria-label="Diminuer la quantité"
+        onClick={() => onChange(quantity - 1)}
+      >
+        −
+      </Button>
+      <span className="w-8 text-center font-medium text-ink">{quantity}</span>
+      <Button
+        variant="secondary"
+        size="sm"
+        className="h-9 w-9 px-0"
+        aria-label="Augmenter la quantité"
+        onClick={() => onChange(quantity + 1)}
+      >
+        +
+      </Button>
+    </div>
+  );
+}
+
+function LineRow({
+  display,
+  onQuantityChange,
+  onRemove,
+}: {
+  display: DisplayLine;
+  onQuantityChange: (quantity: number) => void;
+  onRemove: () => void;
+}) {
+  const { line, resolved } = display;
+
+  return (
+    <li className="flex items-center gap-4 py-4">
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md bg-surface">
+        {resolved?.image ? (
+          <Image src={resolved.image} alt={resolved.name} fill sizes="64px" className="object-cover" />
+        ) : null}
+      </div>
+
+      <div className="flex flex-1 flex-col gap-1">
+        <span className="font-medium text-ink">{resolved?.name ?? line.sku}</span>
+        {resolved && !resolved.available ? (
+          <Badge variant="out-of-stock" className="w-fit">
+            Indisponible — retirez cette ligne
+          </Badge>
+        ) : resolved ? (
+          <Price amountCents={resolved.unitPriceCents} role="b2c" size="sm" />
+        ) : (
+          <span className="text-sm text-ink-muted">Chargement…</span>
+        )}
+      </div>
+
+      <QuantityControl quantity={line.quantity} onChange={onQuantityChange} />
+
+      {resolved ? (
+        <span className="w-24 shrink-0 text-right font-heading font-semibold text-ink">
+          <Price amountCents={resolved.unitPriceCents * line.quantity} role="b2c" size="sm" />
+        </span>
+      ) : null}
+
+      <Button variant="ghost" size="sm" onClick={onRemove} aria-label="Retirer cette ligne">
+        Retirer
+      </Button>
+    </li>
+  );
+}
+
+export function PanierClient() {
+  const lines = useCartStore((state) => state.lines);
+  const packs = useCartStore((state) => state.packs);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
+  const removeLine = useCartStore((state) => state.removeLine);
+  const removePack = useCartStore((state) => state.removePack);
+
+  const [resolvedLines, setResolvedLines] = useState<ResolvedCartLine[] | null>(null);
+
+  const requestBody = useMemo(
+    () => JSON.stringify({ lines: lines.map(({ sku, quantity }) => ({ sku, quantity })) }),
+    [lines],
+  );
+
+  useEffect(() => {
+    if (lines.length === 0) return;
+
+    let cancelled = false;
+
+    fetch("/api/cart/resolve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: requestBody,
+    })
+      .then((res) => res.json() as Promise<ResolveCartResponse>)
+      .then((data) => {
+        if (!cancelled) setResolvedLines(data.lines);
+      })
+      .catch(() => {
+        if (!cancelled) setResolvedLines(null);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestBody]);
+
+  const displayLines: DisplayLine[] = lines.map((line, index) => ({
+    line,
+    resolved: resolvedLines?.[index],
+  }));
+
+  const standaloneLines = displayLines.filter((d) => d.line.source === "catalog");
+  const packGroups: PackGroup[] = Object.entries(packs)
+    .map(([packId, meta]) => ({
+      packId,
+      calculatorParams: meta.calculatorParams,
+      lines: displayLines.filter((d) => d.line.packId === packId),
+    }))
+    .filter((group) => group.lines.length > 0);
+
+  const subtotalCents = displayLines.reduce((sum, d) => {
+    if (!d.resolved?.available) return sum;
+    return sum + d.resolved.unitPriceCents * d.line.quantity;
+  }, 0);
+
+  const isEmpty = lines.length === 0;
+  const isLoadingPrices = !isEmpty && resolvedLines === null;
+
+  return (
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-12 sm:px-6">
+      <h1 className="font-heading text-3xl font-semibold text-ink">Panier</h1>
+
+      {isEmpty ? (
+        <div className="mt-10 flex flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-dashed border-border p-12 text-center">
+          <p className="max-w-sm text-ink-muted">Votre panier est vide pour le moment.</p>
+          <Link href="/membrane-armee">
+            <Button variant="primary">Voir les membranes</Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="mt-10 flex flex-col gap-8">
+          {packGroups.map((group) => (
+            <div key={group.packId} className="rounded-lg border border-border p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
+                <div className="flex items-center gap-3">
+                  <Badge variant="promo">Pack</Badge>
+                  <Link
+                    href={`/calculateur?${group.calculatorParams}`}
+                    className="text-sm font-medium text-accent underline"
+                  >
+                    Recalculer
+                  </Link>
+                </div>
+                <Button variant="ghost" size="sm" onClick={() => removePack(group.packId)}>
+                  Retirer le pack
+                </Button>
+              </div>
+
+              <ul className="flex flex-col divide-y divide-border">
+                {group.lines.map((display) => (
+                  <LineRow
+                    key={`${display.line.sku}-${group.packId}`}
+                    display={display}
+                    onQuantityChange={(quantity) =>
+                      updateQuantity(display.line.sku, group.packId, quantity)
+                    }
+                    onRemove={() => removeLine(display.line.sku, group.packId)}
+                  />
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {standaloneLines.length > 0 ? (
+            <div className="rounded-lg border border-border p-4">
+              <ul className="flex flex-col divide-y divide-border">
+                {standaloneLines.map((display) => (
+                  <LineRow
+                    key={display.line.sku}
+                    display={display}
+                    onQuantityChange={(quantity) =>
+                      updateQuantity(display.line.sku, undefined, quantity)
+                    }
+                    onRemove={() => removeLine(display.line.sku, undefined)}
+                  />
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          <div className="flex items-center justify-between border-t border-border pt-6">
+            <span className="font-heading text-lg font-semibold text-ink">Sous-total</span>
+            {isLoadingPrices ? (
+              <span className="text-ink-muted">Calcul…</span>
+            ) : (
+              <Price amountCents={subtotalCents} role="b2c" size="lg" />
+            )}
+          </div>
+          <p className="text-xs text-ink-muted">
+            Frais de port et paiement à l&apos;étape suivante (specs 10 et 12).
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}

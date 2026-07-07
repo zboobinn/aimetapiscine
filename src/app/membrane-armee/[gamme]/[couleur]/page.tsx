@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Price } from "@/components/ui/price";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { getCompatibleAccessories } from "@/features/cart";
 import {
   couleurToSlug,
+  getAccessories,
   getMembraneByGammeAndCouleur,
   getMembranes,
 } from "@/lib/catalog/data";
@@ -95,14 +99,16 @@ export default async function MembraneFichePage({ params }: PageProps) {
             <dd className="text-ink">{produit.unit}</dd>
           </dl>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Button variant="primary" size="lg" className="w-full sm:w-auto">
-              Ajouter au panier
-            </Button>
+          <AddToCartButton
+            product={produit}
+            compatibleAccessories={getCompatibleAccessories(getAccessories())}
+          />
+
+          <Link href="/calculateur">
             <Button variant="secondary" size="lg" className="w-full sm:w-auto">
               Utiliser le calculateur
             </Button>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

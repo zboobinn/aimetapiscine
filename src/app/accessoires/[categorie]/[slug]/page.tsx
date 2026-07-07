@@ -3,8 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Price } from "@/components/ui/price";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import {
   getAccessories,
   getAccessoryBySlug,
@@ -95,11 +95,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
             <dd className="text-ink">{produit.unit}</dd>
           </dl>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Button variant="primary" size="lg" className="w-full sm:w-auto">
-              Ajouter au panier
-            </Button>
-          </div>
+          <AddToCartButton product={produit} />
         </div>
       </div>
     </div>
