@@ -79,7 +79,12 @@ function LineRow({
             Indisponible — retirez cette ligne
           </Badge>
         ) : resolved ? (
-          <Price amountCents={resolved.unitPriceCents} role="b2c" size="sm" />
+          <Price
+            amountCents={resolved.unitPriceCents}
+            compareAtAmountCents={resolved.compareAtUnitPriceCents}
+            role="b2c"
+            size="sm"
+          />
         ) : (
           <span className="text-sm text-ink-muted">Chargement…</span>
         )}
@@ -89,7 +94,16 @@ function LineRow({
 
       {resolved ? (
         <span className="w-24 shrink-0 text-right font-heading font-semibold text-ink">
-          <Price amountCents={resolved.unitPriceCents * line.quantity} role="b2c" size="sm" />
+          <Price
+            amountCents={resolved.unitPriceCents * line.quantity}
+            compareAtAmountCents={
+              resolved.compareAtUnitPriceCents
+                ? resolved.compareAtUnitPriceCents * line.quantity
+                : undefined
+            }
+            role="b2c"
+            size="sm"
+          />
         </span>
       ) : null}
 
@@ -118,10 +132,13 @@ export function PanierClient() {
   const requestBody = useMemo(
     () =>
       JSON.stringify({
-        lines: lines.map(({ sku, quantity }) => ({ sku, quantity })),
+        lines: lines.map(({ sku, quantity, source, packId }) => ({ sku, quantity, source, packId })),
+        packs: Object.fromEntries(
+          Object.entries(packs).map(([packId, meta]) => [packId, { originalSkus: meta.originalSkus }]),
+        ),
         postalCode: trimmedPostalCode || undefined,
       }),
-    [lines, trimmedPostalCode],
+    [lines, packs, trimmedPostalCode],
   );
 
   useEffect(() => {
@@ -173,6 +190,11 @@ export function PanierClient() {
     return sum + d.resolved.unitPriceCents * d.line.quantity;
   }, 0);
 
+  const packDiscountCents = displayLines.reduce((sum, d) => {
+    if (!d.resolved?.available || !d.resolved.compareAtUnitPriceCents) return sum;
+    return sum + (d.resolved.compareAtUnitPriceCents - d.resolved.unitPriceCents) * d.line.quantity;
+  }, 0);
+
   const isEmpty = lines.length === 0;
   const isLoadingPrices = !isEmpty && resolvedLines === null;
   const hasUnavailableLines = displayLines.some((d) => d.resolved && !d.resolved.available);
@@ -217,11 +239,17 @@ export function PanierClient() {
         </div>
       ) : (
         <div className="mt-10 flex flex-col gap-8">
-          {packGroups.map((group) => (
+          {packGroups.map((group) => {
+            const groupDiscountBps = group.lines[0]?.resolved?.discountBps ?? 0;
+            const groupResolved = group.lines.every((d) => d.resolved);
+
+            return (
             <div key={group.packId} className="rounded-lg border border-border p-4">
               <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
                 <div className="flex items-center gap-3">
-                  <Badge variant="promo">Pack</Badge>
+                  <Badge variant="promo">
+                    {groupDiscountBps > 0 ? `Pack -${groupDiscountBps / 100} %` : "Pack"}
+                  </Badge>
                   <Link
                     href={`/calculateur?${group.calculatorParams}`}
                     className="text-sm font-medium text-accent underline"
@@ -233,6 +261,12 @@ export function PanierClient() {
                   Retirer le pack
                 </Button>
               </div>
+
+              {groupResolved && groupDiscountBps === 0 ? (
+                <p className="pb-2 text-xs text-ink-muted">
+                  Remise pack retirée : un article du pack a été retiré du panier.
+                </p>
+              ) : null}
 
               <ul className="flex flex-col divide-y divide-border">
                 {group.lines.map((display) => (
@@ -247,7 +281,8 @@ export function PanierClient() {
                 ))}
               </ul>
             </div>
-          ))}
+            );
+          })}
 
           {standaloneLines.length > 0 ? (
             <div className="rounded-lg border border-border p-4">
@@ -266,13 +301,24 @@ export function PanierClient() {
             </div>
           ) : null}
 
-          <div className="flex items-center justify-between border-t border-border pt-6">
-            <span className="font-heading text-lg font-semibold text-ink">Sous-total</span>
-            {isLoadingPrices ? (
-              <span className="text-ink-muted">Calcul…</span>
-            ) : (
-              <Price amountCents={subtotalCents} role="b2c" size="lg" />
-            )}
+          <div className="flex flex-col gap-2 border-t border-border pt-6">
+            {!isLoadingPrices && packDiscountCents > 0 ? (
+              <div className="flex items-center justify-between text-sm text-accent">
+                <span>Remise pack</span>
+                <div className="flex items-center gap-1">
+                  <span>-</span>
+                  <Price amountCents={packDiscountCents} size="sm" />
+                </div>
+              </div>
+            ) : null}
+            <div className="flex items-center justify-between">
+              <span className="font-heading text-lg font-semibold text-ink">Sous-total</span>
+              {isLoadingPrices ? (
+                <span className="text-ink-muted">Calcul…</span>
+              ) : (
+                <Price amountCents={subtotalCents} role="b2c" size="lg" />
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-3 rounded-lg border border-border p-4">

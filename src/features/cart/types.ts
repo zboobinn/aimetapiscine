@@ -21,4 +21,11 @@ export interface CartPackMeta {
    * au résultat qui a produit ce pack. Pas un prix, pas une quantité.
    */
   calculatorParams: string;
+  /**
+   * SKUs uniques du pack capturés à l'ajout (13) : permet de détecter qu'un
+   * article a été retiré depuis, auquel cas la remise pack -5 % disparaît.
+   * Envoyé au serveur (cart/resolve, checkout) au même titre que sku/quantity
+   * — c'est une donnée structurelle du panier, pas un montant.
+   */
+  originalSkus: string[];
 }

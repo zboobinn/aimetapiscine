@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getAllProducts } from "@/lib/catalog/data";
+import { getBusinessConfigEnv } from "@/lib/env";
+import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { resolveUnitPriceCents } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import type { PricingRole } from "@/lib/pricing/types";
@@ -24,9 +26,17 @@ const bodySchema = z.object({
       z.object({
         sku: z.string().min(1),
         quantity: z.number().int().positive(),
+        source: z.enum(["catalog", "pack"]).default("catalog"),
+        packId: z.string().optional(),
       }),
     )
     .max(200),
+  // Manifeste des packs présents au panier (13) : SKUs d'origine par
+  // `packId`, capturés côté client à l'ajout — sert à détecter qu'un article
+  // du pack a été retiré depuis (la remise pack disparaît alors). Donnée
+  // structurelle du panier, jamais un montant (23) : le client dit CE QU'IL Y
+  // A, le serveur décide du PRIX.
+  packs: z.record(z.string(), z.object({ originalSkus: z.array(z.string().min(1)) })).default({}),
   postalCode: z.string().trim().min(1).optional(),
 });
 
@@ -38,7 +48,11 @@ export interface ResolvedCartLine {
   unit: string;
   category: string;
   quantity: number;
+  /** Prix unitaire affiché, remise pack déjà déduite le cas échéant (13). */
   unitPriceCents: number;
+  /** Prix unitaire avant remise — présent uniquement si `discountBps > 0` (prix barré, 05). */
+  compareAtUnitPriceCents?: number;
+  discountBps: number;
   /** `false` si le SKU est introuvable ou hors stock : la ligne doit être signalée et purgeable côté UI (09). */
   available: boolean;
 }
@@ -68,7 +82,14 @@ export async function POST(request: Request) {
   const role = await resolvePricingRole();
   const products = getAllProducts();
 
-  const lines: ResolvedCartLine[] = parsed.data.lines.map(({ sku, quantity }) => {
+  const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
+  const discountBpsByLine = computeLineDiscountsBps(
+    parsed.data.lines,
+    parsed.data.packs,
+    discountBpsRate,
+  );
+
+  const lines: ResolvedCartLine[] = parsed.data.lines.map(({ sku, quantity }, index) => {
     const product = products.find((p) => p.sku === sku);
 
     if (!product) {
@@ -81,9 +102,17 @@ export async function POST(request: Request) {
         category: "AUTRE",
         quantity,
         unitPriceCents: 0,
+        discountBps: 0,
         available: false,
       };
     }
+
+    const baseUnitPriceCents = resolveUnitPriceCents(product, role);
+    const discountBps = discountBpsByLine[index];
+    const unitPriceCents =
+      discountBps > 0
+        ? baseUnitPriceCents - Math.round((baseUnitPriceCents * discountBps) / 10000)
+        : baseUnitPriceCents;
 
     return {
       sku: product.sku,
@@ -93,7 +122,9 @@ export async function POST(request: Request) {
       unit: product.unit,
       category: product.category,
       quantity,
-      unitPriceCents: resolveUnitPriceCents(product, role),
+      unitPriceCents,
+      compareAtUnitPriceCents: discountBps > 0 ? baseUnitPriceCents : undefined,
+      discountBps,
       available: product.in_stock,
     };
   });

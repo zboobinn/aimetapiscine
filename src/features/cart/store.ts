@@ -49,6 +49,7 @@ export const useCartStore = create<CartState>()(
 
       addPackLines: (lines, calculatorParams) => {
         const packId = crypto.randomUUID();
+        const originalSkus = Array.from(new Set(lines.map(({ sku }) => sku)));
 
         set((state) => ({
           lines: [
@@ -60,7 +61,7 @@ export const useCartStore = create<CartState>()(
               packId,
             })),
           ],
-          packs: { ...state.packs, [packId]: { calculatorParams } },
+          packs: { ...state.packs, [packId]: { calculatorParams, originalSkus } },
         }));
 
         return packId;

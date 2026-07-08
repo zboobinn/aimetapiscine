@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { getAllProducts } from "@/lib/catalog/data";
-import { getSiteEnv } from "@/lib/env";
+import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
+import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { resolvePriceBreakdown } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import { getShippingFee } from "@/lib/shipping/get-shipping-fee";
@@ -26,10 +27,16 @@ const bodySchema = z.object({
       z.object({
         sku: z.string().min(1),
         quantity: z.number().int().positive(),
+        source: z.enum(["catalog", "pack"]).default("catalog"),
+        packId: z.string().optional(),
       }),
     )
     .min(1)
     .max(200),
+  // Manifeste des packs présents au panier (13, même contrat que
+  // /api/cart/resolve) : détermine quelles lignes gardent la remise pack -5 %
+  // au moment de payer — recalculé ici, jamais accepté tel quel du client.
+  packs: z.record(z.string(), z.object({ originalSkus: z.array(z.string().min(1)) })).default({}),
   // Saisi côté /panier avant paiement (12) : sert au recalcul serveur du
   // port (surcoût Corse) et au refus des DOM-TOM avant même de créer la
   // session Stripe. Optionnel : Stripe collecte de toute façon sa propre
@@ -82,28 +89,73 @@ export async function POST(request: Request) {
     quantity: number;
   }> = [];
 
-  for (const { sku, quantity } of parsed.data.lines) {
+  const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
+  const discountBpsByLine = computeLineDiscountsBps(
+    parsed.data.lines,
+    parsed.data.packs,
+    discountBpsRate,
+  );
+
+  parsed.data.lines.forEach(({ sku, quantity }, index) => {
     const product = products.find((p) => p.sku === sku);
 
     if (!product || !product.in_stock) {
       unavailableSkus.push(sku);
-      continue;
+      return;
     }
 
     const { unitAmountCents, unitHtCents } = resolvePriceBreakdown(product, role);
+    const discountBps = discountBpsByLine[index];
 
-    lineItems.push({
-      price_data: {
-        currency: "eur",
-        unit_amount: unitAmountCents,
-        product_data: {
-          name: product.name,
-          metadata: { sku: product.sku, unit_ht_cents: String(unitHtCents) },
+    if (discountBps > 0) {
+      // Remise pack (13) : arrondie une seule fois sur la LIGNE (HT × qté),
+      // jamais unité par unité ni sur le total commande — même règle que
+      // `computeLineTotals` (lib/pdf/invoice.ts) pour que Stripe encaisse
+      // exactement le montant qui sera imprimé sur la facture. Quantité
+      // repliée à 1 côté Stripe (montant = total de ligne) pour garantir cet
+      // arrondi exact ; la quantité réelle voyage en métadonnée pour le
+      // webhook (10/11).
+      const htBeforeDiscount = unitHtCents * quantity;
+      const discountHt = Math.round((htBeforeDiscount * discountBps) / 10000);
+      const htAfterDiscount = htBeforeDiscount - discountHt;
+      const vat = Math.round((htAfterDiscount * product.vat_rate) / 10000);
+      const ttcAfterDiscount = htAfterDiscount + vat;
+
+      lineItems.push({
+        price_data: {
+          currency: "eur",
+          unit_amount: ttcAfterDiscount,
+          product_data: {
+            name: `${product.name} (Pack -${discountBps / 100} %)`,
+            metadata: {
+              sku: product.sku,
+              unit_ht_cents: String(unitHtCents),
+              discount_bps: String(discountBps),
+              quantity: String(quantity),
+            },
+          },
         },
-      },
-      quantity,
-    });
-  }
+        quantity: 1,
+      });
+    } else {
+      lineItems.push({
+        price_data: {
+          currency: "eur",
+          unit_amount: unitAmountCents,
+          product_data: {
+            name: product.name,
+            metadata: {
+              sku: product.sku,
+              unit_ht_cents: String(unitHtCents),
+              discount_bps: "0",
+              quantity: String(quantity),
+            },
+          },
+        },
+        quantity,
+      });
+    }
+  });
 
   if (unavailableSkus.length > 0) {
     return NextResponse.json({ error: "unavailable_items", skus: unavailableSkus }, { status: 409 });

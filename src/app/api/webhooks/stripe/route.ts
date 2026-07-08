@@ -71,24 +71,30 @@ async function createOrderFromSession(
 
     const sku = metadata?.sku;
     const unitHtCents = Number(metadata?.unit_ht_cents ?? 0);
-    const quantity = item.quantity ?? 0;
-    const unitAmountCents = item.price?.unit_amount ?? 0;
+    const discountBps = Number(metadata?.discount_bps ?? 0);
+    // Quantité réelle du produit : côté checkout, les lignes remisées (13)
+    // replient la quantité Stripe à 1 pour préserver l'arrondi de ligne, la
+    // vraie quantité voyageant ici en métadonnée. `item.quantity` reste la
+    // source de vérité pour les lignes non remisées.
+    const quantity = metadata?.quantity ? Number(metadata.quantity) : (item.quantity ?? 0);
+    // Montant réellement encaissé pour CETTE ligne (déjà remisé le cas
+    // échéant) : `amount_total` de Stripe, jamais recalculé en unit×qté —
+    // exact quelle que soit la quantité Stripe (1 pour les lignes remisées).
+    const amountChargedCents = item.amount_total ?? 0;
 
     if (!sku) {
       throw new Error(`Ligne Stripe sans SKU en métadonnées (session ${sessionId})`);
     }
 
-    return { sku, quantity, unitHtCents, unitAmountCents };
+    const htBeforeDiscount = unitHtCents * quantity;
+    const discountHt = Math.round((htBeforeDiscount * discountBps) / 10000);
+    const htAfterDiscount = htBeforeDiscount - discountHt;
+
+    return { sku, quantity, unitHtCents, discountBps, htAfterDiscount, amountChargedCents };
   });
 
-  const totalAmountHt = orderItemsInput.reduce(
-    (sum, item) => sum + item.unitHtCents * item.quantity,
-    0,
-  );
-  const totalCharged = orderItemsInput.reduce(
-    (sum, item) => sum + item.unitAmountCents * item.quantity,
-    0,
-  );
+  const totalAmountHt = orderItemsInput.reduce((sum, item) => sum + item.htAfterDiscount, 0);
+  const totalCharged = orderItemsInput.reduce((sum, item) => sum + item.amountChargedCents, 0);
   const totalVat = totalCharged - totalAmountHt;
   const shippingFee = session.shipping_cost?.amount_total ?? 0;
 
@@ -157,10 +163,12 @@ async function createOrderFromSession(
       order_id: order.id,
       product_id: productId,
       quantity: item.quantity,
+      // Snapshot AVANT remise (03) : `discount_bps` porte la remise, jamais
+      // appliquée deux fois — même contrat que `computeLineTotals`
+      // (lib/pdf/invoice.ts), qui recalcule htAfterDiscount à partir de ces
+      // deux colonnes.
       unit_price_ht: item.unitHtCents,
-      // TODO spec 13 : discount_bps de la remise pack, une fois la
-      // composition du pack propagée jusqu'au checkout.
-      discount_bps: 0,
+      discount_bps: item.discountBps,
     };
   });
 
