@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { MotDePasseOublieForm } from "./mot-de-passe-oublie-form";
 
 export const metadata: Metadata = {
   title: "Mot de passe oublié | Membranes Armées",
@@ -14,15 +13,10 @@ export default function MotDePasseOubliePage() {
         Mot de passe oublié
       </h1>
       <p className="mt-2 text-ink-muted">
-        Réinitialisation via Supabase Auth à venir (spec 14).
+        Recevez un lien par e-mail pour choisir un nouveau mot de passe.
       </p>
 
-      <form className="mt-8 flex flex-col gap-6">
-        <Input label="Adresse e-mail" type="email" placeholder="vous@exemple.fr" />
-        <Button variant="primary" size="lg" type="submit">
-          Envoyer le lien de réinitialisation
-        </Button>
-      </form>
+      <MotDePasseOublieForm />
     </div>
   );
 }

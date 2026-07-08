@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AuthNav } from "./auth-nav";
 import { MobileNav } from "./mobile-nav";
 import { primaryNavLinks } from "./nav-links";
 
@@ -26,12 +27,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Link
-            href="/compte"
-            className="flex min-h-[44px] items-center rounded-md px-3 font-medium text-ink hover:bg-surface hover:text-accent"
-          >
-            Mon compte
-          </Link>
+          <AuthNav />
           <Link
             href="/panier"
             className="flex min-h-[44px] items-center rounded-md bg-accent-surface px-4 font-medium text-accent hover:bg-accent hover:text-white"

@@ -60,14 +60,20 @@ export default async function ComptePage() {
           Mon compte
         </h1>
         <p className="max-w-2xl text-ink-muted">
-          Connexion/inscription à venir (spec 14).
+          Vos commandes et vos factures.
         </p>
       </header>
 
       {!user ? (
-        <p className="rounded-lg border border-border p-6 text-sm text-ink-muted">
-          Connectez-vous pour consulter vos commandes et télécharger vos factures.
-        </p>
+        <div className="flex flex-col gap-4 rounded-lg border border-border p-6 text-sm text-ink-muted">
+          <p>Connectez-vous pour consulter vos commandes et télécharger vos factures.</p>
+          <Link
+            href="/connexion"
+            className="self-start rounded-md bg-accent px-4 py-2 font-medium text-white hover:bg-accent-hover"
+          >
+            Se connecter
+          </Link>
+        </div>
       ) : (
         <div className="flex flex-col gap-4">
           <h2 className="font-heading text-lg font-semibold text-ink">Commandes</h2>

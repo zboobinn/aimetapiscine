@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
+
+import { signOutAction } from "@/app/auth/actions";
+import { useAuthUser } from "@/lib/supabase/use-auth-user";
 import { primaryNavLinks } from "./nav-links";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const user = useAuthUser();
 
   return (
     <div className="md:hidden">
@@ -52,12 +56,23 @@ export function MobileNav() {
             ))}
             <div className="my-2 border-t border-border" />
             <Link
-              href="/compte"
+              href={user === null ? "/connexion" : "/compte"}
               onClick={() => setOpen(false)}
               className="flex min-h-[44px] items-center rounded-md px-2 font-medium text-ink hover:bg-surface hover:text-accent"
             >
-              Mon compte
+              {user === null ? "Connexion" : "Mon compte"}
             </Link>
+            {user ? (
+              <form action={signOutAction}>
+                <button
+                  type="submit"
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-[44px] w-full items-center rounded-md px-2 text-left text-sm font-medium text-ink-muted hover:bg-surface hover:text-accent"
+                >
+                  Déconnexion
+                </button>
+              </form>
+            ) : null}
             <Link
               href="/panier"
               onClick={() => setOpen(false)}

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { InscriptionForm } from "./inscription-form";
 
 export const metadata: Metadata = {
   title: "Inscription | Membranes Armées",
@@ -15,16 +14,11 @@ export default function InscriptionPage() {
         Créer un compte
       </h1>
       <p className="mt-2 text-ink-muted">
-        Authentification Supabase à venir (spec 14).
+        Un compte n&apos;est jamais nécessaire pour commander : il permet de
+        retrouver vos commandes et vos factures.
       </p>
 
-      <form className="mt-8 flex flex-col gap-6">
-        <Input label="Adresse e-mail" type="email" placeholder="vous@exemple.fr" />
-        <Input label="Mot de passe" type="password" />
-        <Button variant="primary" size="lg" type="submit">
-          Créer mon compte
-        </Button>
-      </form>
+      <InscriptionForm />
 
       <p className="mt-6 text-sm text-ink-muted">
         Déjà un compte ?{" "}
