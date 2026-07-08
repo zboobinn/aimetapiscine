@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Price } from "@/components/ui/price";
 import { useCartStore, type CartLine } from "@/features/cart";
+import type { PricingRole } from "@/lib/pricing/types";
 import type { ResolveCartResponse, ResolvedCartLine, ShippingEstimate } from "@/app/api/cart/resolve/route";
 
 interface DisplayLine {
@@ -55,14 +56,29 @@ function QuantityControl({
 
 function LineRow({
   display,
+  role,
   onQuantityChange,
   onRemove,
 }: {
   display: DisplayLine;
+  role: PricingRole;
   onQuantityChange: (quantity: number) => void;
   onRemove: () => void;
 }) {
   const { line, resolved } = display;
+  // Un pro raisonne en HT (14) : le prix unitaire affiché est le HT, quelle
+  // que soit la remise pack — le détail HT/TVA/TTC de la ligne est visible
+  // dans le récapitulatif du panier (`lineHtCents`/`lineVatCents`, ci-dessous).
+  // Un particulier voit le TTC habituel, remise déjà déduite.
+  const unitAmountCents = resolved
+    ? role === "b2b"
+      ? resolved.unitHtCents
+      : Math.round(resolved.lineTtcCents / line.quantity)
+    : 0;
+  const compareAtUnitAmountCents =
+    resolved?.compareAtLineTtcCents && role === "b2c"
+      ? Math.round(resolved.compareAtLineTtcCents / line.quantity)
+      : undefined;
 
   return (
     <li className="flex items-center gap-4 py-4">
@@ -80,9 +96,9 @@ function LineRow({
           </Badge>
         ) : resolved ? (
           <Price
-            amountCents={resolved.unitPriceCents}
-            compareAtAmountCents={resolved.compareAtUnitPriceCents}
-            role="b2c"
+            amountCents={unitAmountCents}
+            compareAtAmountCents={compareAtUnitAmountCents}
+            role={role}
             size="sm"
           />
         ) : (
@@ -95,13 +111,9 @@ function LineRow({
       {resolved ? (
         <span className="w-24 shrink-0 text-right font-heading font-semibold text-ink">
           <Price
-            amountCents={resolved.unitPriceCents * line.quantity}
-            compareAtAmountCents={
-              resolved.compareAtUnitPriceCents
-                ? resolved.compareAtUnitPriceCents * line.quantity
-                : undefined
-            }
-            role="b2c"
+            amountCents={role === "b2b" ? resolved.lineHtCents : resolved.lineTtcCents}
+            compareAtAmountCents={role === "b2c" ? resolved.compareAtLineTtcCents : undefined}
+            role={role}
             size="sm"
           />
         </span>
@@ -122,6 +134,7 @@ export function PanierClient() {
   const removePack = useCartStore((state) => state.removePack);
 
   const [resolvedLines, setResolvedLines] = useState<ResolvedCartLine[] | null>(null);
+  const [role, setRole] = useState<PricingRole>("b2c");
   const [shipping, setShipping] = useState<ShippingEstimate | null>(null);
   const [postalCode, setPostalCode] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -155,6 +168,7 @@ export function PanierClient() {
       .then((data) => {
         if (!cancelled) {
           setResolvedLines(data.lines);
+          setRole(data.role);
           setShipping(data.shipping);
         }
       })
@@ -185,14 +199,27 @@ export function PanierClient() {
     }))
     .filter((group) => group.lines.length > 0);
 
-  const subtotalCents = displayLines.reduce((sum, d) => {
+  // Sommes des lignes déjà résolues par `/api/cart/resolve` — CE que le
+  // checkout facturera au centime près (10/13/23), `lineTtcCents` étant
+  // calculé par la même fonction (`computeLineCharge`) que `/api/checkout`.
+  const itemsHtCents = displayLines.reduce((sum, d) => {
     if (!d.resolved?.available) return sum;
-    return sum + d.resolved.unitPriceCents * d.line.quantity;
+    return sum + d.resolved.lineHtCents;
+  }, 0);
+
+  const itemsVatCents = displayLines.reduce((sum, d) => {
+    if (!d.resolved?.available) return sum;
+    return sum + d.resolved.lineVatCents;
+  }, 0);
+
+  const itemsTtcCents = displayLines.reduce((sum, d) => {
+    if (!d.resolved?.available) return sum;
+    return sum + d.resolved.lineTtcCents;
   }, 0);
 
   const packDiscountCents = displayLines.reduce((sum, d) => {
-    if (!d.resolved?.available || !d.resolved.compareAtUnitPriceCents) return sum;
-    return sum + (d.resolved.compareAtUnitPriceCents - d.resolved.unitPriceCents) * d.line.quantity;
+    if (!d.resolved?.available || !d.resolved.compareAtLineTtcCents) return sum;
+    return sum + (d.resolved.compareAtLineTtcCents - d.resolved.lineTtcCents);
   }, 0);
 
   const isEmpty = lines.length === 0;
@@ -273,6 +300,7 @@ export function PanierClient() {
                   <LineRow
                     key={`${display.line.sku}-${group.packId}`}
                     display={display}
+                    role={role}
                     onQuantityChange={(quantity) =>
                       updateQuantity(display.line.sku, group.packId, quantity)
                     }
@@ -291,6 +319,7 @@ export function PanierClient() {
                   <LineRow
                     key={display.line.sku}
                     display={display}
+                    role={role}
                     onQuantityChange={(quantity) =>
                       updateQuantity(display.line.sku, undefined, quantity)
                     }
@@ -311,12 +340,32 @@ export function PanierClient() {
                 </div>
               </div>
             ) : null}
+
+            {!isLoadingPrices && role === "b2b" ? (
+              // Ventilation HT/TVA/TTC explicite pour un pro (14) : le HT est
+              // le prix qui lui parle, mais le TTC ci-dessous est — au
+              // centime près — ce que Stripe débitera (même calcul que
+              // `/api/checkout`, `computeLineCharge`).
+              <>
+                <div className="flex items-center justify-between text-sm text-ink-muted">
+                  <span>Total HT (articles)</span>
+                  <Price amountCents={itemsHtCents} role="b2b" size="sm" />
+                </div>
+                <div className="flex items-center justify-between text-sm text-ink-muted">
+                  <span>TVA (20 %)</span>
+                  <Price amountCents={itemsVatCents} size="sm" />
+                </div>
+              </>
+            ) : null}
+
             <div className="flex items-center justify-between">
-              <span className="font-heading text-lg font-semibold text-ink">Sous-total</span>
+              <span className="font-heading text-lg font-semibold text-ink">
+                {role === "b2b" ? "Total TTC (articles)" : "Sous-total"}
+              </span>
               {isLoadingPrices ? (
                 <span className="text-ink-muted">Calcul…</span>
               ) : (
-                <Price amountCents={subtotalCents} role="b2c" size="lg" />
+                <Price amountCents={itemsTtcCents} size="lg" />
               )}
             </div>
           </div>
@@ -345,7 +394,7 @@ export function PanierClient() {
                 </span>
                 {shipping ? (
                   shipping.amountCents > 0 ? (
-                    <Price amountCents={shipping.amountCents} role="b2c" size="sm" />
+                    <Price amountCents={shipping.amountCents} size="sm" />
                   ) : (
                     <Badge variant="promo">Livraison offerte</Badge>
                   )
@@ -353,6 +402,15 @@ export function PanierClient() {
               </div>
             )}
           </div>
+
+          {!isLoadingPrices && shipping && !shipping.zoneExcluded ? (
+            <div className="flex items-center justify-between border-t border-border pt-4">
+              <span className="font-heading text-xl font-semibold text-ink">
+                Total à payer{role === "b2b" ? " (TTC)" : ""}
+              </span>
+              <Price amountCents={itemsTtcCents + shipping.amountCents} size="lg" />
+            </div>
+          ) : null}
 
           {hasUnavailableLines ? (
             <p className="text-sm text-danger">

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ui/card";
-import { Price } from "@/components/ui/price";
+import { ProPrice } from "@/components/pricing/pro-price";
 import { couleurToSlug, getGammes, getMembranesByGamme } from "@/lib/catalog/data";
 import { capitalize } from "@/lib/utils/text";
 
@@ -63,7 +63,7 @@ export default async function GammePage({ params }: PageProps) {
             title={produit.name}
             subtitle={capitalize(produit.couleur as string)}
             badge={<Badge variant="in-stock">En stock</Badge>}
-            price={<Price amountCents={produit.base_price_ht} role="b2c" />}
+            price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
           />
         ))}
       </div>

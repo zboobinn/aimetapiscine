@@ -6,21 +6,25 @@ import { getCompanyInfo } from "./company-info";
 import { formatCents, formatOrderDate, formatShippingAddress } from "./format";
 import { PDF_FONT_BOLD, PDF_FONT_REGULAR, registerPdfFonts } from "./register-fonts";
 import type { InvoiceDocumentData } from "./types";
+import {
+  STANDARD_VAT_RATE_BPS,
+  computeLineChargeFromUnitHt,
+  splitTtcAmount,
+} from "@/lib/pricing/resolve-price";
 
-interface InvoiceLineTotals {
-  htBeforeDiscount: number;
-  discount: number;
-  ht: number;
-  vat: number;
-  ttc: number;
-}
-
-function computeLineTotals(line: InvoiceDocumentData["lines"][number]): InvoiceLineTotals {
-  const htBeforeDiscount = line.unitPriceHtCents * line.quantity;
-  const discount = Math.round((htBeforeDiscount * line.discountBps) / 10000);
-  const ht = htBeforeDiscount - discount;
-  const vat = Math.round((ht * line.vatRateBps) / 10000);
-  return { htBeforeDiscount, discount, ht, vat, ttc: ht + vat };
+/**
+ * Même formule que le panier/checkout (10/13/14, `lib/pricing/resolve-price.ts`)
+ * appliquée ici au snapshot déjà enregistré (`order_items`) plutôt qu'au
+ * catalogue live : une commande passée ne doit jamais changer si le catalogue
+ * évolue (03), mais le calcul HT → remise → TVA → TTC reste identique.
+ */
+function computeLineTotals(line: InvoiceDocumentData["lines"][number]) {
+  return computeLineChargeFromUnitHt(
+    line.unitPriceHtCents,
+    line.quantity,
+    line.discountBps,
+    line.vatRateBps,
+  );
 }
 
 /**
@@ -90,16 +94,42 @@ export function generateInvoicePdf(data: InvoiceDocumentData): Promise<Buffer> {
 
     for (const line of data.lines) {
       const totals = computeLineTotals(line);
-      totalHt += totals.ht;
-      totalVat += totals.vat;
-      totalDiscount += totals.discount;
+      totalHt += totals.lineHtCents;
+      totalVat += totals.lineVatCents;
+      totalDiscount += totals.discountHtCents;
 
       doc.text(`${line.name} (${line.sku})`, col.name, rowY, { width: col.qty - col.name - 10 });
       doc.text(String(line.quantity), col.qty, rowY);
       doc.text(formatCents(line.unitPriceHtCents), col.pu, rowY);
       doc.text(line.discountBps > 0 ? `-${line.discountBps / 100}%` : "—", col.discount, rowY);
-      doc.text(formatCents(totals.ht), col.ht, rowY);
-      doc.text(formatCents(totals.vat), col.vat, rowY);
+      doc.text(formatCents(totals.lineHtCents), col.ht, rowY);
+      doc.text(formatCents(totals.lineVatCents), col.vat, rowY);
+      rowY += 20;
+    }
+
+    // Frais de livraison (12) : SEULEMENT si un montant a été réellement
+    // encaissé pour cette commande (`orders.shipping_fee`) — absent en mode
+    // `included` sans surcoût Corse (port fondu dans les prix produits,
+    // aucune ligne à 0 € qui prêterait à confusion). Le montant est déjà
+    // TTC (ce que Stripe a facturé, 10) : la TVA est un résidu (jamais un
+    // second arrondi indépendant), pour que Total HT + Total TVA du port
+    // redonne EXACTEMENT `shippingFeeCents` — condition nécessaire pour que
+    // le Total TTC de la facture égale, au centime près, le montant Stripe
+    // réellement encaissé (= « Total à payer » du panier, 09/14).
+    if (data.shippingFeeCents > 0) {
+      const { htCents: shippingHtCents, vatCents: shippingVatCents } = splitTtcAmount(
+        data.shippingFeeCents,
+        STANDARD_VAT_RATE_BPS,
+      );
+      totalHt += shippingHtCents;
+      totalVat += shippingVatCents;
+
+      doc.text("Frais de livraison", col.name, rowY, { width: col.qty - col.name - 10 });
+      doc.text("1", col.qty, rowY);
+      doc.text(formatCents(shippingHtCents), col.pu, rowY);
+      doc.text("—", col.discount, rowY);
+      doc.text(formatCents(shippingHtCents), col.ht, rowY);
+      doc.text(formatCents(shippingVatCents), col.vat, rowY);
       rowY += 20;
     }
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { couleurToSlug, getGammes, getMembranesByGamme } from "@/lib/catalog/data";
 import { capitalize } from "@/lib/utils/text";
-import { Price } from "@/components/ui/price";
+import { ProPrice } from "@/components/pricing/pro-price";
 import { ProductCard } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -55,7 +55,7 @@ export default function MembraneArmeeHubPage() {
                     title={produit.name}
                     subtitle="Rouleau 41,25 m²"
                     badge={<Badge variant="in-stock">En stock</Badge>}
-                    price={<Price amountCents={produit.base_price_ht} role="b2c" />}
+                    price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
                   />
                 ))}
               </div>

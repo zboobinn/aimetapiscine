@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getAllProducts } from "@/lib/catalog/data";
 import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
-import { resolvePriceBreakdown } from "@/lib/pricing/resolve-price";
+import { computeLineCharge } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import { getShippingFee } from "@/lib/shipping/get-shipping-fee";
 import { isExcludedOverseasPostalCode } from "@/lib/shipping/postal-code";
@@ -104,57 +104,33 @@ export async function POST(request: Request) {
       return;
     }
 
-    const { unitAmountCents, unitHtCents } = resolvePriceBreakdown(product, role);
     const discountBps = discountBpsByLine[index];
+    // Point d'entrée UNIQUE du calcul de ligne (`lib/pricing/resolve-price.ts`),
+    // partagé à l'identique avec `/api/cart/resolve` (affichage panier) : le
+    // montant vu avant paiement et le montant Stripe encaissé ne peuvent donc
+    // jamais diverger — ni sur le HT/TVA d'un pro, ni sur un arrondi de ligne.
+    const charge = computeLineCharge(product, role, quantity, discountBps);
 
-    if (discountBps > 0) {
-      // Remise pack (13) : arrondie une seule fois sur la LIGNE (HT × qté),
-      // jamais unité par unité ni sur le total commande — même règle que
-      // `computeLineTotals` (lib/pdf/invoice.ts) pour que Stripe encaisse
-      // exactement le montant qui sera imprimé sur la facture. Quantité
-      // repliée à 1 côté Stripe (montant = total de ligne) pour garantir cet
-      // arrondi exact ; la quantité réelle voyage en métadonnée pour le
-      // webhook (10/11).
-      const htBeforeDiscount = unitHtCents * quantity;
-      const discountHt = Math.round((htBeforeDiscount * discountBps) / 10000);
-      const htAfterDiscount = htBeforeDiscount - discountHt;
-      const vat = Math.round((htAfterDiscount * product.vat_rate) / 10000);
-      const ttcAfterDiscount = htAfterDiscount + vat;
-
-      lineItems.push({
-        price_data: {
-          currency: "eur",
-          unit_amount: ttcAfterDiscount,
-          product_data: {
-            name: `${product.name} (Pack -${discountBps / 100} %)`,
-            metadata: {
-              sku: product.sku,
-              unit_ht_cents: String(unitHtCents),
-              discount_bps: String(discountBps),
-              quantity: String(quantity),
-            },
+    lineItems.push({
+      price_data: {
+        currency: "eur",
+        unit_amount: charge.lineTtcCents,
+        product_data: {
+          name: discountBps > 0 ? `${product.name} (Pack -${discountBps / 100} %)` : product.name,
+          metadata: {
+            sku: product.sku,
+            unit_ht_cents: String(charge.unitHtCents),
+            discount_bps: String(discountBps),
+            quantity: String(quantity),
           },
         },
-        quantity: 1,
-      });
-    } else {
-      lineItems.push({
-        price_data: {
-          currency: "eur",
-          unit_amount: unitAmountCents,
-          product_data: {
-            name: product.name,
-            metadata: {
-              sku: product.sku,
-              unit_ht_cents: String(unitHtCents),
-              discount_bps: "0",
-              quantity: String(quantity),
-            },
-          },
-        },
-        quantity,
-      });
-    }
+      },
+      // Quantité TOUJOURS repliée à 1 (13/23) : `unit_amount` porte alors le
+      // montant EXACT de la ligne entière (`lineTtcCents`), sans jamais
+      // dépendre de l'arrondi implicite de Stripe (unit_amount × quantity) —
+      // la vraie quantité voyage en métadonnée pour le webhook (10/11).
+      quantity: 1,
+    });
   });
 
   if (unavailableSkus.length > 0) {

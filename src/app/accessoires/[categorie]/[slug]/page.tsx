@@ -3,8 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
-import { Price } from "@/components/ui/price";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { ProPrice } from "@/components/pricing/pro-price";
 import {
   getAccessories,
   getAccessoryBySlug,
@@ -84,7 +84,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
             <p className="text-ink-muted">{produit.description}</p>
           </div>
 
-          <Price amountCents={produit.base_price_ht} role="b2c" size="lg" />
+          <ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} size="lg" />
 
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-y border-border py-6 text-sm">
             <dt className="text-ink-muted">Référence</dt>

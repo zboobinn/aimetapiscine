@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getAllProducts } from "@/lib/catalog/data";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
-import { resolveUnitPriceCents } from "@/lib/pricing/resolve-price";
+import { computeLineCharge } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import type { PricingRole } from "@/lib/pricing/types";
 import { SHIPPING_DELAY_LABEL, getShippingFee } from "@/lib/shipping/get-shipping-fee";
@@ -48,10 +48,21 @@ export interface ResolvedCartLine {
   unit: string;
   category: string;
   quantity: number;
-  /** Prix unitaire affiché, remise pack déjà déduite le cas échéant (13). */
-  unitPriceCents: number;
-  /** Prix unitaire avant remise — présent uniquement si `discountBps > 0` (prix barré, 05). */
-  compareAtUnitPriceCents?: number;
+  /** HT unitaire (prix catalogue résolu pour CE rôle, 14) — affiché tel quel à un pro (« PU HT »). */
+  unitHtCents: number;
+  vatRateBps: number;
+  /** HT total de la ligne, remise pack (13) déjà déduite. */
+  lineHtCents: number;
+  /** TVA totale de la ligne. */
+  lineVatCents: number;
+  /**
+   * Montant RÉELLEMENT dû pour cette ligne (HT remisé + TVA) — calculé par
+   * la MÊME fonction que `/api/checkout` (`computeLineCharge`, 10/13/14) :
+   * ce que le panier affiche est, au centime près, ce qui sera débité.
+   */
+  lineTtcCents: number;
+  /** TTC ligne avant remise — présent uniquement si `discountBps > 0` (prix barré, 05). */
+  compareAtLineTtcCents?: number;
   discountBps: number;
   /** `false` si le SKU est introuvable ou hors stock : la ligne doit être signalée et purgeable côté UI (09). */
   available: boolean;
@@ -101,18 +112,22 @@ export async function POST(request: Request) {
         unit: "unite",
         category: "AUTRE",
         quantity,
-        unitPriceCents: 0,
+        unitHtCents: 0,
+        vatRateBps: 0,
+        lineHtCents: 0,
+        lineVatCents: 0,
+        lineTtcCents: 0,
         discountBps: 0,
         available: false,
       };
     }
 
-    const baseUnitPriceCents = resolveUnitPriceCents(product, role);
     const discountBps = discountBpsByLine[index];
-    const unitPriceCents =
-      discountBps > 0
-        ? baseUnitPriceCents - Math.round((baseUnitPriceCents * discountBps) / 10000)
-        : baseUnitPriceCents;
+    // Même fonction qu'au checkout (`computeLineCharge`) : garantit que le
+    // montant affiché ici est EXACTEMENT celui qui sera facturé (10/13/23).
+    const charge = computeLineCharge(product, role, quantity, discountBps);
+    const compareAtLineTtcCents =
+      discountBps > 0 ? computeLineCharge(product, role, quantity, 0).lineTtcCents : undefined;
 
     return {
       sku: product.sku,
@@ -122,8 +137,12 @@ export async function POST(request: Request) {
       unit: product.unit,
       category: product.category,
       quantity,
-      unitPriceCents,
-      compareAtUnitPriceCents: discountBps > 0 ? baseUnitPriceCents : undefined,
+      unitHtCents: charge.unitHtCents,
+      vatRateBps: product.vat_rate,
+      lineHtCents: charge.lineHtCents,
+      lineVatCents: charge.lineVatCents,
+      lineTtcCents: charge.lineTtcCents,
+      compareAtLineTtcCents,
       discountBps,
       available: product.in_stock,
     };

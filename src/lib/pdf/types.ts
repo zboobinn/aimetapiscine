@@ -28,4 +28,12 @@ export interface OrderDocumentData {
 export interface InvoiceDocumentData extends OrderDocumentData {
   invoiceNumber: number;
   customerEmail: string;
+  /**
+   * Montant RÉELLEMENT encaissé par Stripe pour la livraison de CETTE
+   * commande (`orders.shipping_fee`, déjà TTC — 10/12), surcoût Corse
+   * éventuel inclus. `0` en mode `included` (port fondu dans les prix
+   * produits, 12) sans surcoût Corse : aucune ligne livraison sur la
+   * facture dans ce cas, jamais une ligne à 0 €.
+   */
+  shippingFeeCents: number;
 }

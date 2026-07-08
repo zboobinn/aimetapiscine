@@ -61,6 +61,14 @@ export const businessConfigSchema = z.object({
   SHIPPING_CORSICA_SURCHARGE_CENTS: z.coerce.number().int().min(0).default(3000),
 });
 
+// Vérification SIRET automatique (14) — optionnelle : tant que la clé n'est
+// pas configurée, `src/lib/insee/verify-siret.ts` ne bloque jamais
+// l'inscription pro, il retourne juste un statut "non vérifié automatiquement".
+// Clé à obtenir sur api.insee.fr (API Sirene, "Api-Key-Integration").
+export const inseeSchema = z.object({
+  INSEE_SIRENE_API_KEY: z.string().min(1).optional(),
+});
+
 export const companySchema = z.object({
   COMPANY_NAME: z.string().min(1),
   COMPANY_SIREN: z.string().min(1),

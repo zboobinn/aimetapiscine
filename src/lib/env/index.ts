@@ -5,6 +5,7 @@ import {
   apfSchema,
   businessConfigSchema,
   companySchema,
+  inseeSchema,
   resendSchema,
   revalidateSchema,
   siteSchema,
@@ -60,6 +61,7 @@ export const getRevalidateEnv = domainAccessor("revalidate", revalidateSchema);
 export const getApfEnv = domainAccessor("apf", apfSchema);
 export const getBusinessConfigEnv = domainAccessor("business-config", businessConfigSchema);
 export const getCompanyEnv = domainAccessor("company", companySchema);
+export const getInseeEnv = domainAccessor("insee", inseeSchema);
 
 /**
  * Force la validation des seuls domaines dont le socle applicatif dépend

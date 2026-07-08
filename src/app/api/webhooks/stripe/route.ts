@@ -37,6 +37,7 @@ interface OrderRecord {
   shipping_address: OrderShippingAddress;
   status: string;
   invoice_number: number | null;
+  shipping_fee: number;
 }
 
 async function findOrderBySession(
@@ -45,7 +46,7 @@ async function findOrderBySession(
 ): Promise<OrderRecord | null> {
   const { data } = await supabase
     .from("orders")
-    .select("id, created_at, customer_email, shipping_address, status, invoice_number")
+    .select("id, created_at, customer_email, shipping_address, status, invoice_number, shipping_fee")
     .eq("stripe_session_id", sessionId)
     .maybeSingle();
 
@@ -134,7 +135,7 @@ async function createOrderFromSession(
       status: "PAID",
       shipping_address: shippingAddress,
     })
-    .select("id, created_at, customer_email, shipping_address, status, invoice_number")
+    .select("id, created_at, customer_email, shipping_address, status, invoice_number, shipping_fee")
     .single();
 
   if (orderError) {
@@ -273,6 +274,10 @@ async function generateAndAttachDocuments(
       lines: documentLines,
       invoiceNumber,
       customerEmail: order.customer_email,
+      // Montant RÉELLEMENT encaissé pour le port sur CETTE commande (12) —
+      // jamais recalculé depuis `SHIPPING_MODE` courant, qui a pu changer
+      // depuis (03 : une commande passée ne change jamais).
+      shippingFeeCents: order.shipping_fee,
     });
 
     const invoicePath = `${order.id}.pdf`;
