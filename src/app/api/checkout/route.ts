@@ -8,6 +8,7 @@ import { getSiteEnv } from "@/lib/env";
 import { resolvePriceBreakdown } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import { getShippingFee } from "@/lib/shipping/get-shipping-fee";
+import { isExcludedOverseasPostalCode } from "@/lib/shipping/postal-code";
 import { getStripeClient } from "@/lib/stripe";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,6 +30,11 @@ const bodySchema = z.object({
     )
     .min(1)
     .max(200),
+  // Saisi côté /panier avant paiement (12) : sert au recalcul serveur du
+  // port (surcoût Corse) et au refus des DOM-TOM avant même de créer la
+  // session Stripe. Optionnel : Stripe collecte de toute façon sa propre
+  // adresse (`shipping_address_collection`) à l'étape suivante.
+  postalCode: z.string().trim().min(1).optional(),
 });
 
 function cartFingerprint(lines: Array<{ sku: string; quantity: number }>): string {
@@ -45,6 +51,17 @@ export async function POST(request: Request) {
 
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_body" }, { status: 400 });
+  }
+
+  if (parsed.data.postalCode && isExcludedOverseasPostalCode(parsed.data.postalCode)) {
+    return NextResponse.json(
+      {
+        error: "shipping_zone_excluded",
+        message:
+          "Nous ne livrons pas les DOM-TOM en V1 : seule la France métropolitaine (Corse incluse) est couverte.",
+      },
+      { status: 422 },
+    );
   }
 
   const supabase = await createClient();
@@ -92,7 +109,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "unavailable_items", skus: unavailableSkus }, { status: 409 });
   }
 
-  const shippingFeeCents = getShippingFee(role);
+  const shippingAddress = parsed.data.postalCode ? { postalCode: parsed.data.postalCode } : undefined;
+  const { amountCents: shippingFeeCents, corsicaSurchargeApplied } = getShippingFee(
+    parsed.data.lines,
+    role,
+    shippingAddress,
+  );
   const siteUrl = getSiteEnv().NEXT_PUBLIC_SITE_URL;
   const fingerprint = cartFingerprint(parsed.data.lines);
 
@@ -110,7 +132,13 @@ export async function POST(request: Request) {
               shipping_rate_data: {
                 type: "fixed_amount",
                 fixed_amount: { amount: shippingFeeCents, currency: "eur" },
-                display_name: "Livraison standard",
+                display_name: corsicaSurchargeApplied
+                  ? "Livraison Corse (surcoût transporteur)"
+                  : "Livraison standard",
+                delivery_estimate: {
+                  minimum: { unit: "business_day", value: 5 },
+                  maximum: { unit: "business_day", value: 10 },
+                },
               },
             },
           ]

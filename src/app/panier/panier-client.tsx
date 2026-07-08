@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Price } from "@/components/ui/price";
 import { useCartStore, type CartLine } from "@/features/cart";
-import type { ResolveCartResponse, ResolvedCartLine } from "@/app/api/cart/resolve/route";
+import type { ResolveCartResponse, ResolvedCartLine, ShippingEstimate } from "@/app/api/cart/resolve/route";
 
 interface DisplayLine {
   line: CartLine;
@@ -107,12 +108,20 @@ export function PanierClient() {
   const removePack = useCartStore((state) => state.removePack);
 
   const [resolvedLines, setResolvedLines] = useState<ResolvedCartLine[] | null>(null);
+  const [shipping, setShipping] = useState<ShippingEstimate | null>(null);
+  const [postalCode, setPostalCode] = useState("");
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
+  const trimmedPostalCode = postalCode.trim();
+
   const requestBody = useMemo(
-    () => JSON.stringify({ lines: lines.map(({ sku, quantity }) => ({ sku, quantity })) }),
-    [lines],
+    () =>
+      JSON.stringify({
+        lines: lines.map(({ sku, quantity }) => ({ sku, quantity })),
+        postalCode: trimmedPostalCode || undefined,
+      }),
+    [lines, trimmedPostalCode],
   );
 
   useEffect(() => {
@@ -127,10 +136,16 @@ export function PanierClient() {
     })
       .then((res) => res.json() as Promise<ResolveCartResponse>)
       .then((data) => {
-        if (!cancelled) setResolvedLines(data.lines);
+        if (!cancelled) {
+          setResolvedLines(data.lines);
+          setShipping(data.shipping);
+        }
       })
       .catch(() => {
-        if (!cancelled) setResolvedLines(null);
+        if (!cancelled) {
+          setResolvedLines(null);
+          setShipping(null);
+        }
       });
 
     return () => {
@@ -259,7 +274,39 @@ export function PanierClient() {
               <Price amountCents={subtotalCents} role="b2c" size="lg" />
             )}
           </div>
-          <p className="text-xs text-ink-muted">Frais de port calculés à l&apos;étape de paiement (12).</p>
+
+          <div className="flex flex-col gap-3 rounded-lg border border-border p-4">
+            <Input
+              label="Code postal de livraison (optionnel)"
+              hint="Pour estimer le port exact (surcoût Corse le cas échéant) avant paiement."
+              inputMode="numeric"
+              maxLength={5}
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+              placeholder="ex. 33000"
+            />
+
+            {shipping?.zoneExcluded ? (
+              <p className="text-sm text-danger">
+                Nous ne livrons pas les DOM-TOM en V1 : seule la France métropolitaine (Corse
+                incluse) est couverte.
+              </p>
+            ) : (
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-ink-muted">
+                  {shipping ? shipping.delayLabel : "Frais de port calculés à l'étape de paiement (12)."}
+                  {shipping?.corsicaSurchargeApplied ? " — surcoût Corse inclus" : ""}
+                </span>
+                {shipping ? (
+                  shipping.amountCents > 0 ? (
+                    <Price amountCents={shipping.amountCents} role="b2c" size="sm" />
+                  ) : (
+                    <Badge variant="promo">Livraison offerte</Badge>
+                  )
+                ) : null}
+              </div>
+            )}
+          </div>
 
           {hasUnavailableLines ? (
             <p className="text-sm text-danger">
@@ -272,7 +319,9 @@ export function PanierClient() {
           <Button
             variant="primary"
             size="lg"
-            disabled={isLoadingPrices || hasUnavailableLines || isCheckingOut}
+            disabled={
+              isLoadingPrices || hasUnavailableLines || isCheckingOut || Boolean(shipping?.zoneExcluded)
+            }
             onClick={handlePayer}
           >
             {isCheckingOut ? "Redirection vers le paiement…" : "Payer"}

@@ -57,6 +57,8 @@ export const businessConfigSchema = z.object({
   LOSS_COEFF_STAIRS: z.coerce.number().positive().default(1.2),
   SHIPPING_MODE: z.enum(["included", "flat"]).default("included"),
   SHIPPING_FLAT_FEE_CENTS: z.coerce.number().int().min(0).default(4000),
+  // Provisoire — surcoût transporteur Corse, à confirmer avec APF (12, decisions.md).
+  SHIPPING_CORSICA_SURCHARGE_CENTS: z.coerce.number().int().min(0).default(3000),
 });
 
 export const companySchema = z.object({
