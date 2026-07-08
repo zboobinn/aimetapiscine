@@ -9,6 +9,7 @@ import {
   revalidateSchema,
   siteSchema,
   stripeSchema,
+  stripeWebhookSchema,
   supabasePublicSchema,
   supabaseServiceSchema,
 } from "@/lib/env/schemas";
@@ -53,6 +54,7 @@ export const getAnalyticsEnv = domainAccessor("analytics", analyticsSchema);
 export const getSupabaseEnv = domainAccessor("supabase", supabasePublicSchema);
 export const getSupabaseServiceEnv = domainAccessor("supabase-service", supabaseServiceSchema);
 export const getStripeEnv = domainAccessor("stripe", stripeSchema);
+export const getStripeWebhookEnv = domainAccessor("stripe-webhook", stripeWebhookSchema);
 export const getResendEnv = domainAccessor("resend", resendSchema);
 export const getRevalidateEnv = domainAccessor("revalidate", revalidateSchema);
 export const getApfEnv = domainAccessor("apf", apfSchema);

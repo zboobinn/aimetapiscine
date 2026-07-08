@@ -107,6 +107,8 @@ export function PanierClient() {
   const removePack = useCartStore((state) => state.removePack);
 
   const [resolvedLines, setResolvedLines] = useState<ResolvedCartLine[] | null>(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const requestBody = useMemo(
     () => JSON.stringify({ lines: lines.map(({ sku, quantity }) => ({ sku, quantity })) }),
@@ -158,6 +160,34 @@ export function PanierClient() {
 
   const isEmpty = lines.length === 0;
   const isLoadingPrices = !isEmpty && resolvedLines === null;
+  const hasUnavailableLines = displayLines.some((d) => d.resolved && !d.resolved.available);
+
+  async function handlePayer() {
+    setCheckoutError(null);
+    setIsCheckingOut(true);
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: requestBody,
+      });
+
+      if (!res.ok) {
+        setCheckoutError(
+          "Impossible de démarrer le paiement. Vérifiez votre panier et réessayez.",
+        );
+        return;
+      }
+
+      const data = (await res.json()) as { url: string };
+      window.location.href = data.url;
+    } catch {
+      setCheckoutError("Impossible de démarrer le paiement. Réessayez dans un instant.");
+    } finally {
+      setIsCheckingOut(false);
+    }
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-12 sm:px-6">
@@ -229,9 +259,24 @@ export function PanierClient() {
               <Price amountCents={subtotalCents} role="b2c" size="lg" />
             )}
           </div>
-          <p className="text-xs text-ink-muted">
-            Frais de port et paiement à l&apos;étape suivante (specs 10 et 12).
-          </p>
+          <p className="text-xs text-ink-muted">Frais de port calculés à l&apos;étape de paiement (12).</p>
+
+          {hasUnavailableLines ? (
+            <p className="text-sm text-danger">
+              Retirez les articles indisponibles avant de continuer.
+            </p>
+          ) : null}
+
+          {checkoutError ? <p className="text-sm text-danger">{checkoutError}</p> : null}
+
+          <Button
+            variant="primary"
+            size="lg"
+            disabled={isLoadingPrices || hasUnavailableLines || isCheckingOut}
+            onClick={handlePayer}
+          >
+            {isCheckingOut ? "Redirection vers le paiement…" : "Payer"}
+          </Button>
         </div>
       )}
     </div>

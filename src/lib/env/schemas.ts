@@ -27,8 +27,14 @@ export const supabaseServiceSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1),
 });
 
+// Séparé du secret webhook (ci-dessous) : la création de session (10) ne
+// dépend que de la clé secrète, jamais du secret de signature webhook — qui
+// n'existe qu'une fois `stripe listen` lancé en dev (02).
 export const stripeSchema = z.object({
   STRIPE_SECRET_KEY: z.string().min(1),
+});
+
+export const stripeWebhookSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().min(1),
 });
 
