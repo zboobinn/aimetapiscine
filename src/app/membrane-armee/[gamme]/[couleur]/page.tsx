@@ -14,6 +14,8 @@ import {
   getMembraneByGammeAndCouleur,
   getMembranes,
 } from "@/lib/catalog/data";
+import { withLivePricing, withLivePricingOne } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { capitalize } from "@/lib/utils/text";
 
 export const revalidate = 3600;
@@ -45,11 +47,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function MembraneFichePage({ params }: PageProps) {
   const { gamme, couleur } = await params;
-  const produit = getMembraneByGammeAndCouleur(gamme, couleur);
+  const produitCatalogue = getMembraneByGammeAndCouleur(gamme, couleur);
 
-  if (!produit) {
+  if (!produitCatalogue) {
     notFound();
   }
+
+  const produit = await withLivePricingOne(produitCatalogue);
+  const compatibleAccessories = await withLivePricing(getCompatibleAccessories(getAccessories()));
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -86,7 +91,11 @@ export default async function MembraneFichePage({ params }: PageProps) {
             <p className="text-ink-muted">{produit.description}</p>
           </div>
 
-          <ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} size="lg" />
+          <ProPrice
+            sku={produit.sku}
+            publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+            size="lg"
+          />
 
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-y border-border py-6 text-sm">
             <dt className="text-ink-muted">Référence</dt>
@@ -99,10 +108,7 @@ export default async function MembraneFichePage({ params }: PageProps) {
             <dd className="text-ink">{produit.unit}</dd>
           </dl>
 
-          <AddToCartButton
-            product={produit}
-            compatibleAccessories={getCompatibleAccessories(getAccessories())}
-          />
+          <AddToCartButton product={produit} compatibleAccessories={compatibleAccessories} />
 
           <Link href="/calculateur">
             <Button variant="secondary" size="lg" className="w-full sm:w-auto">

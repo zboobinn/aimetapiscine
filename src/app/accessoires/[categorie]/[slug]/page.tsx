@@ -11,6 +11,8 @@ import {
   getAccessoryCategoryLabel,
   getAccessoryCategorySlug,
 } from "@/lib/catalog/data";
+import { withLivePricingOne } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 
 export const revalidate = 3600;
 
@@ -41,12 +43,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function AccessoireFichePage({ params }: PageProps) {
   const { categorie, slug } = await params;
-  const produit = getAccessoryBySlug(categorie, slug);
+  const produitCatalogue = getAccessoryBySlug(categorie, slug);
 
-  if (!produit) {
+  if (!produitCatalogue) {
     notFound();
   }
 
+  const produit = await withLivePricingOne(produitCatalogue);
   const label = getAccessoryCategoryLabel(produit.category);
 
   return (
@@ -84,7 +87,11 @@ export default async function AccessoireFichePage({ params }: PageProps) {
             <p className="text-ink-muted">{produit.description}</p>
           </div>
 
-          <ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} size="lg" />
+          <ProPrice
+            sku={produit.sku}
+            publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+            size="lg"
+          />
 
           <dl className="grid grid-cols-2 gap-x-4 gap-y-3 border-y border-border py-6 text-sm">
             <dt className="text-ink-muted">Référence</dt>

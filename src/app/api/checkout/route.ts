@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { getAllProducts } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
@@ -77,7 +78,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   const role = await resolvePricingRole();
-  const products = getAllProducts();
+  const products = await withLivePricing(getAllProducts());
 
   const unavailableSkus: string[] = [];
   const lineItems: Array<{
@@ -96,12 +97,12 @@ export async function POST(request: Request) {
     discountBpsRate,
   );
 
-  parsed.data.lines.forEach(({ sku, quantity }, index) => {
+  for (const [index, { sku, quantity }] of parsed.data.lines.entries()) {
     const product = products.find((p) => p.sku === sku);
 
     if (!product || !product.in_stock) {
       unavailableSkus.push(sku);
-      return;
+      continue;
     }
 
     const discountBps = discountBpsByLine[index];
@@ -109,7 +110,7 @@ export async function POST(request: Request) {
     // partagé à l'identique avec `/api/cart/resolve` (affichage panier) : le
     // montant vu avant paiement et le montant Stripe encaissé ne peuvent donc
     // jamais diverger — ni sur le HT/TVA d'un pro, ni sur un arrondi de ligne.
-    const charge = computeLineCharge(product, role, quantity, discountBps);
+    const charge = await computeLineCharge(product, role, quantity, discountBps);
 
     lineItems.push({
       price_data: {
@@ -131,7 +132,7 @@ export async function POST(request: Request) {
       // la vraie quantité voyage en métadonnée pour le webhook (10/11).
       quantity: 1,
     });
-  });
+  }
 
   if (unavailableSkus.length > 0) {
     return NextResponse.json({ error: "unavailable_items", skus: unavailableSkus }, { status: 409 });

@@ -9,6 +9,8 @@ import {
   getAccessoryCategoryLabel,
   getAccessoryCategorySlugs,
 } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 
 export const revalidate = 3600;
 
@@ -33,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function AccessoireCategoriePage({ params }: PageProps) {
   const { categorie } = await params;
-  const produits = getAccessoriesByCategorySlug(categorie);
+  const produits = await withLivePricing(getAccessoriesByCategorySlug(categorie));
 
   if (produits.length === 0) {
     notFound();
@@ -69,7 +71,12 @@ export default async function AccessoireCategoriePage({ params }: PageProps) {
             imageAlt={produit.name}
             title={produit.name}
             badge={<Badge variant="in-stock">En stock</Badge>}
-            price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
+            price={
+              <ProPrice
+                sku={produit.sku}
+                publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+              />
+            }
           />
         ))}
       </div>

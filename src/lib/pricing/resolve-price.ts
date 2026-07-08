@@ -1,45 +1,60 @@
+import "server-only";
+
 import type { CatalogEntry } from "@/lib/catalog/schema";
+import { getProDiscountBps } from "@/lib/store-settings";
 import type { PricingRole } from "./types";
 
-/** Aucun produit du catalogue ni frais de port n'a de taux réduit en V1 (03/12). */
-export const STANDARD_VAT_RATE_BPS = 2000;
+export { STANDARD_VAT_RATE_BPS, computePublicTtcCents, splitTtcAmount } from "./vat";
 
 export interface PriceBreakdown {
-  /** Montant réellement encaissé (10) : TTC dans les deux rôles. */
+  /**
+   * Montant à AFFICHER pour ce rôle : TTC en b2c (`base_price_ht × (1 + TVA)`),
+   * HT en b2b (le prix pro n'est jamais majoré de la TVA à l'affichage —
+   * seul le HT remisé compte pour un pro, la TVA n'apparaît que sur la
+   * facture/le total encaissé, 11). DOIT toujours être présenté avec le bon
+   * suffixe (`Price`, `role`) : un des deux bugs corrigés ici était un
+   * montant TTC affiché avec le libellé « HT ».
+   */
   unitAmountCents: number;
-  /** Montant HT — snapshot stocké sur `order_items.unit_price_ht` (03). */
+  /** Montant HT — snapshot stocké sur `order_items.unit_price_ht` (03), base de tout calcul de ligne. */
   unitHtCents: number;
 }
 
 /**
- * Ventile un montant TTC déjà figé en HT/TVA SANS jamais changer le total :
- * `htCents + vatCents === ttcCents` par construction (la TVA est un résidu,
- * pas un second arrondi indépendant). Sert à documenter le détail HT/TVA
- * d'un montant qui n'est jamais recalculé, seulement affiché — ex. frais de
- * port sur la facture (11/12), ou prix public TTC (b2c) ventilé ci-dessous.
+ * Résout le HT unitaire pro (14) : `pro_price_ht` s'il est renseigné sur le
+ * produit (prix pro spécifique) ; sinon le pourcentage pro global de
+ * `store_settings` appliqué à `base_price_ht` (13/26, `lib/store-settings.ts`).
+ * Centralisé ici : panier, checkout et affichage en dépendent tous, jamais
+ * de duplication de cette règle de repli.
  */
-export function splitTtcAmount(ttcCents: number, vatRateBps: number): { htCents: number; vatCents: number } {
-  const htCents = Math.round((ttcCents * 10000) / (10000 + vatRateBps));
-  return { htCents, vatCents: ttcCents - htCents };
+export async function resolveProUnitHtCents(product: CatalogEntry): Promise<number> {
+  if (product.pro_price_ht !== null) return product.pro_price_ht;
+
+  const discountBps = await getProDiscountBps();
+  return Math.round((product.base_price_ht * (10000 - discountBps)) / 10000);
 }
 
 /**
- * Ventile le prix unitaire en HT/TTC pour l'encaissement (10) et le snapshot
- * commande (03). b2c : `base_price_ht` est déjà le TTC affiché — le HT s'en
- * déduit. b2b : `pro_price_ht` est le HT — la TVA s'ajoute par-dessus, les
- * pros la payant aussi (13).
+ * Ventile le prix unitaire en HT/affichage pour l'encaissement (10) et le
+ * snapshot commande (03). b2c : `base_price_ht` est le HT catalogue, la TVA
+ * s'ajoute par-dessus pour obtenir le TTC affiché à un particulier. b2b :
+ * le HT pro (résolu ci-dessus) est affiché tel quel, label « HT » — les pros
+ * paient aussi la TVA, mais seulement au moment de payer/facturer (11), pas
+ * sur le prix affiché en fiche produit.
  */
-export function resolvePriceBreakdown(product: CatalogEntry, role: PricingRole): PriceBreakdown {
+export async function resolvePriceBreakdown(
+  product: CatalogEntry,
+  role: PricingRole,
+): Promise<PriceBreakdown> {
   const vatRateBps = product.vat_rate;
 
   if (role === "b2b") {
-    const unitHtCents = product.pro_price_ht;
-    const unitAmountCents = unitHtCents + Math.round((unitHtCents * vatRateBps) / 10000);
-    return { unitAmountCents, unitHtCents };
+    const unitHtCents = await resolveProUnitHtCents(product);
+    return { unitAmountCents: unitHtCents, unitHtCents };
   }
 
-  const unitAmountCents = product.base_price_ht;
-  const { htCents: unitHtCents } = splitTtcAmount(unitAmountCents, vatRateBps);
+  const unitHtCents = product.base_price_ht;
+  const unitAmountCents = unitHtCents + Math.round((unitHtCents * vatRateBps) / 10000);
   return { unitAmountCents, unitHtCents };
 }
 
@@ -93,17 +108,18 @@ export function computeLineChargeFromUnitHt(
 
 /**
  * Point d'entrée unique pour chiffrer une ligne de panier/checkout à partir
- * du catalogue (04) : résout le HT unitaire pour CE rôle (14) puis applique
- * la même formule que la facture (11). `/api/cart/resolve` et `/api/checkout`
- * appellent tous les deux CETTE fonction — jamais de calcul dupliqué qui
- * pourrait diverger entre panier affiché et montant payé.
+ * du catalogue (04) : résout le HT unitaire pour CE rôle (14, prix pro
+ * spécifique ou pourcentage global) puis applique la même formule que la
+ * facture (11). `/api/cart/resolve` et `/api/checkout` appellent tous les
+ * deux CETTE fonction — jamais de calcul dupliqué qui pourrait diverger
+ * entre panier affiché et montant payé.
  */
-export function computeLineCharge(
+export async function computeLineCharge(
   product: CatalogEntry,
   role: PricingRole,
   quantity: number,
   discountBps: number,
-): LineCharge {
-  const { unitHtCents } = resolvePriceBreakdown(product, role);
+): Promise<LineCharge> {
+  const { unitHtCents } = await resolvePriceBreakdown(product, role);
   return computeLineChargeFromUnitHt(unitHtCents, quantity, discountBps, product.vat_rate);
 }

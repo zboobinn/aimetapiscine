@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Price } from "@/components/ui/price";
 import { useCartStore } from "@/features/cart";
 import type { CatalogEntry } from "@/lib/catalog/schema";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { cn } from "@/lib/utils/cn";
 
 export interface AddToCartButtonProps {
@@ -72,7 +73,11 @@ export function AddToCartButton({
                 <li key={accessory.sku} className="flex items-center justify-between gap-4 py-3">
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-ink">{accessory.name}</span>
-                    <Price amountCents={accessory.base_price_ht} role="b2c" size="sm" />
+                    <Price
+                      amountCents={computePublicTtcCents(accessory.base_price_ht, accessory.vat_rate)}
+                      role="b2c"
+                      size="sm"
+                    />
                   </div>
                   <Button
                     variant="secondary"

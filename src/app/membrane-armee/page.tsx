@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { couleurToSlug, getGammes, getMembranesByGamme } from "@/lib/catalog/data";
+import { couleurToSlug, getGammes, getMembranes } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { capitalize } from "@/lib/utils/text";
 import { ProPrice } from "@/components/pricing/pro-price";
 import { ProductCard } from "@/components/ui/card";
@@ -14,8 +16,9 @@ export const metadata: Metadata = {
     "Membranes armées piscine par gamme : unies, imprimées. Rouleaux 41,25 m², pose par des professionnels qualifiés.",
 };
 
-export default function MembraneArmeeHubPage() {
+export default async function MembraneArmeeHubPage() {
   const gammes = getGammes();
+  const membranes = await withLivePricing(getMembranes());
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -31,7 +34,7 @@ export default function MembraneArmeeHubPage() {
 
       <div className="flex flex-col gap-14">
         {gammes.map((gamme) => {
-          const produits = getMembranesByGamme(gamme);
+          const produits = membranes.filter((p) => p.gamme === gamme);
           return (
             <section key={gamme} className="flex flex-col gap-6">
               <div className="flex items-center justify-between">
@@ -55,7 +58,12 @@ export default function MembraneArmeeHubPage() {
                     title={produit.name}
                     subtitle="Rouleau 41,25 m²"
                     badge={<Badge variant="in-stock">En stock</Badge>}
-                    price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
+                    price={
+                      <ProPrice
+                        sku={produit.sku}
+                        publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+                      />
+                    }
                   />
                 ))}
               </div>

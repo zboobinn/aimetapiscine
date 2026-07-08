@@ -1,10 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
-  getAccessoriesByCategorySlug,
+  getAccessories,
+  getAccessoryCategorySlug,
   getAccessoryCategoryLabel,
   getAccessoryCategorySlugs,
 } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ui/card";
 import { ProPrice } from "@/components/pricing/pro-price";
@@ -17,8 +20,9 @@ export const metadata: Metadata = {
     "Feutre de protection, colles, PVC liquide, profilés et solvants pour la pose de membrane armée.",
 };
 
-export default function AccessoiresHubPage() {
+export default async function AccessoiresHubPage() {
   const categorySlugs = getAccessoryCategorySlugs();
+  const accessories = await withLivePricing(getAccessories());
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -34,7 +38,9 @@ export default function AccessoiresHubPage() {
 
       <div className="flex flex-col gap-14">
         {categorySlugs.map((categorieSlug) => {
-          const produits = getAccessoriesByCategorySlug(categorieSlug);
+          const produits = accessories.filter(
+            (p) => getAccessoryCategorySlug(p.category) === categorieSlug,
+          );
           const label = getAccessoryCategoryLabel(produits[0]?.category ?? "");
 
           return (
@@ -59,7 +65,12 @@ export default function AccessoiresHubPage() {
                     imageAlt={produit.name}
                     title={produit.name}
                     badge={<Badge variant="in-stock">En stock</Badge>}
-                    price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
+                    price={
+                      <ProPrice
+                        sku={produit.sku}
+                        publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+                      />
+                    }
                   />
                 ))}
               </div>

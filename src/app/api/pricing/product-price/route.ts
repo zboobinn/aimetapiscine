@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getAllProducts } from "@/lib/catalog/data";
+import { withLivePricingOne } from "@/lib/catalog/live-pricing";
 import { resolvePriceBreakdown } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 
@@ -19,14 +20,15 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "missing_sku" }, { status: 400 });
   }
 
-  const product = getAllProducts().find((p) => p.sku === sku);
+  const catalogProduct = getAllProducts().find((p) => p.sku === sku);
 
-  if (!product) {
+  if (!catalogProduct) {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
+  const product = await withLivePricingOne(catalogProduct);
   const role = await resolvePricingRole();
-  const { unitAmountCents, unitHtCents } = resolvePriceBreakdown(product, role);
+  const { unitAmountCents, unitHtCents } = await resolvePriceBreakdown(product, role);
 
   return NextResponse.json(
     { role, unitAmountCents, unitHtCents },

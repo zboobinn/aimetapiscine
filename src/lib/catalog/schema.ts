@@ -34,7 +34,10 @@ export const catalogEntrySchema = z
     couleur: z.string().min(1).optional(),
     description: z.string().min(1).optional(),
     base_price_ht: z.number().int().nonnegative(),
-    pro_price_ht: z.number().int().nonnegative(),
+    // null : pas de prix pro spécifique — le pourcentage global de
+    // `store_settings` (13/14, `lib/store-settings.ts`) s'applique alors sur
+    // `base_price_ht` pour résoudre le prix pro.
+    pro_price_ht: z.number().int().nonnegative().nullable(),
     vat_rate: z.number().int().min(0).max(10000),
     weight_grams: z.number().int().positive(),
     // 41,25 m² pour les membranes ; null pour les accessoires (03).

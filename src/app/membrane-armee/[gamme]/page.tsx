@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ui/card";
 import { ProPrice } from "@/components/pricing/pro-price";
 import { couleurToSlug, getGammes, getMembranesByGamme } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { capitalize } from "@/lib/utils/text";
 
 export const revalidate = 3600;
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function GammePage({ params }: PageProps) {
   const { gamme } = await params;
-  const produits = getMembranesByGamme(gamme);
+  const produits = await withLivePricing(getMembranesByGamme(gamme));
 
   if (produits.length === 0) {
     notFound();
@@ -63,7 +65,12 @@ export default async function GammePage({ params }: PageProps) {
             title={produit.name}
             subtitle={capitalize(produit.couleur as string)}
             badge={<Badge variant="in-stock">En stock</Badge>}
-            price={<ProPrice sku={produit.sku} publicAmountCents={produit.base_price_ht} />}
+            price={
+              <ProPrice
+                sku={produit.sku}
+                publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+              />
+            }
           />
         ))}
       </div>

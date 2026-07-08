@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getAllProducts } from "@/lib/catalog/data";
+import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
@@ -91,7 +92,7 @@ export async function POST(request: Request) {
   }
 
   const role = await resolvePricingRole();
-  const products = getAllProducts();
+  const products = await withLivePricing(getAllProducts());
 
   const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
   const discountBpsByLine = computeLineDiscountsBps(
@@ -100,53 +101,57 @@ export async function POST(request: Request) {
     discountBpsRate,
   );
 
-  const lines: ResolvedCartLine[] = parsed.data.lines.map(({ sku, quantity }, index) => {
-    const product = products.find((p) => p.sku === sku);
+  const lines: ResolvedCartLine[] = await Promise.all(
+    parsed.data.lines.map(async ({ sku, quantity }, index) => {
+      const product = products.find((p) => p.sku === sku);
 
-    if (!product) {
+      if (!product) {
+        return {
+          sku,
+          slug: sku,
+          name: "Produit indisponible",
+          image: "",
+          unit: "unite",
+          category: "AUTRE",
+          quantity,
+          unitHtCents: 0,
+          vatRateBps: 0,
+          lineHtCents: 0,
+          lineVatCents: 0,
+          lineTtcCents: 0,
+          discountBps: 0,
+          available: false,
+        };
+      }
+
+      const discountBps = discountBpsByLine[index];
+      // Même fonction qu'au checkout (`computeLineCharge`) : garantit que le
+      // montant affiché ici est EXACTEMENT celui qui sera facturé (10/13/23).
+      const charge = await computeLineCharge(product, role, quantity, discountBps);
+      const compareAtLineTtcCents =
+        discountBps > 0
+          ? (await computeLineCharge(product, role, quantity, 0)).lineTtcCents
+          : undefined;
+
       return {
-        sku,
-        slug: sku,
-        name: "Produit indisponible",
-        image: "",
-        unit: "unite",
-        category: "AUTRE",
+        sku: product.sku,
+        slug: product.slug,
+        name: product.name,
+        image: product.image,
+        unit: product.unit,
+        category: product.category,
         quantity,
-        unitHtCents: 0,
-        vatRateBps: 0,
-        lineHtCents: 0,
-        lineVatCents: 0,
-        lineTtcCents: 0,
-        discountBps: 0,
-        available: false,
+        unitHtCents: charge.unitHtCents,
+        vatRateBps: product.vat_rate,
+        lineHtCents: charge.lineHtCents,
+        lineVatCents: charge.lineVatCents,
+        lineTtcCents: charge.lineTtcCents,
+        compareAtLineTtcCents,
+        discountBps,
+        available: product.in_stock,
       };
-    }
-
-    const discountBps = discountBpsByLine[index];
-    // Même fonction qu'au checkout (`computeLineCharge`) : garantit que le
-    // montant affiché ici est EXACTEMENT celui qui sera facturé (10/13/23).
-    const charge = computeLineCharge(product, role, quantity, discountBps);
-    const compareAtLineTtcCents =
-      discountBps > 0 ? computeLineCharge(product, role, quantity, 0).lineTtcCents : undefined;
-
-    return {
-      sku: product.sku,
-      slug: product.slug,
-      name: product.name,
-      image: product.image,
-      unit: product.unit,
-      category: product.category,
-      quantity,
-      unitHtCents: charge.unitHtCents,
-      vatRateBps: product.vat_rate,
-      lineHtCents: charge.lineHtCents,
-      lineVatCents: charge.lineVatCents,
-      lineTtcCents: charge.lineTtcCents,
-      compareAtLineTtcCents,
-      discountBps,
-      available: product.in_stock,
-    };
-  });
+    }),
+  );
 
   const { postalCode } = parsed.data;
   const zoneExcluded = Boolean(postalCode && isExcludedOverseasPostalCode(postalCode));
