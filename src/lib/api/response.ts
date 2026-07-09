@@ -7,8 +7,11 @@ import { API_ERROR_STATUS, type ApiErrorCode } from "./errors";
  * Le webhook Stripe (`/api/webhooks/stripe`) est explicitement EXEMPTÉ — Stripe
  * attend des statuts HTTP bruts, pas cette enveloppe.
  */
-export function apiError(code: ApiErrorCode, message: string) {
-  return NextResponse.json({ error: { code, message } }, { status: API_ERROR_STATUS[code] });
+export function apiError(code: ApiErrorCode, message: string, init?: ResponseInit) {
+  return NextResponse.json(
+    { error: { code, message } },
+    { ...init, status: API_ERROR_STATUS[code] },
+  );
 }
 
 /** Succès : payload direct, jamais d'enveloppe `{ data }` (15). */

@@ -60,9 +60,21 @@ export const emailSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
   EMAIL_FROM: z.string().min(1).default("onboarding@resend.dev"),
   EMAIL_OVERRIDE_TO: z.string().email().optional(),
+});
+
+// Domaine sécurité (23) : secrets d'authentification interne et paramètres de
+// défense (jamais des données d'envoi email, contrairement au rangement
+// initial de PRO_ACTIVATION_HOOK_SECRET dans `emailSchema` — constat du
+// 2026-07-09, corrigé en 23b, voir decisions.md).
+export const securitySchema = z.object({
   // Secret partagé avec le Database Webhook Supabase qui appelle
   // /api/hooks/pro-activated (14/17) — comparaison à temps constant.
   PRO_ACTIVATION_HOOK_SECRET: z.string().min(1).optional(),
+  // Rate limiting POST /api/checkout (23b) : défauts prudents mais pas
+  // bloquants pour un usage normal (un client peut légitimement retenter un
+  // paiement échoué plusieurs fois de suite).
+  CHECKOUT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(8),
+  CHECKOUT_RATE_LIMIT_WINDOW_SECONDS: z.coerce.number().int().positive().default(60),
 });
 
 export const revalidateSchema = z.object({

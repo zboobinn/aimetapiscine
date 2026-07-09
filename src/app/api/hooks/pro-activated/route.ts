@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ApiErrorCode } from "@/lib/api/errors";
 import { apiError, apiSuccess, NO_STORE_HEADERS } from "@/lib/api/response";
 import { parseJsonBody } from "@/lib/api/validate";
-import { getEmailEnv } from "@/lib/env";
+import { getSecurityEnv } from "@/lib/env";
 import { sendProActivatedEmail } from "@/lib/email/notifications";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
 
@@ -25,7 +25,7 @@ const bodySchema = z.object({ userId: z.string().uuid() });
 const HEADER_NAME = "x-pro-activation-secret";
 
 function isSecretValid(request: Request): boolean {
-  const expected = getEmailEnv().PRO_ACTIVATION_HOOK_SECRET;
+  const expected = getSecurityEnv().PRO_ACTIVATION_HOOK_SECRET;
   const provided = request.headers.get(HEADER_NAME);
 
   if (!expected || !provided) return false;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ui/card";
@@ -6,7 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Price } from "@/components/ui/price";
 import { Stepper } from "@/components/ui/stepper";
 
-// Page de démo interne (decisions.md, 2026-07-07) — à retirer avant prod.
+// Page de démo interne (decisions.md, 2026-07-07). Le `noindex` seul (18)
+// n'empêche pas l'accès direct à l'URL en prod (23) — repli sur `notFound()`
+// hors développement plutôt que la suppression pure : la page reste utile en
+// local pour visualiser les tokens/composants du design system (05).
 export const metadata: Metadata = {
   title: "Design system | Membranes Armées",
   robots: { index: false, follow: false },
@@ -28,6 +32,10 @@ function Section({
 }
 
 export default function DesignSystemPage() {
+  if (process.env.NODE_ENV === "production") {
+    notFound();
+  }
+
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col px-6">
       <header className="flex flex-col gap-2 py-16">

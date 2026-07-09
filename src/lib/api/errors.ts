@@ -16,6 +16,8 @@ export const ApiErrorCode = {
   SHIPPING_ZONE_EXCLUDED: "SHIPPING_ZONE_EXCLUDED",
   /** Une ou plusieurs lignes du panier ne sont plus disponibles au moment de payer. */
   ITEMS_UNAVAILABLE: "ITEMS_UNAVAILABLE",
+  /** Quota de tentatives dépassé (rate limiting, 23) — voir header `Retry-After`. */
+  RATE_LIMITED: "RATE_LIMITED",
   /** Échec serveur générique (jamais de détail interne exposé, 23). */
   INTERNAL_ERROR: "INTERNAL_ERROR",
 } as const;
@@ -29,5 +31,6 @@ export const API_ERROR_STATUS: Record<ApiErrorCode, number> = {
   NOT_FOUND: 404,
   SHIPPING_ZONE_EXCLUDED: 400,
   ITEMS_UNAVAILABLE: 409,
+  RATE_LIMITED: 429,
   INTERNAL_ERROR: 500,
 };

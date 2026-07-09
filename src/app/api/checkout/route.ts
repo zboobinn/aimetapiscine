@@ -11,6 +11,7 @@ import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
+import { checkCheckoutRateLimit } from "@/lib/security/rate-limit";
 import { getShippingFee } from "@/lib/shipping/get-shipping-fee";
 import { isExcludedOverseasPostalCode } from "@/lib/shipping/postal-code";
 import { getStripeClient } from "@/lib/stripe";
@@ -60,6 +61,21 @@ function cartFingerprint(lines: Array<{ slug: string; quantity: number }>): stri
 }
 
 export async function POST(request: Request) {
+  // Rate limiter en tête de handler (23), avant toute autre logique : un
+  // quota dépassé ne doit même pas déclencher la validation du corps.
+  const rateLimitUser = await createClient();
+  const {
+    data: { user: rateLimitCallerUser },
+  } = await rateLimitUser.auth.getUser();
+  const rateLimit = await checkCheckoutRateLimit(request, rateLimitCallerUser?.id ?? null);
+  if (!rateLimit.allowed) {
+    return apiError(
+      ApiErrorCode.RATE_LIMITED,
+      "Trop de tentatives de paiement. Merci de réessayer dans quelques instants.",
+      { headers: { ...NO_STORE_HEADERS, "Retry-After": String(rateLimit.retryAfterSeconds) } },
+    );
+  }
+
   const parsed = await parseJsonBody(request, bodySchema);
   if ("response" in parsed) return parsed.response;
   const { data } = parsed;

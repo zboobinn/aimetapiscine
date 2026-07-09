@@ -14,8 +14,8 @@ Objectif : surface d'attaque minimale ; les deux actifs à protéger : l'argent 
 
 ## Application
 - Zod en entrée de chaque Route Handler ; erreurs sans détail interne (ni stack ni SQL).
-- Headers (next.config) : CSP (`frame-src` : domaine simulateur APF + Stripe ; `script-src` : self + analytics proxifié), `X-Frame-Options: DENY` sur nos pages, `Referrer-Policy: strict-origin-when-cross-origin`, HSTS.
-- Rate limiting sur `/api/checkout` et `/api/pro/register` (compteur par IP — Upstash ou en mémoire V1).
+- Headers (next.config) : HSTS, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` sur nos pages, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` restrictive. CSP posée en `Content-Security-Policy-Report-Only` UNIQUEMENT (23b) — jamais bloquante en V1 (Next.js injecte des scripts inline, une CSP stricte casserait le site en silence) ; passage en mode bloquant reste un travail futur, à faire progressivement. `frame-src` ne cite AUCUN domaine simulateur APF : ce serait une fuite blind shipping dans un header HTTP public (01) — spec 16 de toute façon reportée sine die.
+- Rate limiting sur `/api/checkout` (23b) : compteur en base Postgres (table `rate_limits`, incrément atomique via fonction `SECURITY DEFINER`), jamais en mémoire (aucun état ne survit entre invocations serverless sur Vercel) ni via une dépendance externe (Upstash refusé, aucune dépendance externe acceptée en V1). `/api/pro/register` n'existe pas — l'inscription pro est une Server Action (`submitProSignupAction`, spec 14/15), non concernée par le rate limiting HTTP.
 - `pnpm audit` avant chaque déploiement ; lockfile commité.
 
 ## Données personnelles
@@ -23,5 +23,5 @@ Objectif : surface d'attaque minimale ; les deux actifs à protéger : l'argent 
 - Aucune donnée carte ne transite par nous (Stripe Checkout hébergé) — ne jamais « améliorer » avec un formulaire carte custom.
 
 ## Pièges
-- Une CSP trop stricte casse Stripe ou l'iframe APF EN SILENCE : rejouer le checkout complet après CHAQUE modification de CSP.
+- Une CSP trop stricte casse Stripe EN SILENCE : rejouer le checkout complet après CHAQUE modification de CSP, y compris en Report-Only (le jour du passage en mode bloquant).
 - Clés test/live inversées = paiements réels en dev : nommage explicite des environnements (26) et vérification au démarrage (`lib/env.ts`).

@@ -8,6 +8,7 @@ import {
   emailSchema,
   inseeSchema,
   revalidateSchema,
+  securitySchema,
   siteSchema,
   stripeSchema,
   stripeWebhookSchema,
@@ -58,6 +59,7 @@ export const getStripeEnv = domainAccessor("stripe", stripeSchema);
 export const getStripeWebhookEnv = domainAccessor("stripe-webhook", stripeWebhookSchema);
 export const getEmailEnv = domainAccessor("email", emailSchema);
 export const getRevalidateEnv = domainAccessor("revalidate", revalidateSchema);
+export const getSecurityEnv = domainAccessor("security", securitySchema);
 export const getApfEnv = domainAccessor("apf", apfSchema);
 export const getBusinessConfigEnv = domainAccessor("business-config", businessConfigSchema);
 export const getCompanyEnv = domainAccessor("company", companySchema);
