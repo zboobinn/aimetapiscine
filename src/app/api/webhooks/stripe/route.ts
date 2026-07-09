@@ -3,12 +3,22 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type Stripe from "stripe";
 
 import { getStripeWebhookEnv } from "@/lib/env";
+import {
+  sendAdminProcessingErrorEmail,
+  sendOrderConfirmationEmail,
+  sendSupplierShippingOrderEmail,
+} from "@/lib/email/notifications";
 import { generateDeliveryNotePdf } from "@/lib/pdf/delivery-note";
 import { generateInvoicePdf } from "@/lib/pdf/invoice";
 import type { OrderDocumentLine, OrderShippingAddress } from "@/lib/pdf/types";
 import { getStripeClient } from "@/lib/stripe";
 import { createServiceRoleClient } from "@/lib/supabase/service-role";
-import { DELIVERY_NOTES_BUCKET, INVOICES_BUCKET, uploadOrderDocument } from "@/lib/supabase/storage";
+import {
+  DELIVERY_NOTES_BUCKET,
+  downloadOrderDocument,
+  INVOICES_BUCKET,
+  uploadOrderDocument,
+} from "@/lib/supabase/storage";
 
 /**
  * Webhook Stripe (10) : EXEMPTÉ de la convention d'erreur `{error:{code,message}}`
@@ -32,6 +42,9 @@ export const dynamic = "force-dynamic";
 
 const UNIQUE_VIOLATION = "23505";
 
+const ORDER_RECORD_COLUMNS =
+  "id, created_at, customer_email, shipping_address, status, invoice_number, shipping_fee, delivery_note_url, invoice_pdf_path, confirmation_email_sent_at, supplier_email_sent_at" as const;
+
 interface OrderRecord {
   id: string;
   created_at: string;
@@ -40,6 +53,10 @@ interface OrderRecord {
   status: string;
   invoice_number: number | null;
   shipping_fee: number;
+  delivery_note_url: string | null;
+  invoice_pdf_path: string | null;
+  confirmation_email_sent_at: string | null;
+  supplier_email_sent_at: string | null;
 }
 
 async function findOrderBySession(
@@ -48,7 +65,7 @@ async function findOrderBySession(
 ): Promise<OrderRecord | null> {
   const { data } = await supabase
     .from("orders")
-    .select("id, created_at, customer_email, shipping_address, status, invoice_number, shipping_fee")
+    .select(ORDER_RECORD_COLUMNS)
     .eq("stripe_session_id", sessionId)
     .maybeSingle();
 
@@ -137,7 +154,7 @@ async function createOrderFromSession(
       status: "PAID",
       shipping_address: shippingAddress,
     })
-    .select("id, created_at, customer_email, shipping_address, status, invoice_number, shipping_fee")
+    .select(ORDER_RECORD_COLUMNS)
     .single();
 
   if (orderError) {
@@ -226,20 +243,52 @@ async function loadDocumentLines(
 }
 
 /**
+ * Écrit `processing_error` (repérage immédiat dans Supabase Studio, 11) et
+ * tente une alerte admin — best-effort, sans idempotence voulue (17) :
+ * l'échec de l'alerte elle-même ne doit jamais remonter, seulement être loggé.
+ */
+async function flagProcessingError(
+  supabase: SupabaseClient,
+  orderId: string,
+  sessionId: string,
+  message: string,
+): Promise<void> {
+  console.error(`[commande ${orderId}] ${message}`);
+
+  const { error: flagError } = await supabase
+    .from("orders")
+    .update({ processing_error: message })
+    .eq("id", orderId);
+
+  if (flagError) {
+    console.error(
+      `[commande ${orderId}] Échec de l'enregistrement de processing_error : ${flagError.message}`,
+    );
+  }
+
+  try {
+    await sendAdminProcessingErrorEmail({ orderId, sessionId, message });
+  } catch (alertError) {
+    console.error(`[commande ${orderId}] Échec de l'alerte admin`, alertError);
+  }
+}
+
+/**
  * Génère et attache le BL + la facture à une commande déjà enregistrée
- * (nouvelle ou en reprise après échec). En cas d'échec à n'importe quelle
- * étape : la commande reste en `PAID`, `processing_error` est renseigné
- * pour un repérage immédiat dans Supabase Studio, et l'erreur est relancée
- * pour que l'appelant renvoie 500 (retraitement automatique Stripe +
- * rejeu manuel `stripe events resend` possibles, sans jamais dupliquer la
- * commande — cette fonction ne fait plus que mettre à jour la ligne
- * existante).
+ * (nouvelle ou en reprise après échec). Ne fait JAMAIS avancer le statut :
+ * la commande reste `PAID` jusqu'à ce que l'email fournisseur soit
+ * effectivement parti (`sendOrderNotifications`), pour qu'un statut ne
+ * mente jamais sur l'état réel de la commande. En cas d'échec à n'importe
+ * quelle étape : `processing_error` est renseigné, une alerte admin est
+ * tentée, et l'erreur est relancée pour que l'appelant renvoie 500
+ * (retraitement automatique Stripe + rejeu manuel `stripe events resend`
+ * possibles, sans jamais dupliquer la commande).
  */
 async function generateAndAttachDocuments(
   supabase: SupabaseClient,
   order: OrderRecord,
   sessionId: string,
-): Promise<void> {
+): Promise<OrderRecord> {
   try {
     const documentLines = await loadDocumentLines(supabase, order.id);
 
@@ -285,16 +334,15 @@ async function generateAndAttachDocuments(
     const invoicePath = `${order.id}.pdf`;
     await uploadOrderDocument(supabase, INVOICES_BUCKET, invoicePath, invoicePdf);
 
-    // Documents générés : la commande est prête pour l'ordre d'expédition
-    // APF. L'envoi effectif de l'email (BL joint) reste en TODO spec 17 — ce
-    // statut décrit l'état "prêt à envoyer", pas encore "email parti".
+    // Documents générés : statut TOUJOURS PAID ici, jamais SENT_TO_SUPPLIER
+    // (ce basculement n'a lieu que lorsque l'email fournisseur est
+    // effectivement parti — sendOrderNotifications).
     const { error: updateError } = await supabase
       .from("orders")
       .update({
         delivery_note_url: deliveryNotePath,
         invoice_pdf_path: invoicePath,
         invoice_number: invoiceNumber,
-        status: "SENT_TO_SUPPLIER",
         processing_error: null,
       })
       .eq("id", order.id);
@@ -305,34 +353,112 @@ async function generateAndAttachDocuments(
       );
     }
 
-    // TODO spec 17 : envoyer l'email de confirmation client (facture jointe)
-    // et la notification APF/admin (BL joint, URL signée depuis
-    // `delivery_note_url` — jamais l'URL persistée elle-même).
+    return {
+      ...order,
+      delivery_note_url: deliveryNotePath,
+      invoice_pdf_path: invoicePath,
+      invoice_number: invoiceNumber,
+    };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
 
-    console.error(
-      `[commande ${order.id}] Génération des documents (BL/facture) échouée — statut resté PAID, ` +
-        `commande à rejouer (stripe events resend ${sessionId}) : ${message}`,
-      error,
+    await flagProcessingError(
+      supabase,
+      order.id,
+      sessionId,
+      `Génération des documents (BL/facture) échouée, à rejouer (stripe events resend ${sessionId}) : ${message}`,
     );
 
-    const { error: flagError } = await supabase
-      .from("orders")
-      .update({ processing_error: message })
-      .eq("id", order.id);
+    throw error;
+  }
+}
 
-    if (flagError) {
-      console.error(
-        `[commande ${order.id}] Échec de l'enregistrement de processing_error : ${flagError.message}`,
+/**
+ * Envoie les deux notifications de commande (17), chacune dans son propre
+ * try/catch et idempotente indépendamment (`confirmation_email_sent_at` /
+ * `supplier_email_sent_at`) : un échec ne doit JAMAIS faire échouer le
+ * webhook Stripe ni bloquer l'autre envoi. `orders.status` ne passe à
+ * SENT_TO_SUPPLIER QUE si l'email fournisseur part effectivement.
+ */
+async function sendOrderNotifications(
+  supabase: SupabaseClient,
+  order: OrderRecord,
+  sessionId: string,
+): Promise<void> {
+  if (!order.invoice_pdf_path || !order.delivery_note_url) {
+    // Documents pas encore générés (tentative précédente en échec, 11) :
+    // rien à envoyer tant qu'ils n'existent pas.
+    return;
+  }
+
+  if (!order.confirmation_email_sent_at) {
+    try {
+      const invoicePdf = await downloadOrderDocument(supabase, INVOICES_BUCKET, order.invoice_pdf_path);
+      const lines = await loadDocumentLines(supabase, order.id);
+
+      await sendOrderConfirmationEmail({
+        orderId: order.id,
+        createdAt: order.created_at,
+        invoiceNumber: order.invoice_number,
+        customerEmail: order.customer_email,
+        lines,
+        shippingFeeCents: order.shipping_fee,
+        invoicePdf,
+      });
+
+      const { error } = await supabase
+        .from("orders")
+        .update({ confirmation_email_sent_at: new Date().toISOString() })
+        .eq("id", order.id);
+
+      if (error) {
+        throw new Error(`Écriture confirmation_email_sent_at échouée : ${error.message}`);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await flagProcessingError(
+        supabase,
+        order.id,
+        sessionId,
+        `Email de confirmation client échoué (session ${sessionId}) : ${message}`,
       );
     }
+  }
 
-    // TODO spec 17 : alerter ADMIN_ALERT_EMAIL (getApfEnv(), src/lib/env)
-    // — commande payée bloquée en PAID, nécessite un rejeu ou une
-    // intervention manuelle.
+  if (!order.supplier_email_sent_at) {
+    try {
+      const deliveryNotePdf = await downloadOrderDocument(
+        supabase,
+        DELIVERY_NOTES_BUCKET,
+        order.delivery_note_url,
+      );
+      const lines = await loadDocumentLines(supabase, order.id);
 
-    throw error;
+      await sendSupplierShippingOrderEmail({
+        orderId: order.id,
+        createdAt: order.created_at,
+        lines,
+        shippingAddress: order.shipping_address,
+        deliveryNotePdf,
+      });
+
+      const { error } = await supabase
+        .from("orders")
+        .update({ supplier_email_sent_at: new Date().toISOString(), status: "SENT_TO_SUPPLIER" })
+        .eq("id", order.id);
+
+      if (error) {
+        throw new Error(`Écriture supplier_email_sent_at échouée : ${error.message}`);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await flagProcessingError(
+        supabase,
+        order.id,
+        sessionId,
+        `Email fournisseur (BL) échoué (session ${sessionId}) : ${message}`,
+      );
+    }
   }
 }
 
@@ -342,13 +468,21 @@ async function handleCheckoutCompleted(sessionId: string) {
   const existingOrder = await findOrderBySession(supabase, sessionId);
   const order = existingOrder ?? (await createOrderFromSession(supabase, sessionId));
 
-  if (order.status !== "PAID") {
-    // Documents déjà générés (ou commande dans un autre état géré
-    // manuellement, ex. CANCELLED) : zéro retraitement (10).
+  if (order.status === "SHIPPED" || order.status === "CANCELLED") {
+    // États gérés manuellement dans Supabase Studio (11) : hors périmètre du
+    // pipeline automatique.
     return;
   }
 
-  await generateAndAttachDocuments(supabase, order, sessionId);
+  // Tant que le statut est PAID, les documents sont (re)générés à chaque
+  // livraison d'événement (10, décision 2026-07-09). Une fois SENT_TO_SUPPLIER
+  // (email fournisseur effectivement parti), on ne les régénère plus — mais
+  // on retente quand même les notifications ci-dessous, au cas où l'email de
+  // confirmation client ait échoué indépendamment.
+  const documentedOrder =
+    order.status === "PAID" ? await generateAndAttachDocuments(supabase, order, sessionId) : order;
+
+  await sendOrderNotifications(supabase, documentedOrder, sessionId);
 }
 
 export async function POST(request: Request) {

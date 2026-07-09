@@ -27,6 +27,26 @@ export async function uploadOrderDocument(
   }
 }
 
+/**
+ * Lecture directe d'un document privé pour pièce jointe email (17) : le
+ * `service_role` a déjà accès au bucket sans passer par une URL signée — pas
+ * d'aller-retour HTTP inutile. L'URL signée (ci-dessous) reste réservée à la
+ * consultation par le client authentifié depuis `/compte`.
+ */
+export async function downloadOrderDocument(
+  supabase: SupabaseClient,
+  bucket: string,
+  path: string,
+): Promise<Buffer> {
+  const { data, error } = await supabase.storage.from(bucket).download(path);
+
+  if (error || !data) {
+    throw new Error(`Téléchargement ${bucket}/${path} échoué : ${error?.message}`);
+  }
+
+  return Buffer.from(await data.arrayBuffer());
+}
+
 export async function createSignedDocumentUrl(
   supabase: SupabaseClient,
   bucket: string,

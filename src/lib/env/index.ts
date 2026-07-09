@@ -5,8 +5,8 @@ import {
   apfSchema,
   businessConfigSchema,
   companySchema,
+  emailSchema,
   inseeSchema,
-  resendSchema,
   revalidateSchema,
   siteSchema,
   stripeSchema,
@@ -56,7 +56,7 @@ export const getSupabaseEnv = domainAccessor("supabase", supabasePublicSchema);
 export const getSupabaseServiceEnv = domainAccessor("supabase-service", supabaseServiceSchema);
 export const getStripeEnv = domainAccessor("stripe", stripeSchema);
 export const getStripeWebhookEnv = domainAccessor("stripe-webhook", stripeWebhookSchema);
-export const getResendEnv = domainAccessor("resend", resendSchema);
+export const getEmailEnv = domainAccessor("email", emailSchema);
 export const getRevalidateEnv = domainAccessor("revalidate", revalidateSchema);
 export const getApfEnv = domainAccessor("apf", apfSchema);
 export const getBusinessConfigEnv = domainAccessor("business-config", businessConfigSchema);

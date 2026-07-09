@@ -38,8 +38,20 @@ export const stripeWebhookSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().min(1),
 });
 
-export const resendSchema = z.object({
-  RESEND_API_KEY: z.string().min(1),
+// Emails transactionnels (17) — sur le modèle du domaine `insee` : chaque
+// champ reste optionnel/défauté pour que ce domaine ne lève JAMAIS, même sans
+// configuration (`RESEND_API_KEY` absente => no-op loggé côté `sendEmail()`,
+// jamais une exception qui bloquerait le webhook Stripe). `EMAIL_FROM` défaut
+// à `onboarding@resend.dev` : aucun domaine de production n'existe encore
+// (prévu septembre, decisions.md) — Resend n'autorise l'envoi qu'à l'adresse
+// du compte tant qu'aucun domaine n'est vérifié, d'où `EMAIL_OVERRIDE_TO`.
+export const emailSchema = z.object({
+  RESEND_API_KEY: z.string().min(1).optional(),
+  EMAIL_FROM: z.string().min(1).default("onboarding@resend.dev"),
+  EMAIL_OVERRIDE_TO: z.string().email().optional(),
+  // Secret partagé avec le Database Webhook Supabase qui appelle
+  // /api/hooks/pro-activated (14/17) — comparaison à temps constant.
+  PRO_ACTIVATION_HOOK_SECRET: z.string().min(1).optional(),
 });
 
 export const revalidateSchema = z.object({
