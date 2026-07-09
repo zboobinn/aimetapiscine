@@ -68,7 +68,7 @@ export default async function GammePage({ params }: PageProps) {
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {produits.map((produit) => (
           <ProductCard
-            key={produit.sku}
+            key={produit.slug}
             href={`/membrane-armee/${gamme}/${couleurToSlug(produit.couleur as string)}`}
             imageSrc={produit.image}
             imageAlt={produit.name}
@@ -77,7 +77,7 @@ export default async function GammePage({ params }: PageProps) {
             badge={<Badge variant="in-stock">En stock</Badge>}
             price={
               <ProPrice
-                sku={produit.sku}
+                slug={produit.slug}
                 publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
               />
             }

@@ -5,7 +5,7 @@ import type { PricingRole } from "@/lib/pricing/types";
 import { isCorsicaPostalCode } from "./postal-code";
 
 export interface ShippingCartLine {
-  sku: string;
+  slug: string;
   quantity: number;
 }
 

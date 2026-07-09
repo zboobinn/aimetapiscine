@@ -98,7 +98,10 @@ export function generateInvoicePdf(data: InvoiceDocumentData): Promise<Buffer> {
       totalVat += totals.lineVatCents;
       totalDiscount += totals.discountHtCents;
 
-      doc.text(`${line.name} (${line.sku})`, col.name, rowY, { width: col.qty - col.name - 10 });
+      // Jamais le SKU (préfixé APF-..., référence fournisseur interne, 01) sur
+      // un document client — seul le BL fournisseur (delivery-note.ts) le
+      // porte, lui n'étant jamais vu par le client (23, decisions.md).
+      doc.text(line.name, col.name, rowY, { width: col.qty - col.name - 10 });
       doc.text(String(line.quantity), col.qty, rowY);
       doc.text(formatCents(line.unitPriceHtCents), col.pu, rowY);
       doc.text(line.discountBps > 0 ? `-${line.discountBps / 100}%` : "—", col.discount, rowY);

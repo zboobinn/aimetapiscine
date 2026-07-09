@@ -1,5 +1,6 @@
 import "server-only";
 
+import { fetchLiveProPriceHtCents } from "@/lib/catalog/live-pricing";
 import type { CatalogEntry } from "@/lib/catalog/schema";
 import { getProDiscountBps } from "@/lib/store-settings";
 import type { PricingRole } from "./types";
@@ -26,9 +27,16 @@ export interface PriceBreakdown {
  * `store_settings` appliqué à `base_price_ht` (13/26, `lib/store-settings.ts`).
  * Centralisé ici : panier, checkout et affichage en dépendent tous, jamais
  * de duplication de cette règle de repli.
+ *
+ * Lit `pro_price_ht` EN LIVE via `service_role` (23) — jamais le champ
+ * `product.pro_price_ht` fusionné par `withLivePricing()`, qui ne le lit
+ * plus depuis que la clé anon a perdu ce privilège de colonne (migration
+ * `20260713000000_products_column_privileges.sql`, prix pro non exposable à
+ * la clé anon publique).
  */
 export async function resolveProUnitHtCents(product: CatalogEntry): Promise<number> {
-  if (product.pro_price_ht !== null) return product.pro_price_ht;
+  const liveProPriceHtCents = await fetchLiveProPriceHtCents(product.sku);
+  if (liveProPriceHtCents !== null) return liveProPriceHtCents;
 
   const discountBps = await getProDiscountBps();
   return Math.round((product.base_price_ht * (10000 - discountBps)) / 10000);

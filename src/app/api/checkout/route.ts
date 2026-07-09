@@ -18,8 +18,11 @@ import { createClient } from "@/lib/supabase/server";
 
 /**
  * Création de la session Stripe Checkout (10). Le client n'envoie QUE des
- * SKU + quantités : tout montant (prix selon rôle, port) est recalculé ici
- * depuis le catalogue serveur, jamais accepté depuis la requête (23).
+ * SLUG + quantités : tout montant (prix selon rôle, port) est recalculé ici
+ * depuis le catalogue serveur, jamais accepté depuis la requête (23). `slug`
+ * (jamais `sku`, préfixé `APF-...`) est l'identifiant transmis par le client
+ * — le SKU réel n'est utilisé qu'en métadonnée Stripe interne (serveur à
+ * serveur, jamais rendu au navigateur, 01/23).
  */
 
 export const runtime = "nodejs";
@@ -29,7 +32,7 @@ const bodySchema = z.object({
   lines: z
     .array(
       z.object({
-        sku: z.string().min(1),
+        slug: z.string().min(1),
         quantity: z.number().int().positive(),
         source: z.enum(["catalog", "pack"]).default("catalog"),
         packId: z.string().optional(),
@@ -40,7 +43,7 @@ const bodySchema = z.object({
   // Manifeste des packs présents au panier (13, même contrat que
   // /api/cart/resolve) : détermine quelles lignes gardent la remise pack -5 %
   // au moment de payer — recalculé ici, jamais accepté tel quel du client.
-  packs: z.record(z.string(), z.object({ originalSkus: z.array(z.string().min(1)) })).default({}),
+  packs: z.record(z.string(), z.object({ originalSlugs: z.array(z.string().min(1)) })).default({}),
   // Saisi côté /panier avant paiement (12) : sert au recalcul serveur du
   // port (surcoût Corse) et au refus des DOM-TOM avant même de créer la
   // session Stripe. Optionnel : Stripe collecte de toute façon sa propre
@@ -48,10 +51,10 @@ const bodySchema = z.object({
   postalCode: z.string().trim().min(1).optional(),
 });
 
-function cartFingerprint(lines: Array<{ sku: string; quantity: number }>): string {
+function cartFingerprint(lines: Array<{ slug: string; quantity: number }>): string {
   const normalized = [...lines]
-    .sort((a, b) => a.sku.localeCompare(b.sku))
-    .map((l) => `${l.sku}:${l.quantity}`)
+    .sort((a, b) => a.slug.localeCompare(b.slug))
+    .map((l) => `${l.slug}:${l.quantity}`)
     .join("|");
   return createHash("sha256").update(normalized).digest("hex").slice(0, 32);
 }
@@ -76,7 +79,7 @@ export async function POST(request: Request) {
   const role = await resolvePricingRole();
   const products = await withLivePricing(getAllProducts());
 
-  const unavailableSkus: string[] = [];
+  const unavailableSlugs: string[] = [];
   const lineItems: Array<{
     price_data: {
       currency: string;
@@ -93,11 +96,11 @@ export async function POST(request: Request) {
     discountBpsRate,
   );
 
-  for (const [index, { sku, quantity }] of data.lines.entries()) {
-    const product = products.find((p) => p.sku === sku);
+  for (const [index, { slug, quantity }] of data.lines.entries()) {
+    const product = products.find((p) => p.slug === slug);
 
     if (!product || !product.in_stock) {
-      unavailableSkus.push(sku);
+      unavailableSlugs.push(slug);
       continue;
     }
 
@@ -130,7 +133,7 @@ export async function POST(request: Request) {
     });
   }
 
-  if (unavailableSkus.length > 0) {
+  if (unavailableSlugs.length > 0) {
     // Le SKU (préfixé APF-..., 04) ne doit jamais apparaître dans une réponse
     // client (règle blind shipping, 01/23) : message générique, pas de liste.
     return apiError(

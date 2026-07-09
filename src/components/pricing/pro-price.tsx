@@ -12,7 +12,7 @@ interface ProductPriceResponse {
 }
 
 export interface ProPriceProps {
-  sku: string;
+  slug: string;
   /** Prix public TTC déjà présent dans le HTML statique (07) — jamais retiré, seulement remplacé si b2b. */
   publicAmountCents: number;
   size?: PriceSize;
@@ -25,9 +25,10 @@ export interface ProPriceProps {
  * `/api/pricing/product-price` pour savoir si son rôle réel est "b2b" et
  * remplace l'affichage par le prix HT remisé le cas échéant. Le prix pro
  * n'existe donc jamais dans le HTML mis en cache — seulement après montage,
- * côté client (14).
+ * côté client (14). `slug` (jamais `sku`, préfixé `APF-...`) est le seul
+ * identifiant transmis (23, decisions.md).
  */
-export function ProPrice({ sku, publicAmountCents, size, className }: ProPriceProps) {
+export function ProPrice({ slug, publicAmountCents, size, className }: ProPriceProps) {
   const user = useAuthUser();
   const [proPrice, setProPrice] = useState<ProductPriceResponse>();
 
@@ -36,7 +37,7 @@ export function ProPrice({ sku, publicAmountCents, size, className }: ProPricePr
 
     let cancelled = false;
 
-    fetch(`/api/pricing/product-price?sku=${encodeURIComponent(sku)}`)
+    fetch(`/api/pricing/product-price?slug=${encodeURIComponent(slug)}`)
       .then((res) => (res.ok ? (res.json() as Promise<ProductPriceResponse>) : null))
       .then((data) => {
         if (!cancelled && data?.role === "b2b") setProPrice(data);
@@ -46,7 +47,7 @@ export function ProPrice({ sku, publicAmountCents, size, className }: ProPricePr
     return () => {
       cancelled = true;
     };
-  }, [sku, user]);
+  }, [slug, user]);
 
   if (proPrice) {
     return (

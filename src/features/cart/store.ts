@@ -8,33 +8,42 @@ interface CartState {
   lines: CartLine[];
   packs: Record<string, CartPackMeta>;
   /** Ajoute (ou incrémente) une ligne hors pack — ajout produit seul depuis une fiche (09). */
-  addCatalogLine: (sku: string, quantity?: number) => void;
+  addCatalogLine: (slug: string, quantity?: number) => void;
   /** Ajoute toutes les lignes d'un Pack Prêt à Poser (08), groupées sous un nouveau `packId`. */
-  addPackLines: (lines: Array<{ sku: string; quantity: number }>, calculatorParams: string) => string;
-  updateQuantity: (sku: string, packId: string | undefined, quantity: number) => void;
-  removeLine: (sku: string, packId: string | undefined) => void;
+  addPackLines: (lines: Array<{ slug: string; quantity: number }>, calculatorParams: string) => string;
+  updateQuantity: (slug: string, packId: string | undefined, quantity: number) => void;
+  removeLine: (slug: string, packId: string | undefined) => void;
   removePack: (packId: string) => void;
   clear: () => void;
 }
 
-function samePosition(line: CartLine, sku: string, packId: string | undefined): boolean {
-  return line.sku === sku && line.packId === packId;
+function samePosition(line: CartLine, slug: string, packId: string | undefined): boolean {
+  return line.slug === slug && line.packId === packId;
 }
 
+/**
+ * Version 1 du panier : `CartLine.sku` a été remplacé par `CartLine.slug`
+ * (23, fuite blind shipping) — un panier persisté avant ce changement
+ * contient des `sku` (APF-...) et planterait à la résolution serveur
+ * (`/api/cart/resolve` ne connaît plus que `slug`). `migrate()` vide un
+ * panier d'une version antérieure plutôt que de tenter une conversion :
+ * un panier perdu est un inconvénient mineur, un crash silencieux ne l'est
+ * pas.
+ */
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       lines: [],
       packs: {},
 
-      addCatalogLine: (sku, quantity = 1) => {
+      addCatalogLine: (slug, quantity = 1) => {
         set((state) => {
-          const existing = state.lines.find((line) => samePosition(line, sku, undefined));
+          const existing = state.lines.find((line) => samePosition(line, slug, undefined));
 
           if (existing) {
             return {
               lines: state.lines.map((line) =>
-                samePosition(line, sku, undefined)
+                samePosition(line, slug, undefined)
                   ? { ...line, quantity: line.quantity + quantity }
                   : line,
               ),
@@ -42,47 +51,47 @@ export const useCartStore = create<CartState>()(
           }
 
           return {
-            lines: [...state.lines, { sku, quantity, source: "catalog" as const }],
+            lines: [...state.lines, { slug, quantity, source: "catalog" as const }],
           };
         });
       },
 
       addPackLines: (lines, calculatorParams) => {
         const packId = crypto.randomUUID();
-        const originalSkus = Array.from(new Set(lines.map(({ sku }) => sku)));
+        const originalSlugs = Array.from(new Set(lines.map(({ slug }) => slug)));
 
         set((state) => ({
           lines: [
             ...state.lines,
-            ...lines.map(({ sku, quantity }) => ({
-              sku,
+            ...lines.map(({ slug, quantity }) => ({
+              slug,
               quantity,
               source: "pack" as const,
               packId,
             })),
           ],
-          packs: { ...state.packs, [packId]: { calculatorParams, originalSkus } },
+          packs: { ...state.packs, [packId]: { calculatorParams, originalSlugs } },
         }));
 
         return packId;
       },
 
-      updateQuantity: (sku, packId, quantity) => {
+      updateQuantity: (slug, packId, quantity) => {
         if (quantity <= 0) {
-          get().removeLine(sku, packId);
+          get().removeLine(slug, packId);
           return;
         }
 
         set((state) => ({
           lines: state.lines.map((line) =>
-            samePosition(line, sku, packId) ? { ...line, quantity } : line,
+            samePosition(line, slug, packId) ? { ...line, quantity } : line,
           ),
         }));
       },
 
-      removeLine: (sku, packId) => {
+      removeLine: (slug, packId) => {
         set((state) => ({
-          lines: state.lines.filter((line) => !samePosition(line, sku, packId)),
+          lines: state.lines.filter((line) => !samePosition(line, slug, packId)),
         }));
       },
 
@@ -99,6 +108,10 @@ export const useCartStore = create<CartState>()(
 
       clear: () => set({ lines: [], packs: {} }),
     }),
-    { name: "cart-storage" },
+    {
+      name: "cart-storage",
+      version: 1,
+      migrate: () => ({ lines: [], packs: {} }),
+    },
   ),
 );

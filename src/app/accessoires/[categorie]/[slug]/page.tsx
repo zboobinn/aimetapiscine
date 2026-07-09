@@ -12,6 +12,7 @@ import {
   getAccessoryCategorySlug,
 } from "@/lib/catalog/data";
 import { withLivePricingOne } from "@/lib/catalog/live-pricing";
+import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site-url";
@@ -110,7 +111,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
           </div>
 
           <ProPrice
-            sku={produit.sku}
+            slug={produit.slug}
             publicAmountCents={publicTtcCents}
             size="lg"
           />
@@ -124,7 +125,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
             <dd className="text-ink">{produit.unit}</dd>
           </dl>
 
-          <AddToCartButton product={produit} />
+          <AddToCartButton product={toCartProductSummary(produit, publicTtcCents)} />
         </div>
       </div>
     </div>

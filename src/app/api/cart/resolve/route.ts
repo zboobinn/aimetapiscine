@@ -4,6 +4,7 @@ import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { NO_STORE_HEADERS, apiSuccess } from "@/lib/api/response";
 import { parseJsonBody } from "@/lib/api/validate";
+import { buildResolvedCartLine, buildUnavailableCartLine, type ResolvedCartLine } from "@/lib/cart/resolved-line";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
@@ -15,9 +16,13 @@ export const dynamic = "force-dynamic";
 
 /**
  * Résolution serveur des prix du panier (09/23) : le client n'envoie que
- * SKU + quantités, jamais de montant. Le rôle et les prix viennent
+ * SLUG + quantités, jamais de montant. Le rôle et les prix viennent
  * exclusivement du catalogue lu ici, comme sur le reste du site (04) — la
  * bascule PRO_VERIFIED (14) ne change que `resolvePricingRole()`.
+ *
+ * `slug` (jamais `sku`, préfixé `APF-...`) est l'identifiant produit qui
+ * transite entre client et serveur (23, decisions.md) — le blind shipping
+ * (01) s'applique à toute réponse d'API au même titre qu'un texte visible.
  *
  * `postalCode` optionnel (12) : simple estimation d'affichage (port, surcoût
  * Corse) avant paiement — le montant réellement facturé est recalculé une
@@ -28,49 +33,23 @@ const bodySchema = z.object({
   lines: z
     .array(
       z.object({
-        sku: z.string().min(1),
+        slug: z.string().min(1),
         quantity: z.number().int().positive(),
         source: z.enum(["catalog", "pack"]).default("catalog"),
         packId: z.string().optional(),
       }),
     )
     .max(200),
-  // Manifeste des packs présents au panier (13) : SKUs d'origine par
+  // Manifeste des packs présents au panier (13) : slugs d'origine par
   // `packId`, capturés côté client à l'ajout — sert à détecter qu'un article
   // du pack a été retiré depuis (la remise pack disparaît alors). Donnée
   // structurelle du panier, jamais un montant (23) : le client dit CE QU'IL Y
   // A, le serveur décide du PRIX.
-  packs: z.record(z.string(), z.object({ originalSkus: z.array(z.string().min(1)) })).default({}),
+  packs: z.record(z.string(), z.object({ originalSlugs: z.array(z.string().min(1)) })).default({}),
   postalCode: z.string().trim().min(1).optional(),
 });
 
-export interface ResolvedCartLine {
-  sku: string;
-  slug: string;
-  name: string;
-  image: string;
-  unit: string;
-  category: string;
-  quantity: number;
-  /** HT unitaire (prix catalogue résolu pour CE rôle, 14) — affiché tel quel à un pro (« PU HT »). */
-  unitHtCents: number;
-  vatRateBps: number;
-  /** HT total de la ligne, remise pack (13) déjà déduite. */
-  lineHtCents: number;
-  /** TVA totale de la ligne. */
-  lineVatCents: number;
-  /**
-   * Montant RÉELLEMENT dû pour cette ligne (HT remisé + TVA) — calculé par
-   * la MÊME fonction que `/api/checkout` (`computeLineCharge`, 10/13/14) :
-   * ce que le panier affiche est, au centime près, ce qui sera débité.
-   */
-  lineTtcCents: number;
-  /** TTC ligne avant remise — présent uniquement si `discountBps > 0` (prix barré, 05). */
-  compareAtLineTtcCents?: number;
-  discountBps: number;
-  /** `false` si le SKU est introuvable ou hors stock : la ligne doit être signalée et purgeable côté UI (09). */
-  available: boolean;
-}
+export type { ResolvedCartLine };
 
 export interface ShippingEstimate {
   amountCents: number;
@@ -102,26 +81,11 @@ export async function POST(request: Request) {
   );
 
   const lines: ResolvedCartLine[] = await Promise.all(
-    data.lines.map(async ({ sku, quantity }, index) => {
-      const product = products.find((p) => p.sku === sku);
+    data.lines.map(async ({ slug, quantity }, index) => {
+      const product = products.find((p) => p.slug === slug);
 
       if (!product) {
-        return {
-          sku,
-          slug: sku,
-          name: "Produit indisponible",
-          image: "",
-          unit: "unite",
-          category: "AUTRE",
-          quantity,
-          unitHtCents: 0,
-          vatRateBps: 0,
-          lineHtCents: 0,
-          lineVatCents: 0,
-          lineTtcCents: 0,
-          discountBps: 0,
-          available: false,
-        };
+        return buildUnavailableCartLine(slug, quantity);
       }
 
       const discountBps = discountBpsByLine[index];
@@ -133,23 +97,7 @@ export async function POST(request: Request) {
           ? (await computeLineCharge(product, role, quantity, 0)).lineTtcCents
           : undefined;
 
-      return {
-        sku: product.sku,
-        slug: product.slug,
-        name: product.name,
-        image: product.image,
-        unit: product.unit,
-        category: product.category,
-        quantity,
-        unitHtCents: charge.unitHtCents,
-        vatRateBps: product.vat_rate,
-        lineHtCents: charge.lineHtCents,
-        lineVatCents: charge.lineVatCents,
-        lineTtcCents: charge.lineTtcCents,
-        compareAtLineTtcCents,
-        discountBps,
-        available: product.in_stock,
-      };
+      return buildResolvedCartLine(product, quantity, discountBps, charge, compareAtLineTtcCents);
     }),
   );
 

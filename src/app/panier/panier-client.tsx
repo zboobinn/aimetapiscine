@@ -89,7 +89,9 @@ function LineRow({
       </div>
 
       <div className="flex flex-1 flex-col gap-1">
-        <span className="font-medium text-ink">{resolved?.name ?? line.sku}</span>
+        <span className="font-medium text-ink">
+          {resolved ? resolved.name : "Article en cours de chargement…"}
+        </span>
         {resolved && !resolved.available ? (
           <Badge variant="out-of-stock" className="w-fit">
             Indisponible — retirez cette ligne
@@ -145,9 +147,9 @@ export function PanierClient() {
   const requestBody = useMemo(
     () =>
       JSON.stringify({
-        lines: lines.map(({ sku, quantity, source, packId }) => ({ sku, quantity, source, packId })),
+        lines: lines.map(({ slug, quantity, source, packId }) => ({ slug, quantity, source, packId })),
         packs: Object.fromEntries(
-          Object.entries(packs).map(([packId, meta]) => [packId, { originalSkus: meta.originalSkus }]),
+          Object.entries(packs).map(([packId, meta]) => [packId, { originalSlugs: meta.originalSlugs }]),
         ),
         postalCode: trimmedPostalCode || undefined,
       }),
@@ -298,13 +300,13 @@ export function PanierClient() {
               <ul className="flex flex-col divide-y divide-border">
                 {group.lines.map((display) => (
                   <LineRow
-                    key={`${display.line.sku}-${group.packId}`}
+                    key={`${display.line.slug}-${group.packId}`}
                     display={display}
                     role={role}
                     onQuantityChange={(quantity) =>
-                      updateQuantity(display.line.sku, group.packId, quantity)
+                      updateQuantity(display.line.slug, group.packId, quantity)
                     }
-                    onRemove={() => removeLine(display.line.sku, group.packId)}
+                    onRemove={() => removeLine(display.line.slug, group.packId)}
                   />
                 ))}
               </ul>
@@ -317,13 +319,13 @@ export function PanierClient() {
               <ul className="flex flex-col divide-y divide-border">
                 {standaloneLines.map((display) => (
                   <LineRow
-                    key={display.line.sku}
+                    key={display.line.slug}
                     display={display}
                     role={role}
                     onQuantityChange={(quantity) =>
-                      updateQuantity(display.line.sku, undefined, quantity)
+                      updateQuantity(display.line.slug, undefined, quantity)
                     }
-                    onRemove={() => removeLine(display.line.sku, undefined)}
+                    onRemove={() => removeLine(display.line.slug, undefined)}
                   />
                 ))}
               </ul>

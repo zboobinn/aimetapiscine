@@ -176,7 +176,7 @@ export function CalculatorWizard({
     }).toString();
 
     addPackLines(
-      draft.map(({ sku, quantity }) => ({ sku, quantity })),
+      draft.map(({ slug, quantity }) => ({ slug, quantity })),
       calculatorParams,
     );
     setAddedToCart(true);
@@ -441,7 +441,7 @@ function StepResult({
         ) : null}
 
         {result.accessories.map((line) => (
-          <li key={line.sku} className="flex flex-col gap-1 p-4">
+          <li key={line.slug} className="flex flex-col gap-1 p-4">
             <div className="flex items-center justify-between gap-4">
               <span className="font-medium text-ink">{line.name}</span>
               <span className="whitespace-nowrap font-medium text-ink">

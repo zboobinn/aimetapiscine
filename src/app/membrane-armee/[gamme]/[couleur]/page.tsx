@@ -15,6 +15,7 @@ import {
   getMembranes,
 } from "@/lib/catalog/data";
 import { withLivePricing, withLivePricingOne } from "@/lib/catalog/live-pricing";
+import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site-url";
@@ -114,7 +115,7 @@ export default async function MembraneFichePage({ params }: PageProps) {
           </div>
 
           <ProPrice
-            sku={produit.sku}
+            slug={produit.slug}
             publicAmountCents={publicTtcCents}
             size="lg"
           />
@@ -130,7 +131,15 @@ export default async function MembraneFichePage({ params }: PageProps) {
             <dd className="text-ink">{produit.unit}</dd>
           </dl>
 
-          <AddToCartButton product={produit} compatibleAccessories={compatibleAccessories} />
+          <AddToCartButton
+            product={toCartProductSummary(produit, publicTtcCents)}
+            compatibleAccessories={compatibleAccessories.map((accessory) =>
+              toCartProductSummary(
+                accessory,
+                computePublicTtcCents(accessory.base_price_ht, accessory.vat_rate),
+              ),
+            )}
+          />
 
           <Link href="/calculateur">
             <Button variant="secondary" size="lg" className="w-full sm:w-auto">

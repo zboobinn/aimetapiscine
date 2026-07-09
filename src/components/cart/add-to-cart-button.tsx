@@ -5,14 +5,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Price } from "@/components/ui/price";
 import { useCartStore } from "@/features/cart";
-import type { CatalogEntry } from "@/lib/catalog/schema";
-import { computePublicTtcCents } from "@/lib/pricing/vat";
+import type { CartProductSummary } from "@/lib/cart/product-summary";
 import { cn } from "@/lib/utils/cn";
 
+export type { CartProductSummary };
+
 export interface AddToCartButtonProps {
-  product: CatalogEntry;
+  product: CartProductSummary;
   /** Accessoires compatibles (09) — uniquement fourni depuis les fiches membrane ; simple suggestion, jamais un ajout forcé. */
-  compatibleAccessories?: CatalogEntry[];
+  compatibleAccessories?: CartProductSummary[];
   size?: "md" | "lg";
   className?: string;
 }
@@ -25,16 +26,16 @@ export function AddToCartButton({
 }: AddToCartButtonProps) {
   const addCatalogLine = useCartStore((state) => state.addCatalogLine);
   const [added, setAdded] = useState(false);
-  const [addedAccessorySkus, setAddedAccessorySkus] = useState<string[]>([]);
+  const [addedAccessorySlugs, setAddedAccessorySlugs] = useState<string[]>([]);
 
   function handleAdd() {
-    addCatalogLine(product.sku);
+    addCatalogLine(product.slug);
     setAdded(true);
   }
 
-  function handleAddAccessory(sku: string) {
-    addCatalogLine(sku);
-    setAddedAccessorySkus((prev) => [...prev, sku]);
+  function handleAddAccessory(slug: string) {
+    addCatalogLine(slug);
+    setAddedAccessorySlugs((prev) => [...prev, slug]);
   }
 
   const showCrossSell = added && compatibleAccessories.length > 0;
@@ -47,9 +48,9 @@ export function AddToCartButton({
           size={size}
           className="w-full sm:w-auto"
           onClick={handleAdd}
-          disabled={!product.in_stock}
+          disabled={!product.inStock}
         >
-          {added ? "Ajouté ✓" : product.in_stock ? "Ajouter au panier" : "Indisponible"}
+          {added ? "Ajouté ✓" : product.inStock ? "Ajouter au panier" : "Indisponible"}
         </Button>
         {added ? (
           <Link
@@ -68,21 +69,17 @@ export function AddToCartButton({
           </p>
           <ul className="flex flex-col divide-y divide-border">
             {compatibleAccessories.map((accessory) => {
-              const isAdded = addedAccessorySkus.includes(accessory.sku);
+              const isAdded = addedAccessorySlugs.includes(accessory.slug);
               return (
-                <li key={accessory.sku} className="flex items-center justify-between gap-4 py-3">
+                <li key={accessory.slug} className="flex items-center justify-between gap-4 py-3">
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-ink">{accessory.name}</span>
-                    <Price
-                      amountCents={computePublicTtcCents(accessory.base_price_ht, accessory.vat_rate)}
-                      role="b2c"
-                      size="sm"
-                    />
+                    <Price amountCents={accessory.publicTtcCents} role="b2c" size="sm" />
                   </div>
                   <Button
                     variant="secondary"
                     size="sm"
-                    onClick={() => handleAddAccessory(accessory.sku)}
+                    onClick={() => handleAddAccessory(accessory.slug)}
                     disabled={isAdded}
                   >
                     {isAdded ? "Ajouté ✓" : "Ajouter"}

@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import { createClient } from "@supabase/supabase-js";
 
+import { toProductRow } from "@/lib/catalog/product-row";
 import { catalogFileSchema, type CatalogEntry } from "@/lib/catalog/schema";
 import { getSupabaseServiceEnv } from "@/lib/env";
 
@@ -50,25 +51,6 @@ function loadCatalog(): CatalogEntry[] {
   return parsed.data.products;
 }
 
-function toRow(product: CatalogEntry) {
-  return {
-    sku: product.sku,
-    slug: product.slug,
-    name: product.name,
-    category: product.category,
-    description: product.description ?? null,
-    image_url: product.image,
-    base_price_ht: product.base_price_ht,
-    pro_price_ht: product.pro_price_ht,
-    vat_rate: product.vat_rate,
-    weight_grams: product.weight_grams,
-    roll_area_m2: product.roll_area_m2,
-    coverage: product.coverage,
-    in_stock: product.in_stock,
-    is_active: true,
-  };
-}
-
 async function main() {
   const products = loadCatalog();
   const supabase = createServiceRoleClient();
@@ -90,7 +72,9 @@ async function main() {
   const updated: string[] = [];
 
   for (const product of products) {
-    const { error } = await supabase.from("products").upsert(toRow(product), { onConflict: "sku" });
+    const { error } = await supabase
+      .from("products")
+      .upsert(toProductRow(product), { onConflict: "sku" });
 
     if (error) {
       console.error(`Échec de l'upsert pour ${product.sku} :`, error.message);

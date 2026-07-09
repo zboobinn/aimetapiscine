@@ -13,7 +13,7 @@
  */
 
 export interface DiscountableCartLine {
-  sku: string;
+  slug: string;
   quantity: number;
   source: "catalog" | "pack";
   packId?: string;
@@ -21,12 +21,12 @@ export interface DiscountableCartLine {
 
 export interface PackManifest {
   /**
-   * SKUs uniques composant le pack au moment de son ajout au panier (08).
+   * Slugs uniques composant le pack au moment de son ajout au panier (08).
    * Sert à détecter qu'un article a été retiré depuis : la remise pack
-   * disparaît alors (13). Au moins 2 SKUs attendus (membrane + accessoires) —
+   * disparaît alors (13). Au moins 2 slugs attendus (membrane + accessoires) —
    * un manifeste plus court n'est jamais considéré comme un pack valide.
    */
-  originalSkus: string[];
+  originalSlugs: string[];
 }
 
 function isPackComplete(
@@ -34,13 +34,13 @@ function isPackComplete(
   manifest: PackManifest | undefined,
   lines: DiscountableCartLine[],
 ): boolean {
-  if (!manifest || manifest.originalSkus.length < 2) return false;
+  if (!manifest || manifest.originalSlugs.length < 2) return false;
 
-  const currentSkus = new Set(
-    lines.filter((line) => line.source === "pack" && line.packId === packId).map((line) => line.sku),
+  const currentSlugs = new Set(
+    lines.filter((line) => line.source === "pack" && line.packId === packId).map((line) => line.slug),
   );
 
-  return manifest.originalSkus.every((sku) => currentSkus.has(sku));
+  return manifest.originalSlugs.every((slug) => currentSlugs.has(slug));
 }
 
 /**

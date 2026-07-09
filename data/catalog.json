@@ -16,7 +16,7 @@
       "roll_area_m2": 41.25,
       "unit": "rouleau",
       "coverage": null,
-      "image": "/products/APF-MEMB-UNI-BLEU.jpg",
+      "image": "/products/membrane-armee-uni-bleu.jpg",
       "in_stock": true
     },
     {
@@ -34,7 +34,7 @@
       "roll_area_m2": 41.25,
       "unit": "rouleau",
       "coverage": null,
-      "image": "/products/APF-MEMB-UNI-GRIS.jpg",
+      "image": "/products/membrane-armee-uni-gris-anthracite.jpg",
       "in_stock": true
     },
     {
@@ -52,7 +52,7 @@
       "roll_area_m2": 41.25,
       "unit": "rouleau",
       "coverage": null,
-      "image": "/products/APF-MEMB-3D-NUAGE.jpg",
+      "image": "/products/membrane-armee-3d-nuage.jpg",
       "in_stock": true
     },
     {
@@ -68,7 +68,7 @@
       "roll_area_m2": null,
       "unit": "rouleau",
       "coverage": { "m2_per_unit": 50 },
-      "image": "/products/APF-FEUTRE-500G.jpg",
+      "image": "/products/feutre-geotextile-500g.jpg",
       "in_stock": true
     },
     {
@@ -84,7 +84,7 @@
       "roll_area_m2": null,
       "unit": "bidon",
       "coverage": { "m2_per_unit": 16.6 },
-      "image": "/products/APF-COLLE-PVC-5KG.jpg",
+      "image": "/products/colle-pvc-5kg.jpg",
       "in_stock": true
     },
     {
@@ -100,7 +100,7 @@
       "roll_area_m2": null,
       "unit": "bidon",
       "coverage": { "ml_per_unit": 100 },
-      "image": "/products/APF-PVC-LIQUIDE-1L.jpg",
+      "image": "/products/pvc-liquide-1l.jpg",
       "in_stock": true
     },
     {
@@ -116,7 +116,7 @@
       "roll_area_m2": null,
       "unit": "barre",
       "coverage": { "ml_per_barre": 2 },
-      "image": "/products/APF-PROFIL-HUNG-2M.jpg",
+      "image": "/products/profil-hung-2m.jpg",
       "in_stock": true
     },
     {
@@ -132,7 +132,7 @@
       "roll_area_m2": null,
       "unit": "bidon",
       "coverage": { "ml_per_unit": 500 },
-      "image": "/products/APF-SOLVANT-500ML.jpg",
+      "image": "/products/solvant-nettoyant-500ml.jpg",
       "in_stock": true
     }
   ]
