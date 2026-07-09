@@ -5,6 +5,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // "server-only" lève inconditionnellement hors du pipeline webpack
+      // Next.js (24) — neutralisé pour les tests des modules server-only
+      // purs (pricing, port, PDF) ; jamais utilisé en dehors de vitest.
+      "server-only": path.resolve(__dirname, "./src/test/server-only-stub.ts"),
     },
   },
   test: {

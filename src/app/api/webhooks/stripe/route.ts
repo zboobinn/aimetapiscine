@@ -284,7 +284,8 @@ async function flagProcessingError(
  * (retraitement automatique Stripe + rejeu manuel `stripe events resend`
  * possibles, sans jamais dupliquer la commande).
  */
-async function generateAndAttachDocuments(
+// exporté pour les tests (24), portée élargie sans changement de comportement
+export async function generateAndAttachDocuments(
   supabase: SupabaseClient,
   order: OrderRecord,
   sessionId: string,
@@ -380,7 +381,8 @@ async function generateAndAttachDocuments(
  * webhook Stripe ni bloquer l'autre envoi. `orders.status` ne passe à
  * SENT_TO_SUPPLIER QUE si l'email fournisseur part effectivement.
  */
-async function sendOrderNotifications(
+// exporté pour les tests (24), portée élargie sans changement de comportement
+export async function sendOrderNotifications(
   supabase: SupabaseClient,
   order: OrderRecord,
   sessionId: string,
