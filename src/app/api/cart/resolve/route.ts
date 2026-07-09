@@ -1,14 +1,17 @@
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getAllProducts } from "@/lib/catalog/data";
 import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { getBusinessConfigEnv } from "@/lib/env";
+import { NO_STORE_HEADERS, apiSuccess } from "@/lib/api/response";
+import { parseJsonBody } from "@/lib/api/validate";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
 import { resolvePricingRole } from "@/lib/pricing/resolve-role";
 import type { PricingRole } from "@/lib/pricing/types";
 import { SHIPPING_DELAY_LABEL, getShippingFee } from "@/lib/shipping/get-shipping-fee";
 import { isExcludedOverseasPostalCode } from "@/lib/shipping/postal-code";
+
+export const dynamic = "force-dynamic";
 
 /**
  * Résolution serveur des prix du panier (09/23) : le client n'envoie que
@@ -84,25 +87,22 @@ export interface ResolveCartResponse {
 }
 
 export async function POST(request: Request) {
-  const json = await request.json().catch(() => null);
-  const parsed = bodySchema.safeParse(json);
-
-  if (!parsed.success) {
-    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
-  }
+  const parsed = await parseJsonBody(request, bodySchema);
+  if ("response" in parsed) return parsed.response;
+  const { data } = parsed;
 
   const role = await resolvePricingRole();
   const products = await withLivePricing(getAllProducts());
 
   const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
   const discountBpsByLine = computeLineDiscountsBps(
-    parsed.data.lines,
-    parsed.data.packs,
+    data.lines,
+    data.packs,
     discountBpsRate,
   );
 
   const lines: ResolvedCartLine[] = await Promise.all(
-    parsed.data.lines.map(async ({ sku, quantity }, index) => {
+    data.lines.map(async ({ sku, quantity }, index) => {
       const product = products.find((p) => p.sku === sku);
 
       if (!product) {
@@ -153,12 +153,12 @@ export async function POST(request: Request) {
     }),
   );
 
-  const { postalCode } = parsed.data;
+  const { postalCode } = data;
   const zoneExcluded = Boolean(postalCode && isExcludedOverseasPostalCode(postalCode));
   const { amountCents, corsicaSurchargeApplied } = zoneExcluded
     ? { amountCents: 0, corsicaSurchargeApplied: false }
     : getShippingFee(
-        parsed.data.lines,
+        data.lines,
         role,
         postalCode ? { postalCode } : undefined,
       );
@@ -168,5 +168,5 @@ export async function POST(request: Request) {
     lines,
     shipping: { amountCents, corsicaSurchargeApplied, delayLabel: SHIPPING_DELAY_LABEL, zoneExcluded },
   };
-  return NextResponse.json(response);
+  return apiSuccess(response, { headers: NO_STORE_HEADERS });
 }

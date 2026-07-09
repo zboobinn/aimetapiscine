@@ -15,6 +15,17 @@ Vente en ligne de membranes armées piscine et accessoires de pose, en dropshipp
 - Zéro `any` ; validation Zod à chaque frontière (formulaires, Route Handlers, env)
 - Prix TOUJOURS en centimes (integer) ; calculs de montants côté serveur uniquement
 
+## Conventions API (15)
+- Erreurs : forme unique `{ error: { code, message } }` — `code` machine en SCREAMING_SNAKE (voir `src/lib/api/errors.ts`), `message` en français, affichable tel quel, jamais de détail brut Stripe/Supabase/pdfkit/INSEE. Succès : payload direct, jamais d'enveloppe `{ data }`. Helpers dans `src/lib/api/` (`apiError`, `apiSuccess`, `parseJsonBody`, `parseSearchParams`).
+- Codes HTTP par situation, jamais improvisés : 400 (validation), 401 (non authentifié), 403 (rôle insuffisant), 404, 409 (conflit), 500 (générique). Pas de 422 ni d'autres codes ad hoc.
+- Validation Zod `safeParse` systématique en entrée de chaque Route Handler (body ET query params ET params de route type UUID), jamais de cast/`as`. Une entrée invalide ne doit jamais atteindre la logique métier.
+- Blind shipping (01) : aucune réponse d'API, message d'erreur inclus, ne doit exposer un SKU (préfixé `APF-...`) ni le nom du fournisseur.
+- Cache : `export const dynamic = 'force-dynamic'` + `Cache-Control: no-store` sur toute route lue en temps réel (panier, checkout, prix, documents, webhook).
+- Runtime : `export const runtime = 'nodejs'` explicite sur toute route utilisant pdfkit, le SDK Stripe ou `service_role`.
+- Server Action vs Route Handler : formulaire même origine → Server Action (`src/app/**/actions.ts`, ex. auth, compte/pro). Appel programmatique/fetch client/webhook tiers → Route Handler (`src/app/api/**`).
+- Rôle tarifaire : jamais lu depuis le client, toujours via `resolvePricingRole()` (lit `profiles.role` en DB).
+- Webhook Stripe (`/api/webhooks/stripe`) : EXEMPTÉ de la convention d'erreur ci-dessus — Stripe attend des statuts HTTP bruts.
+
 ## Spécifications détaillées
 Ne PAS tout relire : lis UNIQUEMENT le fichier docs/ concerné par la tâche en cours.
 - 01-overview.md — contexte métier, blind shipping, périmètre V1

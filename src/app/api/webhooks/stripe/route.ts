@@ -11,10 +11,12 @@ import { createServiceRoleClient } from "@/lib/supabase/service-role";
 import { DELIVERY_NOTES_BUCKET, INVOICES_BUCKET, uploadOrderDocument } from "@/lib/supabase/storage";
 
 /**
- * Webhook Stripe (10) : point pivot de l'encaissement, doit rester fiable
- * même en cas de retraitement. Body brut lu AVANT tout parsing (signature
- * vérifiée dessus, 23), idempotence par `stripe_session_id` (03), réponse
- * 200 rapide — toute erreur interne est renvoyée en 500 pour laisser
+ * Webhook Stripe (10) : EXEMPTÉ de la convention d'erreur `{error:{code,message}}`
+ * (15, point 10) — Stripe attend des statuts HTTP bruts pour décider de retenter
+ * ou non, pas notre enveloppe applicative. Point pivot de l'encaissement, doit
+ * rester fiable même en cas de retraitement. Body brut lu AVANT tout parsing
+ * (signature vérifiée dessus, 23), idempotence par `stripe_session_id` (03),
+ * réponse 200 rapide — toute erreur interne est renvoyée en 500 pour laisser
  * Stripe retenter (jamais avalée, 10/23).
  *
  * Enregistrement de la commande et génération des documents (BL/facture,

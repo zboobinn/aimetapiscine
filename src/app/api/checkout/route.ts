@@ -1,8 +1,10 @@
 import { createHash } from "node:crypto";
 
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { ApiErrorCode } from "@/lib/api/errors";
+import { NO_STORE_HEADERS, apiError, apiSuccess } from "@/lib/api/response";
+import { parseJsonBody } from "@/lib/api/validate";
 import { getAllProducts } from "@/lib/catalog/data";
 import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
@@ -21,6 +23,7 @@ import { createClient } from "@/lib/supabase/server";
  */
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const bodySchema = z.object({
   lines: z
@@ -54,21 +57,14 @@ function cartFingerprint(lines: Array<{ sku: string; quantity: number }>): strin
 }
 
 export async function POST(request: Request) {
-  const json = await request.json().catch(() => null);
-  const parsed = bodySchema.safeParse(json);
+  const parsed = await parseJsonBody(request, bodySchema);
+  if ("response" in parsed) return parsed.response;
+  const { data } = parsed;
 
-  if (!parsed.success) {
-    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
-  }
-
-  if (parsed.data.postalCode && isExcludedOverseasPostalCode(parsed.data.postalCode)) {
-    return NextResponse.json(
-      {
-        error: "shipping_zone_excluded",
-        message:
-          "Nous ne livrons pas les DOM-TOM en V1 : seule la France métropolitaine (Corse incluse) est couverte.",
-      },
-      { status: 422 },
+  if (data.postalCode && isExcludedOverseasPostalCode(data.postalCode)) {
+    return apiError(
+      ApiErrorCode.SHIPPING_ZONE_EXCLUDED,
+      "Nous ne livrons pas les DOM-TOM en V1 : seule la France métropolitaine (Corse incluse) est couverte.",
     );
   }
 
@@ -92,12 +88,12 @@ export async function POST(request: Request) {
 
   const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
   const discountBpsByLine = computeLineDiscountsBps(
-    parsed.data.lines,
-    parsed.data.packs,
+    data.lines,
+    data.packs,
     discountBpsRate,
   );
 
-  for (const [index, { sku, quantity }] of parsed.data.lines.entries()) {
+  for (const [index, { sku, quantity }] of data.lines.entries()) {
     const product = products.find((p) => p.sku === sku);
 
     if (!product || !product.in_stock) {
@@ -135,17 +131,22 @@ export async function POST(request: Request) {
   }
 
   if (unavailableSkus.length > 0) {
-    return NextResponse.json({ error: "unavailable_items", skus: unavailableSkus }, { status: 409 });
+    // Le SKU (préfixé APF-..., 04) ne doit jamais apparaître dans une réponse
+    // client (règle blind shipping, 01/23) : message générique, pas de liste.
+    return apiError(
+      ApiErrorCode.ITEMS_UNAVAILABLE,
+      "Un ou plusieurs articles du panier ne sont plus disponibles. Actualisez votre panier avant de réessayer.",
+    );
   }
 
-  const shippingAddress = parsed.data.postalCode ? { postalCode: parsed.data.postalCode } : undefined;
+  const shippingAddress = data.postalCode ? { postalCode: data.postalCode } : undefined;
   const { amountCents: shippingFeeCents, corsicaSurchargeApplied } = getShippingFee(
-    parsed.data.lines,
+    data.lines,
     role,
     shippingAddress,
   );
   const siteUrl = getSiteEnv().NEXT_PUBLIC_SITE_URL;
-  const fingerprint = cartFingerprint(parsed.data.lines);
+  const fingerprint = cartFingerprint(data.lines);
 
   const stripe = getStripeClient();
 
@@ -182,8 +183,8 @@ export async function POST(request: Request) {
   });
 
   if (!session.url) {
-    return NextResponse.json({ error: "session_creation_failed" }, { status: 502 });
+    return apiError(ApiErrorCode.INTERNAL_ERROR, "Impossible de créer la session de paiement.");
   }
 
-  return NextResponse.json({ url: session.url });
+  return apiSuccess({ url: session.url }, { headers: NO_STORE_HEADERS });
 }

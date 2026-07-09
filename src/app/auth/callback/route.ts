@@ -14,6 +14,9 @@ import { createClient } from "@/lib/supabase/server";
  * session via `exchangeCodeForSession`, qui pose les cookies de session —
  * cette route sert donc À LA FOIS la confirmation d'inscription ET la
  * réinitialisation de mot de passe, `next` seul distingue la destination.
+ *
+ * Hors périmètre de la convention d'erreur JSON (15) : cette route ne répond
+ * jamais en JSON, uniquement par redirection navigateur.
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
