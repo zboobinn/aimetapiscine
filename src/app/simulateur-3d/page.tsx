@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Simulateur 3D | Membranes Armées",
   description: "Visualisez votre membrane armée en 3D avant de commander.",
+  // Stub sans contenu réel (spec 16 reportée sine die, decisions.md) — à
+  // retirer dès que l'intégration APF marque blanche existe.
+  robots: { index: false, follow: false },
 };
 
 export default function Simulateur3DPage() {

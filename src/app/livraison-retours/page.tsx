@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Livraison & retours | Membranes Armées",
   description: "Informations de livraison et de retour de Membranes Armées.",
+  alternates: { canonical: "/livraison-retours" },
 };
 
 export default function LivraisonRetoursPage() {

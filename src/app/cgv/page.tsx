@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Conditions générales de vente | Membranes Armées",
   description: "CGV de Membranes Armées.",
+  alternates: { canonical: "/cgv" },
 };
 
 export default function CGVPage() {

@@ -11,6 +11,8 @@ import {
 } from "@/lib/catalog/data";
 import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { buildBreadcrumbJsonLd } from "@/lib/seo/structured-data";
 
 export const revalidate = 3600;
 
@@ -30,6 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${label} | Accessoires | Membranes Armées`,
     description: `${label} pour la pose de membrane armée piscine.`,
+    alternates: { canonical: `/accessoires/${categorie}` },
   };
 }
 
@@ -45,6 +48,13 @@ export default async function AccessoireCategoriePage({ params }: PageProps) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", url: "/" },
+          { name: "Accessoires", url: "/accessoires" },
+          { name: label, url: `/accessoires/${categorie}` },
+        ])}
+      />
       <div className="pb-6">
         <Breadcrumbs
           items={[

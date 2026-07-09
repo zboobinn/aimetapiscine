@@ -5,6 +5,7 @@ import { guides } from "./guides-data";
 export const metadata: Metadata = {
   title: "Guides | Membranes Armées",
   description: "Conseils et guides pratiques pour choisir et poser votre membrane armée.",
+  alternates: { canonical: "/guides" },
 };
 
 export default function GuidesPage() {

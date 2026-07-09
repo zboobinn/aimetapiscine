@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { buildOrganizationJsonLd, buildWebsiteJsonLd } from "@/lib/seo/structured-data";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
     <div className="flex flex-col">
+      <JsonLd data={buildOrganizationJsonLd()} />
+      <JsonLd data={buildWebsiteJsonLd()} />
       <section className="border-b border-border bg-surface">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-16 sm:px-6 sm:py-24">
           <p className="font-medium text-accent">Spécialiste de la membrane armée</p>

@@ -7,6 +7,8 @@ import { ProPrice } from "@/components/pricing/pro-price";
 import { couleurToSlug, getGammes, getMembranesByGamme } from "@/lib/catalog/data";
 import { withLivePricing } from "@/lib/catalog/live-pricing";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { buildBreadcrumbJsonLd } from "@/lib/seo/structured-data";
 import { capitalize } from "@/lib/utils/text";
 
 export const revalidate = 3600;
@@ -24,6 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `Membrane armée — Gamme ${capitalize(gamme)} | Membranes Armées`,
     description: `Coloris disponibles dans la gamme ${gamme} de membranes armées, rouleaux 41,25 m².`,
+    alternates: { canonical: `/membrane-armee/${gamme}` },
   };
 }
 
@@ -37,6 +40,13 @@ export default async function GammePage({ params }: PageProps) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", url: "/" },
+          { name: "Membrane armée", url: "/membrane-armee" },
+          { name: capitalize(gamme), url: `/membrane-armee/${gamme}` },
+        ])}
+      />
       <div className="pb-6">
         <Breadcrumbs
           items={[

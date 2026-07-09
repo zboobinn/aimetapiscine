@@ -13,6 +13,9 @@ import {
 } from "@/lib/catalog/data";
 import { withLivePricingOne } from "@/lib/catalog/live-pricing";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/site-url";
+import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/seo/structured-data";
 
 export const revalidate = 3600;
 
@@ -38,6 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${produit.name} | Membranes Armées`,
     description: produit.description,
+    alternates: { canonical: `/accessoires/${categorie}/${slug}` },
   };
 }
 
@@ -51,9 +55,27 @@ export default async function AccessoireFichePage({ params }: PageProps) {
 
   const produit = await withLivePricingOne(produitCatalogue);
   const label = getAccessoryCategoryLabel(produit.category);
+  const canonicalUrl = absoluteUrl(`/accessoires/${categorie}/${slug}`);
+  const publicTtcCents = computePublicTtcCents(produit.base_price_ht, produit.vat_rate);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
+      <JsonLd
+        data={buildProductJsonLd({
+          produit,
+          canonicalUrl,
+          publicTtcCents,
+          revalidateSeconds: revalidate,
+        })}
+      />
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", url: "/" },
+          { name: "Accessoires", url: "/accessoires" },
+          { name: label, url: `/accessoires/${categorie}` },
+          { name: produit.name, url: `/accessoires/${categorie}/${slug}` },
+        ])}
+      />
       <div className="pb-6">
         <Breadcrumbs
           items={[
@@ -89,7 +111,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
 
           <ProPrice
             sku={produit.sku}
-            publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
+            publicAmountCents={publicTtcCents}
             size="lg"
           />
 

@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Calculateur de pack | Membranes Armées",
   description:
     "Renseignez les dimensions de votre bassin et obtenez un pack prêt à poser : membrane et accessoires calculés automatiquement.",
+  // Canonical figé sur l'URL nue : l'état du calculateur vit dans les
+  // searchParams (decisions.md, 2026-07-07) — sans ce canonical, chaque
+  // combinaison de dimensions serait une URL indexable au contenu quasi
+  // identique (duplicate content).
+  alternates: { canonical: "/calculateur" },
 };
 
 interface PageProps {

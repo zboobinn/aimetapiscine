@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "Accessoires de pose | Membranes Armées",
   description:
     "Feutre de protection, colles, PVC liquide, profilés et solvants pour la pose de membrane armée.",
+  alternates: { canonical: "/accessoires" },
 };
 
 export default async function AccessoiresHubPage() {

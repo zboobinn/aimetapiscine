@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Membrane armée | Membranes Armées",
   description:
     "Membranes armées piscine par gamme : unies, imprimées. Rouleaux 41,25 m², pose par des professionnels qualifiés.",
+  alternates: { canonical: "/membrane-armee" },
 };
 
 export default async function MembraneArmeeHubPage() {

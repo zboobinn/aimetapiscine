@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Price } from "@/components/ui/price";
 import { Stepper } from "@/components/ui/stepper";
+
+// Page de démo interne (decisions.md, 2026-07-07) — à retirer avant prod.
+export const metadata: Metadata = {
+  title: "Design system | Membranes Armées",
+  robots: { index: false, follow: false },
+};
 
 function Section({
   title,

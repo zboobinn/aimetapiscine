@@ -9,6 +9,17 @@ import { z } from "zod";
 
 export const siteSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url(),
+  // Défaut false = robots.txt bloque tout (18) : évite d'indexer une URL de
+  // preview/staging tant que le domaine de production n'est pas confirmé.
+  // Détection EXPLICITE, jamais une heuristique sur NEXT_PUBLIC_SITE_URL.
+  // `z.coerce.boolean()` est écarté ici : `Boolean("false")` vaut `true`, ce
+  // qui inverserait silencieusement une variable mal saisie ("false" au lieu
+  // d'être absente) — un risque inacceptable pour un flag qui protège contre
+  // l'indexation involontaire.
+  SEO_ALLOW_INDEXING: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
 });
 
 export const analyticsSchema = z.object({

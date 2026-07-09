@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { getSiteEnv } from "@/lib/env";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -18,6 +19,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteEnv().NEXT_PUBLIC_SITE_URL),
   title: "Membranes Armées — Vente directe fabricant",
   description:
     "Membranes armées piscine et accessoires de pose, livrés en France métropolitaine.",

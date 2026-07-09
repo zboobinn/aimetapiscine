@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${guide.title} | Guides | Membranes Armées`,
     description: guide.excerpt,
+    alternates: { canonical: `/guides/${slug}` },
   };
 }
 
