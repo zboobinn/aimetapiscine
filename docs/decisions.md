@@ -261,3 +261,137 @@ Mémoire des choix structurants du projet. À tenir à jour à CHAQUE décision 
 - **Impact** : 24 ; `vitest.config.ts`, `src/test/server-only-stub.ts`, `src/lib/pricing/vat.test.ts`, `src/lib/pricing/resolve-price.test.ts`, `src/lib/siret/validate.test.ts`, `src/lib/shipping/get-shipping-fee.test.ts`, `src/lib/pdf/documents-blind-shipping.test.ts`, `src/app/api/webhooks/stripe/order-notifications.test.ts`, `src/app/api/webhooks/stripe/route.ts` (deux `export` ajoutés, aucune autre ligne touchée).
 - **Validé** : `pnpm typecheck` / `pnpm lint` (fichiers touchés) / `pnpm vitest run` (73/73) / `pnpm build` (SSG/ISR intact) tous verts.
 - **Reste à faire** : E2E Playwright (24, parcours complet calculateur → paiement → commande `SENT_TO_SUPPLIER`) et intégration RLS/webhook signé toujours hors périmètre V1, tel que documenté dans 24-tests.md — nécessitent respectivement une vraie base de test et Playwright, explicitement écartés de ce chantier.
+---
+
+## 2026-07-10 — Refonte visuelle : cadrage et décisions
+
+**Contexte.** Le site n'a pas de homepage, les pages produit ne donnent pas envie, et le socle fonctionnel (specs 1–17) est en place. Dossier de recherche complet dans `docs/research/refonte-visuelle.md`.
+
+### Décisions prises
+
+**D1 — Direction visuelle : « Nuancier ».**
+Éditorial matière. Le nuancier est le seul objet du métier à la fois beau et fonctionnel — c'est ce que le pisciniste pose sur la table de cuisine du client. Le registre « Bureau d'études » (mono, tableaux, filets, schémas cotés) devient un **sous-registre typographique** confiné au calculateur et aux specs, pas une alternative.
+*Écartées :* « Bord de bassin » (c'est ce que font Piscinelle et Diffazur, qui sont des constructeurs, pas des marchands — l'émotion outdoor pure produit des visiteurs qui rêvent et un panier vide) et « Bureau d'études » en direction principale (servir la technique comme identité confirme la peur de l'acheteur particulier).
+
+**D2 — Zéro librairie d'animation.**
+Ni GSAP, ni Motion, ni Lenis. Après élagage, la liste des animations tient en : reveal, stagger, crossfade, sticky. Les quatre sont natifs. GSAP est gratuit depuis avril 2025 mais reste closed-source, avec une licence interdisant l'usage dans un concurrent de Webflow et résiliable à discrétion — dépendance politique inacceptable sur un projet solo à 5 ans. Motion est MIT mais coûte 30 KB pour du `opacity: 0 → 1`.
+*Garde-fou :* un test CI lit `package.json` et échoue si `gsap`, `motion`, `framer-motion`, `lenis` ou `aos` apparaissent.
+*Réserve :* si une page de scroll-telling voit le jour un jour, GSAP + ScrollTrigger en `next/dynamic` sur cette route seule, budget 35 KB, jamais dans le layout racine.
+
+**D3 — `animation-timeline` n'est pas Baseline.**
+Firefox stable le garde derrière un flag en 2026 (~82 % de support global), contrairement à ce qu'affirment plusieurs articles FR. Les reveals sont écrits sous `@supports (animation-timeline: view())`, avec **l'état révélé comme état par défaut**. On anime depuis l'état final, jamais vers lui. Firefox voit une page statique et parfaitement lisible.
+
+**D4 — Le hero n'a aucune animation.**
+C'est le pari du projet. Une image, six pastilles de couleur, deux boutons. Le silence visuel dans un marché qui crie est le positionnement — et c'est accessoirement le meilleur LCP possible.
+
+**D5 — Le calculateur modifie un prix, il ne le révèle pas.**
+Le PDP arrive avec un prix calculé sur `DEFAULT_POOL_DIMENSIONS` (8,00 × 4,00 × 1,50 m). Le bouton ATC est actif au chargement. Il ne dit jamais « configurez d'abord ». Un bouton grisé est un mur ; un prix qui se précise est un escalier.
+Le moteur de calcul **ne change pas**. Il est déplacé et habillé, pas réécrit.
+
+**D6 — Le prix au m² est obligatoire sur le PDP.**
+81 % des sites ne l'affichent pas (Baymard). C'est le seul chiffre qui permet à un pisciniste pro de comparer une offre. Il passe, comme les trois autres valeurs du bloc prix, par la fonction unique de calcul.
+
+**D7 — Trois vecteurs blind-shipping non traités jusqu'ici.**
+Métadonnées EXIF/IPTC/XMP des images ; photos et textes d'avis clients ; `brand`/`manufacturer`/`seller` dans le JSON-LD. Aucun n'était couvert par la spec 15 ni la 17. La spec 27 les ferme **avant** tout travail visuel, avec six tests Vitest dont chacun échoue si sa protection est retirée.
+
+**D8 — Numérotation.**
+Nouvelles specs 27 → 31. Les specs 18–26 restent à leur place. Le dossier de recherche n'est pas une spec, il vit dans `docs/research/`.
+
+**D9 — Modération a priori des avis avec photo.**
+Non négociable. Un client photographie son colis, le carton porte le nom du fournisseur, et le blind-shipping meurt. Aucune automatisation. Si le temps manque sur la spec 31, on coupe les View Transitions, jamais ça.
+
+**D10 — Détection : trois passes, pas une regex.**
+Normalisation et frontières de mot sont incompatibles : stripper la ponctuation
+détruit les frontières qu'on veut préserver. D'où :
+1. collapse des lettres isolées (`a.p.f.` → `apf`, `cap f` inchangé)
+2. match sur frontières de mot, séparateurs préservés
+3. match substring agressif, **réservé aux tokens ≥ 5 caractères**
+Validation au boot : un token < 5 car. est autorisé mais exclu de la passe 3,
+avec warning. Chaque passe est une fonction exportée, testée séparément.
+
+**D11 — Limite de couverture acceptée.**
+Denylist mono-mot uniquement (un token multi-mots ne peut distinguer
+`brumanor scierie` de `brumanorsciences` sans règle fragile). Les mots
+génériques du nom fournisseur sont inutilisables : ils censureraient du contenu
+légitime. Un avis mentionnant uniquement la partie générique passera le filtre.
+Risque résiduel assumé — et raison pour laquelle la modération a priori (D9)
+n'est pas négociable.
+Cas de test canoniques : `ZVX`, `z.v.x.`, `z v x` matchent ;
+`zvxelstrudel`, `capzvx` ne matchent pas.
+
+**D12 — Deux régimes de validation.**
+`catalog.json` (notre donnée, commitée, mirrorée) → Zod au chargement, throw,
+build cassé. C'est un bug de développeur, il doit être bruyant.
+Champs Supabase / avis clients → `sanitizePublicField`, repli + log caviardé.
+La page doit vivre.
+
+**D13 — Le seuil de 5 caractères est une règle de distinctivité, pas d'implémentation.**
+Un token ≥ 5 car. est assez distinctif pour que toute occurrence, même noyée dans
+un mot, soit intentionnelle : `zolvexair` matche. Un token de 3 car. ne l'est pas —
+le hasard du français produit des collisions (`apfelstrudel`), d'où l'interdiction
+de la passe 3.
+Correction : le test `zolvexair` passe du vecteur 6 (faux positifs) au vecteur 5
+(détection). Pendant ajouté : `brumanoresque` matche.
+
+**D14 — `SITE_BRAND`, pas un second nom d'entité.**
+La spec 27 disait de hard-coder `"aimetapiscine"` dans `brand.name`/`seller.name`.
+Erreur : le codebase expose déjà `SITE_BRAND` pour `Organization`/`Website`.
+Deux noms d'entité sur le même site est une incohérence que le blind-shipping
+n'aurait pas rattrapée. La garde n'est pas la valeur, c'est que `brand.name` ne
+prenne **aucun argument**.
+
+**D15 — Conséquence de D13 : `brumanorsciences` matche.**
+Un token ≥ 5 car. noyé dans un mot est intentionnel par définition. Accepté.
+La contrepartie est que la denylist ne doit jamais contenir de token qui soit
+aussi un fragment de mot français courant. Vérifié au boot par le warning D10.
+
+**D16 — Le critère « grep vide » de la spec 27 est amendé.**
+48 occurrences subsistent dans le dépôt, toutes antérieures et toutes couvertes
+par l'exception SKU-serveur (23a). Le critère littéral était mal formulé : le
+token fournisseur vit légitimement dans des identifiants serveur.
+Critère de remplacement, vérifiable : aucune occurrence dans un fichier
+atteignable depuis un Client Component.
+Preuve : `git grep -ril "<token>" -- "src/**" ":!src/lib/server/**"` → vide.
+La vérification sur `.next/static` seule est insuffisante — elle ne couvre ni les
+routes à la demande, ni les payloads RSC, ni les messages d'erreur.
+
+**D17 — Item « URL de suivi » : sans objet, pas résolu.**
+Aucun transporteur ni numéro de suivi n'existe encore dans le système au
+2026-07-10. L'item du critère de done de la spec 27 est reporté, pas coché.
+À réévaluer dès qu'un suivi est branché.
+
+**D18 — Risque physique découvert sur le bon de livraison.**
+Le BL fournisseur affiche le SKU préfixé `APF-` et un bandeau nommant APF en
+clair. Tant qu'il ne va qu'au fournisseur, c'est sans risque. S'il est glissé
+dans le colis — ce qui est la fonction usuelle d'un BL — c'est une fuite directe.
+Actions : (1) confirmer auprès du fournisseur ce qui entre physiquement dans le
+carton ; (2) si nécessaire, scinder en bon de préparation interne / bon de
+livraison client à l'entête aimetapiscine ; (3) reformuler le bandeau sans
+nommer le fournisseur.
+Question ouverte : le BL est-il un « livrable client » au sens de l'exception
+23a ? Si oui, il faut un mapping SKU interne → référence publique.
+
+### Décisions en attente
+
+**A1 — Garantie de reprise sur erreur de cote.**
+Probablement le plus gros levier de conversion identifié (15 % des abandons de panier viennent de la politique de retour ; sur du sur-mesure non repris, ce chiffre est mécaniquement plus haut). C'est une **négociation de marge avec le fournisseur**, pas une décision de design.
+Câblée derrière `NEXT_PUBLIC_REMAKE_GUARANTEE` (`off` | `material-only` | `full`), défaut `off`. Le front fonctionne dans les trois cas.
+→ *À arbitrer avec APF. Consigner la réponse ici.*
+
+**A2 — URL de suivi transporteur.**
+À ouvrir en navigation privée et inspecter : nom de l'expéditeur, adresse, logo, référence interne. Si le transporteur expose l'expéditeur, on ne lie pas le suivi et on affiche un statut interne alimenté par webhook.
+→ *Tâche manuelle du chantier 27. Consigner le verdict et la date ici.*
+
+**A3 — Assets photo.**
+4 plans × N coloris, plus le champ `water_appearance`. Chemin critique des specs 29 et 30. Brief dans `docs/specs/annexe-brief-photo.md`.
+
+### Dettes à solder avant de commencer
+
+- [ ] **Sortir le projet de OneDrive.** Instabilité de build et exposition de `.env.local`. Une soirée de débogage fantôme évitée.
+- [ ] **Fermer le retest de l'email d'alerte admin (spec 17, test 2).** On ne débogue pas un problème d'email au milieu d'une refonte du hero.
+
+### Retirés du backlog, définitivement
+
+Dark mode · 3D / WebGL (et le simulateur reste parké) · scroll-telling · parallaxe · scroll smoothing · hero vidéo · kinetic typography · compteurs animés · badges d'urgence · brutalisme éditorial · onglets horizontaux.
+
+Raison commune : notre acheteur engage 1200 € sur une pièce sur-mesure difficilement retournable. Il est exclusivement orienté tâche. NN/g documente que ce profil tolère très mal le scrolljacking et l'interprète comme un bug. On lui doit de la fiabilité, pas de l'impression.

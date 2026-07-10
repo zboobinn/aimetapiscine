@@ -14,9 +14,10 @@ import {
 import { withLivePricingOne } from "@/lib/catalog/live-pricing";
 import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
+import { buildProductJsonLd } from "@/lib/seo/product-jsonld";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site-url";
-import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/seo/structured-data";
+import { buildBreadcrumbJsonLd } from "@/lib/seo/structured-data";
 
 export const revalidate = 3600;
 

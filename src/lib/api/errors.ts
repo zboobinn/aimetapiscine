@@ -18,6 +18,8 @@ export const ApiErrorCode = {
   ITEMS_UNAVAILABLE: "ITEMS_UNAVAILABLE",
   /** Quota de tentatives dépassé (rate limiting, 23) — voir header `Retry-After`. */
   RATE_LIMITED: "RATE_LIMITED",
+  /** Contenu rejeté par le garde-fou blind shipping (27) — message toujours opaque, jamais le token ni le contenu fautif. */
+  UNSAFE_CONTENT: "UNSAFE_CONTENT",
   /** Échec serveur générique (jamais de détail interne exposé, 23). */
   INTERNAL_ERROR: "INTERNAL_ERROR",
 } as const;
@@ -32,5 +34,6 @@ export const API_ERROR_STATUS: Record<ApiErrorCode, number> = {
   SHIPPING_ZONE_EXCLUDED: 400,
   ITEMS_UNAVAILABLE: 409,
   RATE_LIMITED: 429,
+  UNSAFE_CONTENT: 400,
   INTERNAL_ERROR: 500,
 };

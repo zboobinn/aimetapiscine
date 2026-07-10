@@ -1,8 +1,17 @@
 import { z } from "zod";
 
+import { containsForbiddenToken } from "@/lib/blind-shipping";
+
 /**
  * Schéma du fichier pivot `data/catalog.json` (04). Toute entrée invalide
  * annule l'import complet — pas d'import partiel.
+ *
+ * Régime « donnée à nous, commitée » (27, D12/Amendement 4) : `catalog.json`
+ * est mirroré sur GitHub, un token fournisseur qui y atterrit est déjà fuité
+ * dans l'historique git avant même d'atteindre un navigateur. Contrairement
+ * aux champs saisis ailleurs (`sanitizePublicField`, repli + log), une
+ * détection ici est un bug de développeur : elle doit THROW et casser
+ * `next build`/le chargement du catalogue, jamais un repli silencieux.
  */
 
 export const productCategorySchema = z.enum([
@@ -49,6 +58,24 @@ export const catalogEntrySchema = z
     in_stock: z.boolean().default(true),
   })
   .superRefine((entry, ctx) => {
+    const blindShippingFields: [string, string | undefined][] = [
+      ["name", entry.name],
+      ["description", entry.description],
+      ["gamme", entry.gamme],
+      ["couleur", entry.couleur],
+    ];
+
+    for (const [field, value] of blindShippingFields) {
+      if (value !== undefined && containsForbiddenToken(value)) {
+        ctx.addIssue({
+          code: "custom",
+          path: [field],
+          // Message générique (23/27) : jamais le contenu fautif ni le token.
+          message: "contenu bloqué par le garde-fou blind shipping (catalogue committé, 27)",
+        });
+      }
+    }
+
     if (entry.category === "MEMBRANE") {
       if (!entry.gamme) {
         ctx.addIssue({ code: "custom", path: ["gamme"], message: "requis pour une membrane" });
