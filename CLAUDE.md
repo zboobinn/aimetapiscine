@@ -54,6 +54,24 @@ Ne PAS tout relire : lis UNIQUEMENT le fichier docs/ concerné par la tâche en 
 - 24-tests.md — Stripe test mode, calculateur, E2E
 - 25-deploiement.md — flux GitLab → GitHub → Vercel
 - 26-env-config.md — variables d'environnement
+- 27-blind-shipping-frontend.md — étanchéité blind-shipping du front public
+- 28-design-system-nuancier.md — direction « Nuancier », tokens, primitives, motion
+- 29-page-produit.md — PDP (bloqué sur assets photo)
+- 30-homepage.md — page d'accueil
+- 31-preuve-sociale-finition.md — avis clients, modération a priori
+- annexe-brief-photo.md — brief shooting, chemin critique de 29 et 30
+- refonte-visuelle.md — dossier de recherche (ne pas relire par défaut)
+
+## Règles du chantier visuel (27–31)
+Invariants issus de D1–D18 (`docs/decisions.md`) — à respecter sur toute tâche touchant 27 à 31, même partiellement.
+- Zéro librairie d'animation (`gsap`, `motion`, `framer-motion`, `lenis`, `aos`) — garde-fou testé en CI.
+- `animation-timeline` sous `@supports (animation-timeline: view())` uniquement, état révélé par défaut (pas Baseline, Firefox doit voir une page statique et lisible).
+- Le hero n'a aucune animation.
+- `--turquoise` est la couleur du produit (piscine), jamais un accent d'UI.
+- Aucune ombre portée. `--radius: 2px`.
+- Police mono réservée aux nombres et métadonnées, jamais à des phrases.
+- Pas de dark mode. Pas d'onglets horizontaux.
+- Denylist blind-shipping (`BLIND_SHIPPING_DENYLIST`) en variable d'environnement serveur, jamais commitée en dur.
 
 ## Mémoire des décisions
 À chaque choix technique pris ou modifié : mets à jour docs/decisions.md (date, décision, motif, impact). Consulte-le avant tout arbitrage structurant.

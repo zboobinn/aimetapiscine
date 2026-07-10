@@ -1,6 +1,6 @@
 # Spec 29 — Page produit
 
-**Statut :** bloqué sur assets photo (voir `docs/specs/annexe-brief-photo.md`)
+**Statut :** bloqué sur assets photo (voir `docs/annexe-brief-photo.md`)
 **Dépend de :** 27, 28
 **Bloque :** 30 (partiellement — le teaser calculateur réutilise le composant)
 **Effort estimé :** 2 à 3 sessions
@@ -159,5 +159,5 @@ Se branche sur le système de packs existant : la checklist cochée devient un p
 
 ## Prérequis bloquant
 
-Les assets photo. Voir `docs/specs/annexe-brief-photo.md`.
+Les assets photo. Voir `docs/annexe-brief-photo.md`.
 Sans les 4 plans par coloris, cette spec ne peut pas être terminée — seulement câblée avec des placeholders. **Ne pas la fermer sur des placeholders.**

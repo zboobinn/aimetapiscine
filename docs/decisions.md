@@ -383,12 +383,12 @@ Câblée derrière `NEXT_PUBLIC_REMAKE_GUARANTEE` (`off` | `material-only` | `fu
 → *Tâche manuelle du chantier 27. Consigner le verdict et la date ici.*
 
 **A3 — Assets photo.**
-4 plans × N coloris, plus le champ `water_appearance`. Chemin critique des specs 29 et 30. Brief dans `docs/specs/annexe-brief-photo.md`.
+4 plans × N coloris, plus le champ `water_appearance`. Chemin critique des specs 29 et 30. Brief dans `docs/annexe-brief-photo.md`.
 
 ### Dettes à solder avant de commencer
 
 - [ ] **Sortir le projet de OneDrive.** Instabilité de build et exposition de `.env.local`. Une soirée de débogage fantôme évitée.
-- [ ] **Fermer le retest de l'email d'alerte admin (spec 17, test 2).** On ne débogue pas un problème d'email au milieu d'une refonte du hero.
+- [x] ~~Fermer le retest de l'email d'alerte admin (spec 17, test 2).~~ **Clos** — retest fait pendant la campagne de test manuelle du 2026-07-09 (échec fournisseur simulé : webhook renvoie 200, `processing_error` écrit, alerte admin bien reçue, email client non renvoyé au rejeu). Dette obsolète, gardée barrée pour traçabilité plutôt que supprimée.
 
 ### Retirés du backlog, définitivement
 
