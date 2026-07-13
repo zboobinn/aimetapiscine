@@ -3,6 +3,7 @@ import { Manrope, Inter } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { getSiteEnv } from "@/lib/env";
+import { display, body as nuancierBody, mono } from "./fonts";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -33,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
+      className={`${manrope.variable} ${inter.variable} ${display.variable} ${nuancierBody.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background font-body text-ink">
         <Header />
