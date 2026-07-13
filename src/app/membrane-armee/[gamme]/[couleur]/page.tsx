@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { PoolImage } from "@/components/media/pool-image";
 import { CollapsibleSection, SpecTable, StickyBuyBox, SwatchGroup } from "@/components/nuancier";
 import type { SpecRow } from "@/components/nuancier";
@@ -10,10 +8,10 @@ import { getCompatibleAccessories } from "@/features/cart";
 import {
   calculatePack,
   DEFAULT_CALCULATOR_INPUT,
-  DEFAULT_POOL_DIMENSIONS,
   defaultCalculatorConfig,
 } from "@/features/calculator";
 import { computePdpBuyBoxAmounts } from "@/features/pdp/buy-box-pricing";
+import { PdpCalculator } from "@/features/pdp/pdp-calculator";
 import {
   couleurToSlug,
   getAccessories,
@@ -26,7 +24,6 @@ import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { resolvePoolMedia, type PoolMediaPlan } from "@/lib/media/pool-media";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
-import { SHIPPING_DELAY_LABEL } from "@/lib/shipping/get-shipping-fee";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { buildProductJsonLd } from "@/lib/seo/product-jsonld";
 import { absoluteUrl } from "@/lib/seo/site-url";
@@ -55,12 +52,6 @@ const SWATCH_COLOR_BY_COULEUR: Record<string, string> = {
 
 function swatchColorFor(couleur: string): string {
   return SWATCH_COLOR_BY_COULEUR[couleur.toLowerCase()] ?? "#B6B3AA";
-}
-
-const formatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
-
-function formatCents(cents: number): string {
-  return formatter.format(cents / 100);
 }
 
 // Highlights (29) : copie éditoriale PROVISOIRE — OK pour cette passe
@@ -132,9 +123,9 @@ export default async function MembraneFichePage({ params }: PageProps) {
 
   const media = resolvePoolMedia(couleur);
 
-  // Prix serveur sur les cotes par défaut (D5) : le calculateur inline (29b)
-  // n'est pas dans le périmètre de cette passe — le moteur (08) est appelé
-  // tel quel, sur `DEFAULT_CALCULATOR_INPUT`, jamais réécrit.
+  // Prix serveur sur les cotes par défaut (D5) : état initial du calculateur
+  // inline (29b), rendu SSR pour le SEO — le moteur (08) est appelé tel
+  // quel, sur `DEFAULT_CALCULATOR_INPUT`, jamais réécrit.
   const { LOSS_COEFF_BASE, LOSS_COEFF_STAIRS } = getBusinessConfigEnv();
   const calculatorConfig = defaultCalculatorConfig({
     lossCoeffBase: LOSS_COEFF_BASE,
@@ -283,79 +274,25 @@ export default async function MembraneFichePage({ params }: PageProps) {
                 </p>
               </div>
 
-              <dl className="flex flex-col gap-2 border-t pt-3" style={{ borderColor: "var(--coping)" }}>
-                <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
-                    Surface calculée
-                  </dt>
-                  <dd className="font-mono tabular-nums text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
-                    {surface.grossM2.toFixed(1)} m²
-                  </dd>
-                </div>
-
-                <div className="flex items-baseline justify-between gap-4">
-                  <dt style={{ color: "var(--ink-60)" }}>Prix au m²</dt>
-                  <dd className="font-mono tabular-nums">
-                    {buyBox.pricePerM2Cents !== null ? `${formatCents(buyBox.pricePerM2Cents)} / m²` : "—"}
-                  </dd>
-                </div>
-                <div className="flex items-baseline justify-between gap-4">
-                  <dt style={{ color: "var(--ink-60)" }}>
-                    Membrane ({membrane.quantity} rouleau{membrane.quantity > 1 ? "x" : ""})
-                  </dt>
-                  <dd className="font-mono tabular-nums">{formatCents(buyBox.membraneSubtotalCents)}</dd>
-                </div>
-                <div className="flex items-baseline justify-between gap-4">
-                  <dt style={{ color: "var(--ink-60)" }}>Livraison</dt>
-                  <dd className="font-mono tabular-nums">
-                    {buyBox.shippingCents > 0 ? `+${formatCents(buyBox.shippingCents)}` : "Incluse"}
-                  </dd>
-                </div>
-                <div
-                  className="flex items-baseline justify-between gap-4 border-t pt-3"
-                  style={{ borderColor: "var(--coping)" }}
-                >
-                  <dt style={{ fontSize: "var(--step-0)" }}>Total estimé</dt>
-                  <dd className="font-mono tabular-nums" style={{ fontSize: "var(--step-1)" }}>
-                    {formatCents(buyBox.totalCents)}
-                  </dd>
-                </div>
-              </dl>
-
-              <AddToCartButton
+              <PdpCalculator
                 product={toCartProductSummary(produit, publicTtcCents)}
-                quantity={membrane.quantity}
                 compatibleAccessories={compatibleAccessories.map((accessory) =>
                   toCartProductSummary(
                     accessory,
                     computePublicTtcCents(accessory.base_price_ht, accessory.vat_rate),
                   ),
                 )}
+                calculatorConfig={calculatorConfig}
+                unitHtCents={produit.base_price_ht}
+                vatRateBps={produit.vat_rate}
+                membraneRollAreaM2={produit.roll_area_m2 as number}
+                initialInput={DEFAULT_CALCULATOR_INPUT}
+                initialResult={{ surface, membrane, buyBox }}
               />
-
-              <p className="text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
-                Sur des cotes standard {DEFAULT_POOL_DIMENSIONS.length.toFixed(2)} ×{" "}
-                {DEFAULT_POOL_DIMENSIONS.width.toFixed(2)} × {DEFAULT_POOL_DIMENSIONS.depth.toFixed(2)} m —{" "}
-                <Link href="/calculateur" className="underline" style={{ color: "var(--deep-blue)" }}>
-                  affinez avec vos cotes
-                </Link>
-                .
-              </p>
 
               {produit.description ? (
                 <p style={{ color: "var(--ink-60)" }}>{produit.description}</p>
               ) : null}
-
-              <ul className="flex flex-col gap-1.5 text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
-                <li>✓ Garantie 10 ans</li>
-                <li>
-                  ✓ Découpe sur mesure —{" "}
-                  <Link href="/livraison-retours" className="underline" style={{ color: "var(--deep-blue)" }}>
-                    conditions de retour
-                  </Link>
-                </li>
-                <li>✓ {SHIPPING_DELAY_LABEL}</li>
-              </ul>
             </div>
           </StickyBuyBox>
         </div>

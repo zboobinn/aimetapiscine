@@ -1,4 +1,4 @@
-import { computeLineChargeFromUnitHt } from "@/lib/pricing/resolve-price";
+import { computeLineChargeFromUnitHt } from "@/lib/pricing/line-charge";
 
 export interface PriceBlockAmounts {
   /** Montant de ligne réellement dû (HT remisé + TVA) — même valeur que panier/checkout/facture. */

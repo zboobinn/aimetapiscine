@@ -3,9 +3,17 @@ import "server-only";
 import { fetchLiveProPriceHtCents } from "@/lib/catalog/live-pricing";
 import type { CatalogEntry } from "@/lib/catalog/schema";
 import { getProDiscountBps } from "@/lib/store-settings";
+import { computeLineChargeFromUnitHt, type LineCharge } from "./line-charge";
 import type { PricingRole } from "./types";
 
 export { STANDARD_VAT_RATE_BPS, computePublicTtcCents, splitTtcAmount } from "./vat";
+/**
+ * Ré-exportées depuis `line-charge.ts` (extraction 29b) : ce module pur ne
+ * dépend ni de `server-only` ni du catalogue et reste importable côté
+ * client (calculateur inline PDP) — `resolve-price.ts`, lui, reste
+ * `server-only` pour tout le reste (résolution du HT pro en DB, 14/23).
+ */
+export { computeLineChargeFromUnitHt, type LineCharge } from "./line-charge";
 
 export interface PriceBreakdown {
   /**
@@ -64,54 +72,6 @@ export async function resolvePriceBreakdown(
   const unitHtCents = product.base_price_ht;
   const unitAmountCents = unitHtCents + Math.round((unitHtCents * vatRateBps) / 10000);
   return { unitAmountCents, unitHtCents };
-}
-
-export interface LineCharge {
-  /** HT unitaire (prix catalogue résolu pour ce rôle), avant remise — affiché tel quel à un PRO_VERIFIED (« PU HT »). */
-  unitHtCents: number;
-  /** HT total de la ligne avant remise (`unitHtCents × quantity`). */
-  lineHtBeforeDiscountCents: number;
-  discountHtCents: number;
-  /** HT total de la ligne, remise pack (13) déjà déduite. */
-  lineHtCents: number;
-  /** TVA totale de la ligne, calculée sur le HT déjà remisé. */
-  lineVatCents: number;
-  /**
-   * Montant RÉELLEMENT dû pour cette ligne (HT remisé + TVA). Source UNIQUE
-   * de vérité, utilisée à l'identique par `/api/cart/resolve` (affichage
-   * panier) et `/api/checkout` (montant Stripe encaissé, quantité toujours
-   * repliée à 1 pour que ce nombre soit exactement le `unit_amount` facturé,
-   * 10/13/23) : ce qui est affiché avant de payer est ce qui est débité.
-   */
-  lineTtcCents: number;
-}
-
-/**
- * Calcul de ligne pur (HT unitaire déjà connu) — pas de dépendance catalogue,
- * réutilisé tel quel par la génération de facture (11, `lib/pdf/invoice.ts`)
- * à partir du snapshot `order_items` (HT/quantité/remise/TVA déjà enregistrés,
- * jamais recalculés depuis un rôle qui n'a plus de sens après la vente).
- */
-export function computeLineChargeFromUnitHt(
-  unitHtCents: number,
-  quantity: number,
-  discountBps: number,
-  vatRateBps: number,
-): LineCharge {
-  const lineHtBeforeDiscountCents = unitHtCents * quantity;
-  const discountHtCents =
-    discountBps > 0 ? Math.round((lineHtBeforeDiscountCents * discountBps) / 10000) : 0;
-  const lineHtCents = lineHtBeforeDiscountCents - discountHtCents;
-  const lineVatCents = Math.round((lineHtCents * vatRateBps) / 10000);
-
-  return {
-    unitHtCents,
-    lineHtBeforeDiscountCents,
-    discountHtCents,
-    lineHtCents,
-    lineVatCents,
-    lineTtcCents: lineHtCents + lineVatCents,
-  };
 }
 
 /**

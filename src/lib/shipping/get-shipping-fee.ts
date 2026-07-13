@@ -4,6 +4,14 @@ import { getBusinessConfigEnv } from "@/lib/env";
 import type { PricingRole } from "@/lib/pricing/types";
 import { isCorsicaPostalCode } from "./postal-code";
 
+/**
+ * Ré-exporté depuis `delay-label.ts` (extraction 29b) : simple constante,
+ * sans dépendance `server-only`, réutilisable telle quelle par le
+ * calculateur inline PDP (Client Component) — le reste de ce module reste
+ * `server-only` (lecture de `SHIPPING_MODE` via `getBusinessConfigEnv`).
+ */
+export { SHIPPING_DELAY_LABEL } from "./delay-label";
+
 export interface ShippingCartLine {
   slug: string;
   quantity: number;
@@ -17,10 +25,6 @@ export interface ShippingFeeResult {
   amountCents: number;
   corsicaSurchargeApplied: boolean;
 }
-
-/** Texte d'affichage blind shipping (12) — jamais de mention APF/transporteur. */
-export const SHIPPING_DELAY_LABEL =
-  "Expédié par notre partenaire logistique sous 5 à 10 jours ouvrés";
 
 /**
  * Frais de port (12) : une seule interface pilotée par env (`SHIPPING_MODE`)
