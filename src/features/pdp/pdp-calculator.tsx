@@ -1,12 +1,32 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AddToCartButton, type CartProductSummary } from "@/components/cart/add-to-cart-button";
 import type { CalculatorConfig, CalculatorInput, StairType } from "@/features/calculator";
 import { DIMENSION_BOUNDS } from "@/features/calculator";
 import { SHIPPING_DELAY_LABEL } from "@/lib/shipping/delay-label";
+import { useAuthUser } from "@/lib/supabase/use-auth-user";
 import { recalculatePdpBuyBoxAmounts, type RecalculatedPdpResult } from "./recalculate-buy-box";
+
+/**
+ * Réponse de `/api/pricing/product-price` (29b②/③) — forme structurellement
+ * dépendante du rôle : un b2c n'a JAMAIS de `proUnitAmountCents`/`proUnitHtCents`
+ * dans son objet (absents, pas nuls). Le prix pro n'existe dans le DOM
+ * qu'après ce fetch authentifié, jamais dans le HTML ISR (D5/29b) : le rôle
+ * est résolu côté serveur (`resolvePricingRole()`, cookies de session),
+ * jamais transmis ni recalculé côté client — ce composant ne fait que
+ * réinjecter des montants déjà résolus pour un rôle déjà vérifié dans la
+ * MÊME chaîne de recalcul que le b2c (`recalculatePdpBuyBoxAmounts`, 29b①).
+ */
+type ProductPriceResponse =
+  | { role: "b2c"; publicTtcCents: number }
+  | {
+      role: "b2b";
+      publicTtcCents: number;
+      proUnitAmountCents: number;
+      proUnitHtCents: number;
+    };
 
 /** Debounce du recalcul (spec 29 §3) : synchrone, aucun appel réseau, budget INP < 150 ms. */
 const RECALC_DEBOUNCE_MS = 150;
@@ -60,7 +80,12 @@ export interface PdpCalculatorProps {
   product: CartProductSummary;
   compatibleAccessories: CartProductSummary[];
   calculatorConfig: CalculatorConfig;
-  /** HT unitaire résolu côté serveur (b2c, `resolvePriceBreakdown`) — constant tant que le rôle reste "b2c" (29b). */
+  /**
+   * HT unitaire PUBLIC résolu côté serveur (`resolvePriceBreakdown`, b2c,
+   * 29a) — état initial (identique au HTML SSR, D5). Bascule en interne vers
+   * `proUnitHtCents` dès que le fetch authentifié (29b②/③) résout un rôle
+   * b2b ; ce prop lui-même ne change jamais après montage.
+   */
   unitHtCents: number;
   vatRateBps: number;
   /** `roll_area_m2` du produit (04). */
@@ -97,17 +122,72 @@ export function PdpCalculator({
   const [errors, setErrors] = useState<Partial<Record<DimensionField, string>>>({});
   const measureDialogRef = useRef<HTMLDialogElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** Dernières cotes valides ayant produit `result` — rejouées en pro dès que le fetch (29b②/③) résout un rôle b2b, sans attendre une nouvelle frappe. */
+  const lastValidInputRef = useRef<CalculatorInput>(initialInput);
+
+  const user = useAuthUser();
+  const [proPricing, setProPricing] = useState<Extract<ProductPriceResponse, { role: "b2b" }>>();
+
+  // Hydratation prix pro (29b②) : la PDP reste rendue en prix public (ISR,
+  // 29a) — ce fetch, déclenché après montage et uniquement pour un
+  // utilisateur connecté, COMPLÈTE l'affichage sans jamais le bloquer (l'ATC
+  // reste actif pendant ce temps, D5). Un visiteur non connecté ne déclenche
+  // même pas la requête.
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    fetch(`/api/pricing/product-price?slug=${encodeURIComponent(product.slug)}`)
+      .then((res) => (res.ok ? (res.json() as Promise<ProductPriceResponse>) : null))
+      .then((data) => {
+        if (!cancelled && data?.role === "b2b") setProPricing(data);
+      })
+      .catch(() => undefined);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [product.slug, user]);
+
+  /**
+   * Montants d'entrée de la chaîne de recalcul (29b①) — publics par défaut,
+   * basculent en pro dès que le fetch authentifié (29b②/③) résout un rôle
+   * b2b. MÊME fonction `recalculatePdpBuyBoxAmounts`, seuls `unitHtCents`/
+   * `unitAmountCents` changent : aucune seconde chaîne de calcul pour le pro.
+   */
+  const activeUnitHtCents = proPricing ? proPricing.proUnitHtCents : unitHtCents;
+  const activeUnitAmountCents = proPricing
+    ? proPricing.proUnitAmountCents
+    : initialResult.buyBox.unitAmountCents;
 
   const recalcParams = useMemo(
     () => ({
       config: calculatorConfig,
       membraneRollAreaM2,
-      unitHtCents,
+      unitHtCents: activeUnitHtCents,
+      unitAmountCents: activeUnitAmountCents,
       vatRateBps,
       shippingCents: initialResult.buyBox.shippingCents,
     }),
-    [calculatorConfig, membraneRollAreaM2, unitHtCents, vatRateBps, initialResult.buyBox.shippingCents],
+    [
+      calculatorConfig,
+      membraneRollAreaM2,
+      activeUnitHtCents,
+      activeUnitAmountCents,
+      vatRateBps,
+      initialResult.buyBox.shippingCents,
+    ],
   );
+
+  // Bascule public → pro (29b③) : dès que `recalcParams` change de rôle
+  // tarifaire (résolution du fetch authentifié), les 4 valeurs sont
+  // rejouées sur les DERNIÈRES cotes valides, sans attendre une nouvelle
+  // frappe. Mise à jour sèche du prix déjà affiché (D5) : aucune animation,
+  // le prix change, il ne se révèle pas.
+  useEffect(() => {
+    setResult(recalculatePdpBuyBoxAmounts(lastValidInputRef.current, recalcParams));
+  }, [recalcParams]);
 
   function scheduleRecalculate(nextDimensions: Record<DimensionField, string>, nextStairType: StairType) {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -146,6 +226,7 @@ export function PdpCalculator({
         stairType: nextStairType,
       };
 
+      lastValidInputRef.current = nextInput;
       setResult(recalculatePdpBuyBoxAmounts(nextInput, recalcParams));
     }, RECALC_DEBOUNCE_MS);
   }
@@ -285,7 +366,7 @@ export function PdpCalculator({
           </dd>
         </div>
         <div className="flex items-baseline justify-between gap-4 border-t pt-3" style={{ borderColor: "var(--coping)" }}>
-          <dt style={{ fontSize: "var(--step-0)" }}>Total estimé</dt>
+          <dt style={{ fontSize: "var(--step-0)" }}>Total estimé {proPricing ? "HT" : "TTC"}</dt>
           <dd className="font-mono tabular-nums" style={{ fontSize: "var(--step-1)" }}>
             {formatCents(buyBox.totalCents)}
           </dd>

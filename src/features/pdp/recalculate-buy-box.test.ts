@@ -60,11 +60,59 @@ describe("recalculatePdpBuyBoxAmounts", () => {
       config,
       membraneRollAreaM2: PRODUCT.roll_area_m2 as number,
       unitHtCents,
+      unitAmountCents: serverBuyBox.unitAmountCents,
       vatRateBps: PRODUCT.vat_rate,
       shippingCents: serverBuyBox.shippingCents,
     });
 
     expect(client.buyBox).toEqual(serverBuyBox);
+  });
+
+  it("b2b (29b③) : sur les cotes par défaut, produit EXACTEMENT les mêmes 4 valeurs que la chaîne serveur pour ce même HT pro — preuve d'une source unique en pro, pas une seconde chaîne", async () => {
+    // HT pro (déjà remisé) — valeur distincte du b2c pour ne pas confondre
+    // les deux calculs par coïncidence numérique.
+    const proUnitHtCents = 2250;
+    resolvePriceBreakdown.mockResolvedValue({
+      unitAmountCents: proUnitHtCents, // b2b : unitAmountCents === unitHtCents, jamais majoré de TVA à l'affichage.
+      unitHtCents: proUnitHtCents,
+    });
+
+    const { calculatePack } = await import("@/features/calculator");
+    const { surface, membrane } = calculatePack({
+      input: DEFAULT_CALCULATOR_INPUT,
+      config,
+      membraneRollAreaM2: PRODUCT.roll_area_m2 as number,
+      accessoryProducts: [],
+    });
+
+    const serverBuyBox = await computePdpBuyBoxAmounts(
+      PRODUCT,
+      "b2b",
+      membrane.quantity,
+      surface.grossM2,
+    );
+
+    const client = recalculatePdpBuyBoxAmounts(DEFAULT_CALCULATOR_INPUT, {
+      config,
+      membraneRollAreaM2: PRODUCT.roll_area_m2 as number,
+      unitHtCents: proUnitHtCents,
+      unitAmountCents: serverBuyBox.unitAmountCents,
+      vatRateBps: PRODUCT.vat_rate,
+      shippingCents: serverBuyBox.shippingCents,
+    });
+
+    expect(client.buyBox).toEqual(serverBuyBox);
+    // Preuve que le pro bascule réellement (pas juste une coïncidence avec le b2c).
+    expect(client.buyBox.membraneSubtotalCents).not.toBe(
+      recalculatePdpBuyBoxAmounts(DEFAULT_CALCULATOR_INPUT, {
+        config,
+        membraneRollAreaM2: PRODUCT.roll_area_m2 as number,
+        unitHtCents: 2500,
+        unitAmountCents: 3000,
+        vatRateBps: PRODUCT.vat_rate,
+        shippingCents: serverBuyBox.shippingCents,
+      }).buyBox.membraneSubtotalCents,
+    );
   });
 
   it("centimes impairs à quantité >= 2 : le sous-total suit la fonction de ligne, pas unitAmountCents × quantity", () => {
@@ -83,6 +131,7 @@ describe("recalculatePdpBuyBoxAmounts", () => {
       config,
       membraneRollAreaM2,
       unitHtCents,
+      unitAmountCents: unitHtCents + Math.round((unitHtCents * vatRateBps) / 10000),
       vatRateBps,
       shippingCents: 4000,
     });

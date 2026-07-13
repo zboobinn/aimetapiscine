@@ -5,11 +5,9 @@ import { useEffect, useState } from "react";
 import { Price, type PriceSize } from "@/components/ui/price";
 import { useAuthUser } from "@/lib/supabase/use-auth-user";
 
-interface ProductPriceResponse {
-  role: "b2c" | "b2b";
-  unitAmountCents: number;
-  unitHtCents: number;
-}
+type ProductPriceResponse =
+  | { role: "b2c"; publicTtcCents: number }
+  | { role: "b2b"; publicTtcCents: number; proUnitAmountCents: number };
 
 export interface ProPriceProps {
   slug: string;
@@ -30,7 +28,7 @@ export interface ProPriceProps {
  */
 export function ProPrice({ slug, publicAmountCents, size, className }: ProPriceProps) {
   const user = useAuthUser();
-  const [proPrice, setProPrice] = useState<ProductPriceResponse>();
+  const [proPrice, setProPrice] = useState<Extract<ProductPriceResponse, { role: "b2b" }>>();
 
   useEffect(() => {
     if (!user) return;
@@ -51,7 +49,12 @@ export function ProPrice({ slug, publicAmountCents, size, className }: ProPriceP
 
   if (proPrice) {
     return (
-      <Price amountCents={proPrice.unitAmountCents} role="b2b" size={size} className={className} />
+      <Price
+        amountCents={proPrice.proUnitAmountCents}
+        role="b2b"
+        size={size}
+        className={className}
+      />
     );
   }
 
