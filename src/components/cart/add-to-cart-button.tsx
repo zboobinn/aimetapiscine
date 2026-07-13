@@ -14,6 +14,8 @@ export interface AddToCartButtonProps {
   product: CartProductSummary;
   /** Accessoires compatibles (09) — uniquement fourni depuis les fiches membrane ; simple suggestion, jamais un ajout forcé. */
   compatibleAccessories?: CartProductSummary[];
+  /** Quantité ajoutée au panier (29) — ex. le nombre de rouleaux calculé sur les cotes par défaut. Défaut 1 (comportement historique). */
+  quantity?: number;
   size?: "md" | "lg";
   className?: string;
 }
@@ -21,6 +23,7 @@ export interface AddToCartButtonProps {
 export function AddToCartButton({
   product,
   compatibleAccessories = [],
+  quantity = 1,
   size = "lg",
   className,
 }: AddToCartButtonProps) {
@@ -29,7 +32,7 @@ export function AddToCartButton({
   const [addedAccessorySlugs, setAddedAccessorySlugs] = useState<string[]>([]);
 
   function handleAdd() {
-    addCatalogLine(product.slug);
+    addCatalogLine(product.slug, quantity);
     setAdded(true);
   }
 

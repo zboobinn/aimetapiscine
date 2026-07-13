@@ -6,3 +6,4 @@ export * from "./accessories";
 export * from "./calculate-pack";
 export * from "./url-state";
 export * from "./cart-draft";
+export * from "./default-pool-input";
