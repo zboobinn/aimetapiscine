@@ -9,6 +9,8 @@ import {
   StickyBuyBox,
   SwatchGroup,
 } from "@/components/nuancier";
+import { PoolImage } from "@/components/media/pool-image";
+import { poolMediaPlanSchema, resolvePoolMedia } from "@/lib/media/pool-media";
 
 // Piège connu (28, docs/28-design-system-nuancier.md) : ce flag DOIT rester une
 // expression littérale `process.env.NEXT_PUBLIC_DESIGN_ROUTE_ENABLED === 'true'`
@@ -285,6 +287,38 @@ export default function DesignFoundationsPage() {
             </div>
           </Bleed>
         </div>
+      </section>
+
+      <section className="flex flex-col gap-6">
+        <h2 className="font-display" style={{ fontSize: "var(--step-2)", color: "var(--ink)" }}>
+          Média — coloris (couture 29/30)
+        </h2>
+        <p style={{ maxWidth: "var(--measure)", lineHeight: "var(--lh-body)", color: "var(--ink)" }}>
+          Les 4 plans obligatoires par coloris (annexe-brief-photo), résolus
+          via <code>resolvePoolMedia()</code> — placeholders neutres tant que
+          les vraies photos ne sont pas livrées.
+        </p>
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))" }}
+        >
+          {poolMediaPlanSchema.options.map((plan) => (
+            <div key={plan} className="flex flex-col gap-2">
+              <div
+                className="overflow-hidden"
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                <PoolImage colorisSlug="bleu" plan={plan} className="w-full" />
+              </div>
+              <span className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+                {plan}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p style={{ maxWidth: "var(--measure)", color: "var(--ink)" }}>
+          {resolvePoolMedia("bleu").waterAppearance}
+        </p>
       </section>
     </main>
   );
