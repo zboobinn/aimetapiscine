@@ -30,6 +30,13 @@
 @theme inline {
   --font-heading: var(--font-manrope);
   --font-body: var(--font-inter);
+  /* Nuancier (28) : next/font pose déjà --font-display/--font-mono en littéral
+     sur <html> (app/fonts.ts) — `inline` évite à Tailwind de figer une valeur
+     au build et laisse l'utilitaire lire la variable au runtime, comme
+     --font-heading/--font-body ci-dessus. Sans cette ligne, `font-display`
+     n'était pas une classe Tailwind générée du tout (vérifié dans le CSS
+     compilé) : les titres du Nuancier retombaient en sans-serif silencieusement. */
+  --font-display: var(--font-display);
 }
 
 body {
@@ -91,6 +98,26 @@ h6 {
   --page-max: 1360px;
 
   --radius: 2px;
+
+  /* Header sticky réel : h-16 (4rem) + 1px de filet inférieur (components/layout/header.tsx). */
+  --header-h: calc(4rem + 1px);
+}
+
+/* Bleed (28b) : casse le conteneur centré --page-max pour occuper le viewport. */
+.bleed {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Swatch (28b) : le seul mouvement du site, crossfade ≤120ms, CSS pur.
+   Le repli prefers-reduced-motion est déjà couvert par la règle globale
+   ci-dessus (transition-duration: 0.01ms !important). */
+.swatch-crossfade {
+  transition: opacity 120ms linear;
 }
 
 /* Motion — état révélé par défaut, on anime DEPUIS lui, jamais VERS lui (28). */

@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { CatalogEntry } from "@/lib/catalog/schema";
+import {
+  Bleed,
+  CollapsibleSection,
+  PriceBlock,
+  SpecTable,
+  StickyBuyBox,
+  SwatchGroup,
+} from "@/components/nuancier";
 
 // Piège connu (28, docs/28-design-system-nuancier.md) : ce flag DOIT rester une
 // expression littérale `process.env.NEXT_PUBLIC_DESIGN_ROUTE_ENABLED === 'true'`
@@ -21,6 +30,56 @@ const colorTokens = [
   { name: "--coping", value: "#B6B3AA", role: "gris margelle — texte secondaire, filets" },
   { name: "--signal", value: "#E8452B", role: "erreurs uniquement" },
   { name: "--surface", value: "#FFFFFF", role: "cartes, buy-box" },
+];
+
+// Donnée bidon (28b) : jamais de SKU/nom fournisseur réel sur cette route
+// (27). `pro_price_ht` existe dans le type CatalogEntry mais PriceBlock est
+// appelé ici en role="b2c" (défaut) : il n'est jamais lu ni affiché.
+const demoProduct: CatalogEntry = {
+  sku: "demo-membrane-nuancier",
+  slug: "demo-membrane-nuancier",
+  name: "Membrane armée — coloris démo",
+  category: "MEMBRANE",
+  gamme: "Uni",
+  couleur: "Turquoise démo",
+  description: "Donnée bidon pour la galerie de primitives /_design.",
+  base_price_ht: 245000,
+  pro_price_ht: null,
+  vat_rate: 2000,
+  weight_grams: 42000,
+  roll_area_m2: 41.25,
+  unit: "rouleau",
+  coverage: null,
+  image: "/nuancier/placeholder-1.svg",
+  in_stock: true,
+};
+
+const swatchOptions = [
+  {
+    id: "turquoise-demo",
+    name: "Turquoise démo",
+    color: "#3FB6A8",
+    image: { src: "/nuancier/placeholder-1.svg", alt: "Bassin — coloris turquoise démo" },
+  },
+  {
+    id: "bleu-demo",
+    name: "Bleu profond démo",
+    color: "#0E5C8A",
+    image: { src: "/nuancier/placeholder-2.svg", alt: "Bassin — coloris bleu profond démo" },
+  },
+  {
+    id: "gris-demo",
+    name: "Gris margelle démo",
+    color: "#B6B3AA",
+    image: { src: "/nuancier/placeholder-3.svg", alt: "Bassin — coloris gris margelle démo" },
+  },
+];
+
+const specRows = [
+  { label: "Épaisseur", value: "1,5 mm" },
+  { label: "Largeur de lé", value: "1,65 m" },
+  { label: "Surface au rouleau", value: "41,25 m²" },
+  { label: "Garantie", value: "10 ans" },
 ];
 
 const typeScale = [
@@ -135,6 +194,96 @@ export default function DesignFoundationsPage() {
           <p className="font-display" style={{ fontSize: "var(--step-1)", color: "var(--ink)" }}>
             Bloc matière (contenu factice)
           </p>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-6">
+        <h2 className="font-display" style={{ fontSize: "var(--step-2)", color: "var(--ink)" }}>
+          Primitives (28b)
+        </h2>
+        <p style={{ maxWidth: "var(--measure)", lineHeight: "var(--lh-body)", color: "var(--ink)" }}>
+          Les 7 primitives livrées par cette passe, sur données bidon. Mode B2C
+          uniquement : le prix pro n&apos;apparaît nulle part sur cette page.
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            SwatchGroup + Swatch
+          </h3>
+          <div style={{ maxWidth: "28rem" }}>
+            <SwatchGroup label="Coloris de la membrane (démo)" options={swatchOptions} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            PriceBlock
+          </h3>
+          <div
+            className="border p-6"
+            style={{ maxWidth: "28rem", borderColor: "var(--coping)", borderRadius: "var(--radius)", background: "var(--surface)" }}
+          >
+            <PriceBlock product={demoProduct} quantity={2} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            SpecTable
+          </h3>
+          <div style={{ maxWidth: "28rem" }}>
+            <SpecTable rows={specRows} caption="Fiche technique — membrane démo" />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            CollapsibleSection
+          </h3>
+          <div style={{ maxWidth: "var(--measure)" }}>
+            <CollapsibleSection title="Description" name="pdp-demo" defaultOpen>
+              <p>Contenu de démonstration, présent dans le DOM au rendu (indexable).</p>
+            </CollapsibleSection>
+            <CollapsibleSection title="Pose et entretien" name="pdp-demo">
+              <p>Deuxième panneau — accordéon exclusif via `name=&quot;pdp-demo&quot;`.</p>
+            </CollapsibleSection>
+            <CollapsibleSection title="Livraison" name="pdp-demo">
+              <p>Troisième panneau, toujours dans le même groupe exclusif.</p>
+            </CollapsibleSection>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            StickyBuyBox
+          </h3>
+          <div className="grid gap-6" style={{ gridTemplateColumns: "2fr 1fr", maxWidth: "var(--page-max)" }}>
+            <div
+              className="border p-6"
+              style={{ borderColor: "var(--coping)", borderRadius: "var(--radius)", minHeight: "40rem" }}
+            >
+              <p style={{ color: "var(--ink-60)" }}>Colonne de contenu factice (fiche produit).</p>
+            </div>
+            <StickyBuyBox>
+              <PriceBlock product={demoProduct} />
+            </StickyBuyBox>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h3 className="font-mono text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+            Bleed
+          </h3>
+          <Bleed>
+            <div
+              className="flex items-center justify-center py-12"
+              style={{ background: "var(--surface)", borderTop: "1px solid var(--coping)", borderBottom: "1px solid var(--coping)" }}
+            >
+              <p className="font-display" style={{ fontSize: "var(--step-1)", color: "var(--ink)" }}>
+                Bloc full-bleed (démo)
+              </p>
+            </div>
+          </Bleed>
         </div>
       </section>
     </main>
