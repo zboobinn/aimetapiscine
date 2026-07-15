@@ -1,41 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { AddToCartButton, type CartProductSummary } from "@/components/cart/add-to-cart-button";
 import { SwatchGroup, type SwatchGroupOption } from "@/components/nuancier/swatch-group";
-import type { CalculatorConfig, CalculatorInput, StairType } from "@/features/calculator";
-import { DIMENSION_BOUNDS } from "@/features/calculator";
+import type { StairType } from "@/features/calculator";
 import { useCartStore } from "@/features/cart";
 import { SHIPPING_DELAY_LABEL } from "@/lib/shipping/delay-label";
-import { useAuthUser } from "@/lib/supabase/use-auth-user";
-import { recalculatePdpBuyBoxAmounts, type RecalculatedPdpResult } from "./recalculate-buy-box";
-import { resolveAtcPanelValues } from "./resolve-atc-panel-values";
-
-/**
- * Réponse de `/api/pricing/product-price` (29b②/③) — forme structurellement
- * dépendante du rôle : un b2c n'a JAMAIS de `proUnitAmountCents`/`proUnitHtCents`
- * dans son objet (absents, pas nuls). Le prix pro n'existe dans le DOM
- * qu'après ce fetch authentifié, jamais dans le HTML ISR (D5/29b) : le rôle
- * est résolu côté serveur (`resolvePricingRole()`, cookies de session),
- * jamais transmis ni recalculé côté client — ce composant ne fait que
- * réinjecter des montants déjà résolus pour un rôle déjà vérifié dans la
- * MÊME chaîne de recalcul que le b2c (`recalculatePdpBuyBoxAmounts`, 29b①).
- */
-type ProductPriceResponse =
-  | { role: "b2c"; publicTtcCents: number }
-  | {
-      role: "b2b";
-      publicTtcCents: number;
-      proUnitAmountCents: number;
-      proUnitHtCents: number;
-    };
-
-/** Debounce du recalcul (spec 29 §3) : synchrone, aucun appel réseau, budget INP < 150 ms. */
-const RECALC_DEBOUNCE_MS = 150;
-
-type CalculatorMode = "guided" | "direct";
-type DimensionField = "length" | "width" | "depth";
+import { getRemakeGuaranteeCopy } from "./remake-guarantee-copy";
+import { type DimensionField, usePdpContext } from "./pdp-context";
 
 const DIMENSION_LABELS: Record<DimensionField, string> = {
   length: "Longueur (L)",
@@ -75,32 +48,8 @@ function formatCents(cents: number): string {
   return formatter.format(cents / 100);
 }
 
-function parseDimension(raw: string): number {
-  return Number(raw.replace(",", "."));
-}
-
-export interface PdpCalculatorProps {
-  product: CartProductSummary;
+export interface PdpBuyBoxProps {
   compatibleAccessories: CartProductSummary[];
-  calculatorConfig: CalculatorConfig;
-  /**
-   * HT unitaire PUBLIC résolu côté serveur (`resolvePriceBreakdown`, b2c,
-   * 29a) — état initial (identique au HTML SSR, D5). Bascule en interne vers
-   * `proUnitHtCents` dès que le fetch authentifié (29b②/③) résout un rôle
-   * b2b ; ce prop lui-même ne change jamais après montage.
-   */
-  unitHtCents: number;
-  vatRateBps: number;
-  /** `roll_area_m2` du produit (04). */
-  membraneRollAreaM2: number;
-  initialInput: CalculatorInput;
-  /**
-   * Résultat calculé côté serveur sur `initialInput` (29a,
-   * `computePdpBuyBoxAmounts`) — utilisé tel quel comme état initial, jamais
-   * recalculé au montage : garantit un rendu client identique au HTML SSR
-   * (pas de flash, pas de saut, D5).
-   */
-  initialResult: RecalculatedPdpResult;
   /**
    * Coloris de la gamme (29 §6) — MÊME liste que le `SwatchGroup` desktop
    * rendu par la page (`[couleur]/page.tsx`) : le drawer ATC mobile (29c①)
@@ -111,167 +60,56 @@ export interface PdpCalculatorProps {
   selectedCouleurSlug: string;
 }
 
-export function PdpCalculator({
-  product,
-  compatibleAccessories,
-  calculatorConfig,
-  unitHtCents,
-  vatRateBps,
-  membraneRollAreaM2,
-  initialInput,
-  initialResult,
-  swatchOptions,
-  selectedCouleurSlug,
-}: PdpCalculatorProps) {
-  const [mode, setMode] = useState<CalculatorMode>("guided");
-  const [guidedRevealCount, setGuidedRevealCount] = useState(1);
-  const [dimensions, setDimensions] = useState<Record<DimensionField, string>>({
-    length: String(initialInput.pool.dimensions.length),
-    width: String(initialInput.pool.dimensions.width),
-    depth: String(initialInput.pool.dimensions.depth),
-  });
-  const [stairType, setStairType] = useState<StairType>(initialInput.stairType);
-  const [result, setResult] = useState<RecalculatedPdpResult>(initialResult);
-  const [errors, setErrors] = useState<Partial<Record<DimensionField, string>>>({});
+/**
+ * Calculateur inline + bloc prix + ATC (buy-box desktop, drawer + barre fixe
+ * mobile, 29b/29c①) — lit tout son état via `usePdpContext()` (Correctif
+ * hydratation 29c②, `PdpProvider` posé par `[couleur]/page.tsx`). Rendu
+ * directement à sa place dans l'arbre React (plus de portail) : le SSR
+ * produit exactement le même HTML que l'hydratation cliente.
+ *
+ * Piège 29c-① rappelé : `SwatchGroup` est importé depuis son module concret
+ * (`@/components/nuancier/swatch-group`), jamais depuis le barrel
+ * `@/components/nuancier` (qui réexporte `PriceBlock` → `server-only`,
+ * casse `next build` depuis un Client Component).
+ */
+export function PdpBuyBox({ compatibleAccessories, swatchOptions, selectedCouleurSlug }: PdpBuyBoxProps) {
+  const {
+    product,
+    mode,
+    setMode,
+    dimensions,
+    stairType,
+    errors,
+    handleDimensionChange,
+    handleStairChange,
+    showField,
+    showStairs,
+    isGuidedSequenceActive,
+    advanceGuidedReveal,
+    panelValues,
+    calculatorParamsString,
+    checkedAccessoryLines,
+  } = usePdpContext();
+
+  const addCatalogLine = useCartStore((state) => state.addCatalogLine);
+  const addPackLines = useCartStore((state) => state.addPackLines);
   const measureDialogRef = useRef<HTMLDialogElement>(null);
   const drawerRef = useRef<HTMLDialogElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const addCatalogLine = useCartStore((state) => state.addCatalogLine);
-  /** Dernières cotes valides ayant produit `result` — rejouées en pro dès que le fetch (29b②/③) résout un rôle b2b, sans attendre une nouvelle frappe. */
-  const lastValidInputRef = useRef<CalculatorInput>(initialInput);
 
-  const user = useAuthUser();
-  const [proPricing, setProPricing] = useState<Extract<ProductPriceResponse, { role: "b2b" }>>();
-
-  // Hydratation prix pro (29b②) : la PDP reste rendue en prix public (ISR,
-  // 29a) — ce fetch, déclenché après montage et uniquement pour un
-  // utilisateur connecté, COMPLÈTE l'affichage sans jamais le bloquer (l'ATC
-  // reste actif pendant ce temps, D5). Un visiteur non connecté ne déclenche
-  // même pas la requête.
-  useEffect(() => {
-    if (!user) return;
-
-    let cancelled = false;
-
-    fetch(`/api/pricing/product-price?slug=${encodeURIComponent(product.slug)}`)
-      .then((res) => (res.ok ? (res.json() as Promise<ProductPriceResponse>) : null))
-      .then((data) => {
-        if (!cancelled && data?.role === "b2b") setProPricing(data);
-      })
-      .catch(() => undefined);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [product.slug, user]);
-
-  /**
-   * Montants d'entrée de la chaîne de recalcul (29b①) — publics par défaut,
-   * basculent en pro dès que le fetch authentifié (29b②/③) résout un rôle
-   * b2b. MÊME fonction `recalculatePdpBuyBoxAmounts`, seuls `unitHtCents`/
-   * `unitAmountCents` changent : aucune seconde chaîne de calcul pour le pro.
-   */
-  const activeUnitHtCents = proPricing ? proPricing.proUnitHtCents : unitHtCents;
-  const activeUnitAmountCents = proPricing
-    ? proPricing.proUnitAmountCents
-    : initialResult.buyBox.unitAmountCents;
-
-  const recalcParams = useMemo(
-    () => ({
-      config: calculatorConfig,
-      membraneRollAreaM2,
-      unitHtCents: activeUnitHtCents,
-      unitAmountCents: activeUnitAmountCents,
-      vatRateBps,
-      shippingCents: initialResult.buyBox.shippingCents,
-    }),
-    [
-      calculatorConfig,
-      membraneRollAreaM2,
-      activeUnitHtCents,
-      activeUnitAmountCents,
-      vatRateBps,
-      initialResult.buyBox.shippingCents,
-    ],
-  );
-
-  // Bascule public → pro (29b③) : dès que `recalcParams` change de rôle
-  // tarifaire (résolution du fetch authentifié), les 4 valeurs sont
-  // rejouées sur les DERNIÈRES cotes valides, sans attendre une nouvelle
-  // frappe. Mise à jour sèche du prix déjà affiché (D5) : aucune animation,
-  // le prix change, il ne se révèle pas.
-  useEffect(() => {
-    setResult(recalculatePdpBuyBoxAmounts(lastValidInputRef.current, recalcParams));
-  }, [recalcParams]);
-
-  function scheduleRecalculate(nextDimensions: Record<DimensionField, string>, nextStairType: StairType) {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-
-    debounceRef.current = setTimeout(() => {
-      const nextErrors: Partial<Record<DimensionField, string>> = {};
-      const parsed: Partial<Record<DimensionField, number>> = {};
-
-      (Object.keys(DIMENSION_LABELS) as DimensionField[]).forEach((field) => {
-        const raw = nextDimensions[field];
-        const bounds = DIMENSION_BOUNDS[field];
-        const value = parseDimension(raw);
-
-        if (raw.trim() === "" || Number.isNaN(value)) {
-          nextErrors[field] = "Valeur requise";
-        } else if (value < bounds.min || value > bounds.max) {
-          nextErrors[field] = `Entre ${bounds.min} et ${bounds.max} m`;
-        } else {
-          parsed[field] = value;
-        }
-      });
-
-      setErrors(nextErrors);
-
-      if (Object.keys(nextErrors).length > 0) return;
-
-      const nextInput: CalculatorInput = {
-        pool: {
-          shape: "rectangle",
-          dimensions: {
-            length: parsed.length as number,
-            width: parsed.width as number,
-            depth: parsed.depth as number,
-          },
-        },
-        stairType: nextStairType,
-      };
-
-      lastValidInputRef.current = nextInput;
-      setResult(recalculatePdpBuyBoxAmounts(nextInput, recalcParams));
-    }, RECALC_DEBOUNCE_MS);
-  }
-
-  function handleDimensionChange(field: DimensionField, value: string) {
-    const next = { ...dimensions, [field]: value };
-    setDimensions(next);
-    scheduleRecalculate(next, stairType);
-  }
-
-  function handleStairChange(value: StairType) {
-    setStairType(value);
-    scheduleRecalculate(dimensions, value);
-  }
-
-  const showField = (field: DimensionField) =>
-    mode === "direct" || guidedRevealCount > ["length", "width", "depth"].indexOf(field);
-  const showStairs = mode === "direct" || guidedRevealCount > 3;
-  const isGuidedSequenceActive = mode === "guided" && guidedRevealCount <= 3;
-
-  /**
-   * Calculé UNE FOIS par rendu (29c①, `resolveAtcPanelValues`) : la buy-box
-   * desktop et le drawer ATC mobile lisent tous deux `panelValues`, jamais
-   * `result`/`proPricing` séparément — aucun second calcul, aucune
-   * divergence possible entre les deux vues.
-   */
-  const panelValues = resolveAtcPanelValues(result, Boolean(proPricing));
+  // Garantie de reprise (29 §8, A1) : `NEXT_PUBLIC_*` accédé EN LITTÉRAL dans
+  // ce fichier client, jamais via Zod ni un accesseur `lib/env` — sinon Next
+  // n'inline pas la valeur dans le bundle (piège spec 28, vérifié en 28a).
+  const remakeGuaranteeCopy = getRemakeGuaranteeCopy(process.env.NEXT_PUBLIC_REMAKE_GUARANTEE);
 
   function handleValidateDrawer() {
-    addCatalogLine(product.slug, panelValues.membraneQuantity);
+    if (checkedAccessoryLines.length > 0) {
+      addPackLines(
+        [{ slug: product.slug, quantity: panelValues.membraneQuantity }, ...checkedAccessoryLines],
+        calculatorParamsString,
+      );
+    } else {
+      addCatalogLine(product.slug, panelValues.membraneQuantity);
+    }
     drawerRef.current?.close();
   }
 
@@ -358,7 +196,7 @@ export function PdpCalculator({
               type="button"
               className="w-fit border px-3 py-1.5 text-[var(--step--1)]"
               style={{ borderColor: "var(--ink)", borderRadius: "var(--radius)", color: "var(--ink)" }}
-              onClick={() => setGuidedRevealCount((count) => Math.min(count + 1, 4))}
+              onClick={advanceGuidedReveal}
             >
               Suivant
             </button>
@@ -395,6 +233,12 @@ export function PdpCalculator({
           </dt>
           <dd className="font-mono tabular-nums">{formatCents(panelValues.membraneSubtotalCents)}</dd>
         </div>
+        {panelValues.accessoriesCount > 0 ? (
+          <div className="flex items-baseline justify-between gap-4">
+            <dt style={{ color: "var(--ink-60)" }}>Accessoires ({panelValues.accessoriesCount})</dt>
+            <dd className="font-mono tabular-nums">+{formatCents(panelValues.accessoriesSubtotalCents)}</dd>
+          </div>
+        ) : null}
         <div className="flex items-baseline justify-between gap-4">
           <dt style={{ color: "var(--ink-60)" }}>Livraison</dt>
           <dd className="font-mono tabular-nums">
@@ -420,12 +264,14 @@ export function PdpCalculator({
         product={product}
         quantity={panelValues.membraneQuantity}
         compatibleAccessories={compatibleAccessories}
+        packAccessoryLines={checkedAccessoryLines}
+        calculatorParams={calculatorParamsString}
       />
 
       <ul className="flex flex-col gap-1.5 text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
         <li>✓ Garantie 10 ans</li>
         <li>
-          ✓ Découpe sur mesure —{" "}
+          ✓ {remakeGuaranteeCopy}{" "}
           <Link href="/livraison-retours" className="underline" style={{ color: "var(--deep-blue)" }}>
             conditions de retour
           </Link>
@@ -501,9 +347,9 @@ export function PdpCalculator({
       {/*
         `<dialog>` natif (pas de lib, pas de portail maison) — mêmes champs
         que la buy-box (renderCalculatorFields/renderPriceBlock, état
-        partagé), jamais un second calculateur/état/fetch pro (29c①).
-        Escape ferme nativement ; le tap hors zone ferme via le handler
-        `onClick` ci-dessous (clic sur ::backdrop cible le `<dialog>`
+        partagé via `usePdpContext()`), jamais un second calculateur/état/fetch
+        pro (29c①). Escape ferme nativement ; le tap hors zone ferme via le
+        handler `onClick` ci-dessous (clic sur ::backdrop cible le `<dialog>`
         lui-même, seul moyen non-lib de détecter un tap hors contenu).
       */}
       <dialog

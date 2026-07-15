@@ -16,6 +16,17 @@ export interface AddToCartButtonProps {
   compatibleAccessories?: CartProductSummary[];
   /** Quantité ajoutée au panier (29) — ex. le nombre de rouleaux calculé sur les cotes par défaut. Défaut 1 (comportement historique). */
   quantity?: number;
+  /**
+   * Lignes de pack (29c②, checklist de chantier) à ajouter EN PLUS de
+   * `product`/`quantity`, groupées sous un même `packId` via `addPackLines`
+   * (13) — jamais un second mécanisme d'ajout : quand fourni et non vide,
+   * remplace le simple `addCatalogLine` par le même appel `addPackLines` que
+   * le calculateur (`calculator-wizard.tsx`), pour que la remise pack
+   * s'applique identiquement. `calculatorParams` est requis dès que
+   * `packAccessoryLines` est fourni (même contrat que `addPackLines`).
+   */
+  packAccessoryLines?: Array<{ slug: string; quantity: number }>;
+  calculatorParams?: string;
   size?: "md" | "lg";
   className?: string;
 }
@@ -24,15 +35,25 @@ export function AddToCartButton({
   product,
   compatibleAccessories = [],
   quantity = 1,
+  packAccessoryLines = [],
+  calculatorParams,
   size = "lg",
   className,
 }: AddToCartButtonProps) {
   const addCatalogLine = useCartStore((state) => state.addCatalogLine);
+  const addPackLines = useCartStore((state) => state.addPackLines);
   const [added, setAdded] = useState(false);
   const [addedAccessorySlugs, setAddedAccessorySlugs] = useState<string[]>([]);
 
   function handleAdd() {
-    addCatalogLine(product.slug, quantity);
+    if (packAccessoryLines.length > 0) {
+      addPackLines(
+        [{ slug: product.slug, quantity }, ...packAccessoryLines],
+        calculatorParams ?? "",
+      );
+    } else {
+      addCatalogLine(product.slug, quantity);
+    }
     setAdded(true);
   }
 

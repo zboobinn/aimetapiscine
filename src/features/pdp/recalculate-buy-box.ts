@@ -38,6 +38,17 @@ export interface RecalculatePdpBuyBoxParams {
    * serveur initial (29a), jamais recalculée côté client.
    */
   shippingCents: number;
+  /**
+   * Remise pack réelle (13, `discount_bps`) — 0 tant qu'aucun pack n'est
+   * formé (29a/29b, réserve 28b). Dès que la checklist de chantier (29c②)
+   * forme un pack complet (`computeChecklistPackAmounts`, MÊME critère
+   * d'éligibilité que `discounts.ts`), l'appelant passe le taux réel ici :
+   * la membrane traverse alors `computeLineChargeFromUnitHt` avec ce
+   * `discountBps`, exactement comme le fera `/api/cart/resolve`/`/api/checkout`
+   * pour la même ligne. Optionnel pour compatibilité, défaut 0 (comportement
+   * inchangé hors pack).
+   */
+  discountBps?: number;
 }
 
 export interface RecalculatedPdpResult {
@@ -49,7 +60,10 @@ export interface RecalculatedPdpResult {
 /**
  * Recalcule les 4 valeurs de la buy-box PDP (29b) en réaction à un
  * changement de cotes — OU de rôle (29b③, un pro vérifié bascule
- * `unitHtCents`/`unitAmountCents` de public à pro sans changer de fonction).
+ * `unitHtCents`/`unitAmountCents` de public à pro sans changer de fonction)
+ * — OU de pack (29c②, réserve 28b soldée : dès que la checklist de chantier
+ * forme un pack complet, `discountBps` cesse d'être figé à 0 et traverse la
+ * MÊME chaîne, comme pour un rôle).
  * EXACTEMENT la même chaîne que `computePdpBuyBoxAmounts`
  * (`src/features/pdp/buy-box-pricing.ts`, 29a) : `calculatePack()` (08,
  * moteur inchangé) pour la surface/le nombre de rouleaux, puis
@@ -75,6 +89,7 @@ export function recalculatePdpBuyBoxAmounts(
     unitAmountCents,
     vatRateBps,
     shippingCents,
+    discountBps = 0,
   }: RecalculatePdpBuyBoxParams,
 ): RecalculatedPdpResult {
   const { surface, membrane } = calculatePack({
@@ -87,7 +102,7 @@ export function recalculatePdpBuyBoxAmounts(
   const { lineTtcCents: membraneSubtotalCents } = computeLineChargeFromUnitHt(
     unitHtCents,
     membrane.quantity,
-    0,
+    discountBps,
     vatRateBps,
   );
 

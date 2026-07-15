@@ -11,7 +11,9 @@ import {
   defaultCalculatorConfig,
 } from "@/features/calculator";
 import { computePdpBuyBoxAmounts } from "@/features/pdp/buy-box-pricing";
-import { PdpCalculator } from "@/features/pdp/pdp-calculator";
+import { PdpBuyBox } from "@/features/pdp/pdp-buy-box";
+import { PdpChecklistUpsell } from "@/features/pdp/pdp-checklist-upsell";
+import { PdpProvider } from "@/features/pdp/pdp-context";
 import {
   couleurToSlug,
   getAccessories,
@@ -126,16 +128,40 @@ export default async function MembraneFichePage({ params }: PageProps) {
   // Prix serveur sur les cotes par défaut (D5) : état initial du calculateur
   // inline (29b), rendu SSR pour le SEO — le moteur (08) est appelé tel
   // quel, sur `DEFAULT_CALCULATOR_INPUT`, jamais réécrit.
-  const { LOSS_COEFF_BASE, LOSS_COEFF_STAIRS } = getBusinessConfigEnv();
+  const { LOSS_COEFF_BASE, LOSS_COEFF_STAIRS, PACK_DISCOUNT_BPS } = getBusinessConfigEnv();
   const calculatorConfig = defaultCalculatorConfig({
     lossCoeffBase: LOSS_COEFF_BASE,
     lossCoeffStairs: LOSS_COEFF_STAIRS,
   });
-  const { surface, membrane } = calculatePack({
+  // `accessoryProducts` alimente `result.accessories` (08) — nécessaire à la
+  // checklist de chantier (29c②), sans impact sur `surface`/`membrane` (le
+  // calcul de surface/rouleaux ne dépend jamais des accessoires).
+  const { surface, membrane, accessories: packAccessoryItems } = calculatePack({
     input: DEFAULT_CALCULATOR_INPUT,
     config: calculatorConfig,
     membraneRollAreaM2: produit.roll_area_m2 as number,
-    accessoryProducts: [],
+    accessoryProducts: compatibleAccessories,
+  });
+
+  // Liste client-safe (23a, jamais de `sku`) des accessoires proposés par la
+  // checklist de chantier (29c②), quantités calculées sur les cotes par
+  // défaut — comme le reste de la buy-box initiale (29a). Le prix HT/TVA de
+  // chaque accessoire est nécessaire côté client pour que la checklist et le
+  // panier facturent au centime près via la MÊME `computeLineChargeFromUnitHt`.
+  const checklistAccessories = packAccessoryItems.map((item) => {
+    const catalogEntry = compatibleAccessories.find((accessory) => accessory.slug === item.slug);
+    if (!catalogEntry) {
+      throw new Error(`Accessoire de checklist introuvable dans le catalogue : ${item.slug}`);
+    }
+    return {
+      slug: item.slug,
+      name: item.name,
+      quantity: item.quantity,
+      unit: item.unit,
+      motif: item.motif,
+      unitHtCents: catalogEntry.base_price_ht,
+      vatRateBps: catalogEntry.vat_rate,
+    };
   });
 
   // Rôle tarifaire figé à "b2c" (comme `PriceBlock`, 28b) : résoudre le rôle
@@ -193,6 +219,27 @@ export default async function MembraneFichePage({ params }: PageProps) {
         ])}
       />
 
+      {/*
+        Correctif hydratation (29c②) : `PdpProvider` (Client Component) porte
+        l'état unique du calculateur + de la checklist de chantier, partagé
+        par `PdpBuyBox` (haut, dans la buy-box sticky) ET `PdpChecklistUpsell`
+        (bas de page, après la fiche technique/FAQ) — plus de `createPortal`.
+        `children` (fil d'Ariane, galerie, highlights, `CollapsibleSection`)
+        reste du contenu SERVEUR : ces éléments sont rendus par ce Server
+        Component AVANT d'être passés en `children`, jamais réexécutés côté
+        client — le SSR de la fiche technique/FAQ (§7) n'est pas sacrifié.
+      */}
+      <PdpProvider
+        product={toCartProductSummary(produit, publicTtcCents)}
+        calculatorConfig={calculatorConfig}
+        unitHtCents={produit.base_price_ht}
+        vatRateBps={produit.vat_rate}
+        membraneRollAreaM2={produit.roll_area_m2 as number}
+        initialInput={DEFAULT_CALCULATOR_INPUT}
+        initialResult={{ surface, membrane, buyBox }}
+        checklistAccessories={checklistAccessories}
+        packDiscountBps={PACK_DISCOUNT_BPS}
+      >
       <div className="pb-6">
         <Breadcrumbs
           items={[
@@ -274,20 +321,13 @@ export default async function MembraneFichePage({ params }: PageProps) {
                 </p>
               </div>
 
-              <PdpCalculator
-                product={toCartProductSummary(produit, publicTtcCents)}
+              <PdpBuyBox
                 compatibleAccessories={compatibleAccessories.map((accessory) =>
                   toCartProductSummary(
                     accessory,
                     computePublicTtcCents(accessory.base_price_ht, accessory.vat_rate),
                   ),
                 )}
-                calculatorConfig={calculatorConfig}
-                unitHtCents={produit.base_price_ht}
-                vatRateBps={produit.vat_rate}
-                membraneRollAreaM2={produit.roll_area_m2 as number}
-                initialInput={DEFAULT_CALCULATOR_INPUT}
-                initialResult={{ surface, membrane, buyBox }}
                 swatchOptions={swatchOptions}
                 selectedCouleurSlug={couleur}
               />
@@ -347,6 +387,17 @@ export default async function MembraneFichePage({ params }: PageProps) {
           </p>
         </CollapsibleSection>
       </div>
+
+      {/*
+        Checklist de chantier (29 §9, 29c②) — jamais dans la buy-box,
+        toujours en bas de page. Rendue directement ici (Correctif
+        hydratation 29c②, plus de portail) : `PdpChecklistUpsell` lit le
+        MÊME état que `PdpBuyBox` via `usePdpContext()` (`PdpProvider`
+        ci-dessus) — un seul état, une seule chaîne de prix
+        (`computeChecklistPackAmounts`), jamais de calculateur dupliqué.
+      */}
+      <PdpChecklistUpsell />
+    </PdpProvider>
     </div>
   );
 }

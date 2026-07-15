@@ -143,4 +143,60 @@ describe("recalculatePdpBuyBoxAmounts", () => {
 
     expect(result.buyBox.membraneSubtotalCents).not.toBe(naiveTotal);
   });
+
+  it("réserve 28b soldée (29c②) : un discountBps réel (pack formé via la checklist) traverse computeLineChargeFromUnitHt — total et €/m² l'incluent, exactement comme le panier facturera la même ligne", async () => {
+    const { computeLineChargeFromUnitHt } = await import("@/lib/pricing/line-charge");
+
+    // HT à centimes impairs + quantité >= 2 : preuve que ce n'est pas une
+    // simple multiplication de prix déjà arrondi (même piège que 2026-07-10).
+    const unitHtCents = 1013;
+    const vatRateBps = STANDARD_VAT_RATE_BPS;
+    const membraneRollAreaM2 = 20;
+    const packDiscountBps = 500; // -5 % (13)
+
+    const input = {
+      pool: { shape: "rectangle" as const, dimensions: { length: 8, width: 4, depth: 1.5 } },
+      stairType: "aucun" as const,
+    };
+
+    const withoutDiscount = recalculatePdpBuyBoxAmounts(input, {
+      config,
+      membraneRollAreaM2,
+      unitHtCents,
+      unitAmountCents: unitHtCents,
+      vatRateBps,
+      shippingCents: 4000,
+      discountBps: 0,
+    });
+
+    const withDiscount = recalculatePdpBuyBoxAmounts(input, {
+      config,
+      membraneRollAreaM2,
+      unitHtCents,
+      unitAmountCents: unitHtCents,
+      vatRateBps,
+      shippingCents: 4000,
+      discountBps: packDiscountBps,
+    });
+
+    expect(withDiscount.membrane.quantity).toBeGreaterThanOrEqual(2);
+    // Le pack en baisse le total et le €/m² — jamais une hausse ni une valeur inchangée.
+    expect(withDiscount.buyBox.membraneSubtotalCents).toBeLessThan(
+      withoutDiscount.buyBox.membraneSubtotalCents,
+    );
+    expect(withDiscount.buyBox.totalCents).toBeLessThan(withoutDiscount.buyBox.totalCents);
+    expect(withDiscount.buyBox.pricePerM2Cents).toBeLessThan(
+      withoutDiscount.buyBox.pricePerM2Cents as number,
+    );
+
+    // MÊME chaîne que le panier : le sous-total remisé doit être exactement
+    // `computeLineChargeFromUnitHt(unitHtCents, quantity, packDiscountBps, vatRateBps).lineTtcCents`.
+    const expectedCharge = computeLineChargeFromUnitHt(
+      unitHtCents,
+      withDiscount.membrane.quantity,
+      packDiscountBps,
+      vatRateBps,
+    );
+    expect(withDiscount.buyBox.membraneSubtotalCents).toBe(expectedCharge.lineTtcCents);
+  });
 });
