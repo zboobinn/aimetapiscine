@@ -173,7 +173,7 @@ export default async function MembraneFichePage({ params }: PageProps) {
 
   return (
     <div
-      className="mx-auto w-full px-4 py-12 sm:px-6"
+      className="pdp-page-padding mx-auto w-full px-4 pt-12 sm:px-6"
       style={{ maxWidth: "var(--page-max)", color: "var(--ink)" }}
     >
       <JsonLd
@@ -288,6 +288,8 @@ export default async function MembraneFichePage({ params }: PageProps) {
                 membraneRollAreaM2={produit.roll_area_m2 as number}
                 initialInput={DEFAULT_CALCULATOR_INPUT}
                 initialResult={{ surface, membrane, buyBox }}
+                swatchOptions={swatchOptions}
+                selectedCouleurSlug={couleur}
               />
 
               {produit.description ? (

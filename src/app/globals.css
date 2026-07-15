@@ -101,6 +101,86 @@ h6 {
 
   /* Header sticky réel : h-16 (4rem) + 1px de filet inférieur (components/layout/header.tsx). */
   --header-h: calc(4rem + 1px);
+
+  /*
+   * Hauteur de la barre ATC fixe mobile (29 §2, 29c①) — SEULE source pour
+   * `min-height` de la barre (features/pdp/pdp-calculator.tsx) ET le
+   * padding-bottom de la page produit (.pdp-page-padding ci-dessous) : les
+   * deux consomment la même variable, aucun risque qu'ils se désynchronisent.
+   */
+  --atc-bar-h: calc(4.5rem + env(safe-area-inset-bottom));
+}
+
+/*
+ * Réserve l'espace de la barre ATC fixe mobile (29 §2) sous `lg` pour que le
+ * dernier bloc de la page produit ne soit jamais masqué ; au-delà de `lg` la
+ * barre est cachée (`lg:hidden`, pdp-calculator.tsx), le padding revient à
+ * la valeur normale de la page (3rem, `pt-12`).
+ */
+.pdp-page-padding {
+  padding-bottom: var(--atc-bar-h);
+}
+
+@media (min-width: 1024px) {
+  .pdp-page-padding {
+    padding-bottom: 3rem;
+  }
+}
+
+/*
+ * Drawer ATC mobile (29c①) : ouverture en CSS pur (transition + @starting-style,
+ * pas de lib). Le repli `prefers-reduced-motion: reduce` global (plus bas
+ * dans ce fichier) met déjà `transition-duration` à 0.01ms sur `*`, mais
+ * `::backdrop` n'est pas un élément de l'arbre DOM classique — il reçoit sa
+ * propre règle explicite ci-dessous pour garantir une apparition instantanée.
+ */
+.atc-drawer {
+  max-height: 85vh;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    display 200ms allow-discrete,
+    overlay 200ms allow-discrete;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.atc-drawer[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@starting-style {
+  .atc-drawer[open] {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+.atc-drawer::backdrop {
+  background: rgb(0 0 0 / 40%);
+  transition:
+    opacity 200ms ease,
+    display 200ms allow-discrete,
+    overlay 200ms allow-discrete;
+  opacity: 0;
+}
+
+.atc-drawer[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .atc-drawer[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atc-drawer,
+  .atc-drawer::backdrop {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Bleed (28b) : casse le conteneur centré --page-max pour occuper le viewport. */
