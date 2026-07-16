@@ -24,8 +24,26 @@ export interface AddToCartButtonProps {
    * le calculateur (`calculator-wizard.tsx`), pour que la remise pack
    * s'applique identiquement. `calculatorParams` est requis dès que
    * `packAccessoryLines` est fourni (même contrat que `addPackLines`).
+   *
+   * ⚠️ L'appelant DOIT s'assurer que ces lignes forment le KIT COMPLET
+   * (29c② partie B, décision métier « −5 % uniquement sur kit complet ») —
+   * `addPackLines` (`features/cart/store.ts`) dérive `originalSlugs` DES
+   * SEULES lignes reçues ici, jamais d'une liste externe : lui envoyer un
+   * kit partiel le rendrait auto-référent, donc toujours « complet » aux
+   * yeux du panier (`/api/cart/resolve`), recréant exactement la divergence
+   * PDP ≠ panier que ce mécanisme doit éviter. Pour un kit incomplet, passer
+   * `additionalCatalogLines` à la place, jamais `packAccessoryLines`.
    */
   packAccessoryLines?: Array<{ slug: string; quantity: number }>;
+  /**
+   * Lignes catalogue INDÉPENDANTES (29c② partie B) à ajouter en plus de
+   * `product`/`quantity` — jamais groupées en pack, jamais de remise :
+   * couvre le cas d'une checklist partiellement cochée (kit incomplet), où
+   * les accessoires cochés doivent quand même rejoindre le panier, sans
+   * `packId`/manifeste. Un même slug présent ici ET dans le panier
+   * s'incrémente (`addCatalogLine`, comportement existant).
+   */
+  additionalCatalogLines?: Array<{ slug: string; quantity: number }>;
   calculatorParams?: string;
   size?: "md" | "lg";
   className?: string;
@@ -36,6 +54,7 @@ export function AddToCartButton({
   compatibleAccessories = [],
   quantity = 1,
   packAccessoryLines = [],
+  additionalCatalogLines = [],
   calculatorParams,
   size = "lg",
   className,
@@ -53,6 +72,9 @@ export function AddToCartButton({
       );
     } else {
       addCatalogLine(product.slug, quantity);
+      for (const line of additionalCatalogLines) {
+        addCatalogLine(line.slug, line.quantity);
+      }
     }
     setAdded(true);
   }

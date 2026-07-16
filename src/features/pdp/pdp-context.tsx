@@ -111,6 +111,13 @@ export interface PdpContextValue {
 
   checkedAccessorySlugs: string[];
   toggleAccessory: (slug: string) => void;
+
+  /** Quantité choisie par item (29c② partie B, étape 2) — initialisée à la quantité recommandée par le calculateur (08), min 1, n'affecte jamais l'éligibilité de la remise. */
+  accessoryQuantities: Record<string, number>;
+  setAccessoryQuantity: (slug: string, quantity: number) => void;
+
+  /** Kit COMPLET (29c② partie B, décision métier) : `true` uniquement si TOUS les accessoires recommandés sont cochés — piloté par `isChecklistPackFormed`, jamais un second calcul local. */
+  isPackFormed: boolean;
 }
 
 const PdpContext = createContext<PdpContextValue | null>(null);
@@ -167,6 +174,27 @@ export function PdpProvider({
     );
   }
 
+  /**
+   * Quantités éditables par item (29c② partie B, étape 2) — initialisées à
+   * la quantité recommandée par le calculateur (08, `checklistAccessories`
+   * reçu du serveur). Min 1. N'entre JAMAIS dans le calcul d'éligibilité de
+   * la remise (`isChecklistPackFormed` ne lit que les slugs cochés) — seule
+   * la ligne facturée en dépend, via `computeChecklistPackAmounts`.
+   */
+  const [accessoryQuantities, setAccessoryQuantities] = useState<Record<string, number>>(() =>
+    Object.fromEntries(checklistAccessories.map((accessory) => [accessory.slug, accessory.quantity])),
+  );
+
+  function setAccessoryQuantity(slug: string, quantity: number) {
+    setAccessoryQuantities((current) => ({ ...current, [slug]: Math.max(1, Math.round(quantity)) }));
+  }
+
+  /** Kit complet recommandé (29c② partie B) — TOUS les accessoires de la checklist, pas seulement ceux cochés. */
+  const allAccessorySlugs = useMemo(
+    () => checklistAccessories.map((accessory) => accessory.slug),
+    [checklistAccessories],
+  );
+
   const user = useAuthUser();
   const [proPricing, setProPricing] = useState<Extract<ProductPriceResponse, { role: "b2b" }>>();
 
@@ -213,14 +241,17 @@ export function PdpProvider({
     : initialResult.buyBox.unitAmountCents;
 
   /**
-   * Réserve 28b soldée (29c②) : dès qu'au moins un item de la checklist est
-   * coché, un pack complet existe (membrane + cet accessoire, seuil de 13) —
-   * le vrai `discountBps` remplace le 0 figé et traverse
+   * Réserve 28b soldée (29c②), affinée en 29c② partie B : la remise ne
+   * s'applique QUE si le kit est COMPLET (tous les accessoires recommandés
+   * cochés, décision métier — un seul item coché ne suffit plus). Le vrai
+   * `discountBps` remplace le 0 figé et traverse
    * `recalculatePdpBuyBoxAmounts` → `computeLineChargeFromUnitHt`, comme le
    * fera `/api/cart/resolve` pour le même pack. Total et €/m² de la buy-box
-   * incluent donc la remise dès que le pack se forme.
+   * incluent donc la remise dès que — et seulement dès que — le kit entier
+   * est coché.
    */
-  const activeDiscountBps = isChecklistPackFormed(checkedAccessorySlugs) ? packDiscountBps : 0;
+  const isPackFormed = isChecklistPackFormed(checkedAccessorySlugs, allAccessorySlugs);
+  const activeDiscountBps = isPackFormed ? packDiscountBps : 0;
 
   const recalcParams = useMemo(
     () => ({
@@ -315,20 +346,25 @@ export function PdpProvider({
   const isGuidedSequenceActive = mode === "guided" && guidedRevealCount <= 3;
 
   /**
-   * Accessoires au tarif ACTIF (29c② partie A, correctif « PDP ≠ panier ») :
-   * public par défaut, basculent en HT pro dès que `proPricing.accessoryProPricing`
-   * résout ce slug — MÊME rôle que la membrane (`activeUnitHtCents`
-   * ci-dessus), jamais un accessoire resté au public pendant que la membrane
-   * est en pro. `vatRateBps`/`quantity`/`name`/`unit` ne dépendent jamais du
-   * rôle, seul `unitHtCents` est substitué.
+   * Accessoires au tarif ET à la quantité ACTIFS : le tarif bascule en HT pro
+   * dès que `proPricing.accessoryProPricing` résout ce slug (29c② partie A,
+   * correctif « PDP ≠ panier » — MÊME rôle que la membrane,
+   * `activeUnitHtCents` ci-dessus) ; la quantité reflète le choix utilisateur
+   * (`accessoryQuantities`, 29c② partie B, étape 2), jamais figée à la
+   * quantité recommandée une fois modifiée. `vatRateBps`/`name`/`unit` ne
+   * dépendent ni du rôle ni de la quantité choisie.
    */
   const activeChecklistAccessories = useMemo(
     () =>
       checklistAccessories.map((accessory) => {
         const proOverride = proPricing?.accessoryProPricing[accessory.slug];
-        return proOverride ? { ...accessory, unitHtCents: proOverride.proUnitHtCents } : accessory;
+        return {
+          ...accessory,
+          unitHtCents: proOverride ? proOverride.proUnitHtCents : accessory.unitHtCents,
+          quantity: accessoryQuantities[accessory.slug] ?? accessory.quantity,
+        };
       }),
-    [checklistAccessories, proPricing],
+    [checklistAccessories, proPricing, accessoryQuantities],
   );
 
   /**
@@ -399,11 +435,16 @@ export function PdpProvider({
     membraneSlug: product.slug,
   }).toString();
 
-  /** Lignes accessoires cochées (29c②), prêtes pour `addPackLines`/`AddToCartButton` — vide si la checklist n'a aucune sélection (comportement `addCatalogLine` inchangé). */
-  const checkedAccessoryLines = checkedAccessorySlugs.map((slug) => {
-    const accessory = checklistAccessories.find((item) => item.slug === slug);
-    return { slug, quantity: accessory ? accessory.quantity : 1 };
-  });
+  /**
+   * Lignes accessoires cochées (29c②), quantités CHOISIES (pas forcément les
+   * recommandées, 29c② partie B étape 2) — prêtes pour `addPackLines`/
+   * `AddToCartButton` ; vide si la checklist n'a aucune sélection
+   * (comportement `addCatalogLine` inchangé).
+   */
+  const checkedAccessoryLines = checkedAccessorySlugs.map((slug) => ({
+    slug,
+    quantity: accessoryQuantities[slug] ?? 1,
+  }));
 
   const value: PdpContextValue = {
     product,
@@ -427,6 +468,9 @@ export function PdpProvider({
     checkedAccessoryLines,
     checkedAccessorySlugs,
     toggleAccessory,
+    accessoryQuantities,
+    setAccessoryQuantity,
+    isPackFormed,
   };
 
   return <PdpContext.Provider value={value}>{children}</PdpContext.Provider>;

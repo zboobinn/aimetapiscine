@@ -89,6 +89,7 @@ export function PdpBuyBox({ compatibleAccessories, swatchOptions, selectedCouleu
     panelValues,
     calculatorParamsString,
     checkedAccessoryLines,
+    isPackFormed,
   } = usePdpContext();
 
   const addCatalogLine = useCartStore((state) => state.addCatalogLine);
@@ -101,14 +102,27 @@ export function PdpBuyBox({ compatibleAccessories, swatchOptions, selectedCouleu
   // n'inline pas la valeur dans le bundle (piège spec 28, vérifié en 28a).
   const remakeGuaranteeCopy = getRemakeGuaranteeCopy(process.env.NEXT_PUBLIC_REMAKE_GUARANTEE);
 
+  /**
+   * 29c② partie B, piège cohérence panier : `addPackLines` (`features/cart/store.ts`)
+   * dérive `originalSlugs` DES SEULES lignes envoyées — un kit incomplet
+   * envoyé comme pack serait donc toujours « complet » aux yeux du panier
+   * (auto-référence), recréant la divergence PDP ≠ panier de la partie A.
+   * Donc : pack UNIQUEMENT si `isPackFormed` (kit complet, `PdpProvider`) ;
+   * sinon, la membrane et les accessoires cochés partent en lignes catalogue
+   * INDÉPENDANTES (`addCatalogLine`, jamais de `packId`) — ajoutés au panier,
+   * mais jamais remisés, exactement comme l'affichage PDP dans ce cas.
+   */
   function handleValidateDrawer() {
-    if (checkedAccessoryLines.length > 0) {
+    if (isPackFormed) {
       addPackLines(
         [{ slug: product.slug, quantity: panelValues.membraneQuantity }, ...checkedAccessoryLines],
         calculatorParamsString,
       );
     } else {
       addCatalogLine(product.slug, panelValues.membraneQuantity);
+      for (const line of checkedAccessoryLines) {
+        addCatalogLine(line.slug, line.quantity);
+      }
     }
     drawerRef.current?.close();
   }
@@ -260,11 +274,18 @@ export function PdpBuyBox({ compatibleAccessories, swatchOptions, selectedCouleu
       {renderCalculatorFields("desktop")}
       {renderPriceBlock()}
 
+      {/*
+        29c② partie B, piège cohérence panier : pack UNIQUEMENT si le kit est
+        complet (`isPackFormed`) — sinon lignes catalogue indépendantes,
+        jamais un pack partiel (`addPackLines` dériverait un manifeste
+        auto-référent, cf. `AddToCartButton`).
+      */}
       <AddToCartButton
         product={product}
         quantity={panelValues.membraneQuantity}
         compatibleAccessories={compatibleAccessories}
-        packAccessoryLines={checkedAccessoryLines}
+        packAccessoryLines={isPackFormed ? checkedAccessoryLines : []}
+        additionalCatalogLines={isPackFormed ? [] : checkedAccessoryLines}
         calculatorParams={calculatorParamsString}
       />
 
