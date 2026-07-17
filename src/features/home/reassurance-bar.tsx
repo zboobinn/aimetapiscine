@@ -14,7 +14,9 @@ interface ReassuranceItem {
 const REASSURANCE_ITEMS: ReassuranceItem[] = [
   { text: "Livraison incluse en France métropolitaine (copie provisoire — OK)" },
   { text: SHIPPING_DELAY_LABEL },
-  { text: "Garantie fabricant 10 ans (copie provisoire — OK)" },
+  // Correctif (30, rappel CLAUDE.md) : "fabricant" impliquait à tort une
+  // fabrication propre — nous sommes distributeur, jamais fabricant.
+  { text: "Garantie 10 ans (copie provisoire — OK)" },
   {
     text: "Retours simples (copie provisoire — OK)",
     href: "/livraison-retours",

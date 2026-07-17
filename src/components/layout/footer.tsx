@@ -4,7 +4,10 @@ const legalLinks = [
   { href: "/cgv", label: "CGV" },
   { href: "/mentions-legales", label: "Mentions légales" },
   { href: "/confidentialite", label: "Confidentialité" },
-  { href: "/livraison-retours", label: "Livraison & retours" },
+  // Liens en dur (30 §10) : "Retours" et "Livraison" distincts, jamais fusionnés
+  // en un seul libellé, chacun ancré sur sa section de /livraison-retours.
+  { href: "/livraison-retours#livraison", label: "Livraison" },
+  { href: "/livraison-retours#retours", label: "Retours" },
 ];
 
 export function Footer() {

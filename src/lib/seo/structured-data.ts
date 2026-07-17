@@ -39,3 +39,25 @@ export function buildWebsiteJsonLd() {
     url: absoluteUrl("/"),
   };
 }
+
+/**
+ * FAQPage (30 §09) — pas d'`AggregateRating` ici ni ailleurs sur le site
+ * (décision 2026-07-07, 18 gagne sur toute mention contraire de la spec 30).
+ * Le texte doit correspondre EXACTEMENT au contenu affiché (exigence Google) :
+ * l'appelant doit passer la MÊME source que le rendu visuel, jamais une copie
+ * réécrite pour le balisage.
+ */
+export function buildFaqPageJsonLd(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}

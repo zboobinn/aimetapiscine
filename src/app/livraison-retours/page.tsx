@@ -12,7 +12,18 @@ export default function LivraisonRetoursPage() {
       <h1 className="font-heading text-3xl font-semibold text-ink">
         Livraison & retours
       </h1>
-      <p className="mt-6 text-ink-muted">
+
+      <h2 id="livraison" className="mt-10 font-heading text-xl font-semibold text-ink">
+        Livraison
+      </h2>
+      <p className="mt-4 text-ink-muted">
+        Contenu à venir (spec 12/22).
+      </p>
+
+      <h2 id="retours" className="mt-10 font-heading text-xl font-semibold text-ink">
+        Retours
+      </h2>
+      <p className="mt-4 text-ink-muted">
         Contenu à venir (spec 12/22).
       </p>
     </div>
