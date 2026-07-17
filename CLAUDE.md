@@ -66,7 +66,7 @@ Ne PAS tout relire : lis UNIQUEMENT le fichier docs/ concerné par la tâche en 
 Invariants issus de D1–D18 (`docs/decisions.md`) — à respecter sur toute tâche touchant 27 à 31, même partiellement.
 - Zéro librairie d'animation (`gsap`, `motion`, `framer-motion`, `lenis`, `aos`) — garde-fou testé en CI.
 - `animation-timeline` sous `@supports (animation-timeline: view())` uniquement, état révélé par défaut (pas Baseline, Firefox doit voir une page statique et lisible).
-- Le hero n'a aucune animation.
+- Le hero défile automatiquement (3 photos, 6 s, pause au survol/focus, aucune rotation sous prefers-reduced-motion) — D4 amendé le 2026-07-17.
 - `--turquoise` est la couleur du produit (piscine), jamais un accent d'UI.
 - Aucune ombre portée. `--radius: 2px`.
 - Police mono réservée aux nombres et métadonnées, jamais à des phrases.

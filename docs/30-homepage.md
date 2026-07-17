@@ -38,7 +38,7 @@ Tout le reste est décor, et le décor se coupe.
 
 C'est le pari du projet. Il mérite d'être écrit noir sur blanc.
 
-- **Aucune animation au-dessus de la ligne de flottaison.** Pas de fade-in du titre, pas de reveal, pas de parallaxe, pas de vidéo. Une image apparaît. Six pastilles de couleur. Deux boutons.
+- **Aucune animation au-dessus de la ligne de flottaison.** ⚠️ **AMENDÉ le 2026-07-17** — le hero défile désormais automatiquement (3 photos, 6 s, crossfade, pause au survol/focus, aucune rotation sous `prefers-reduced-motion`), cf. `docs/decisions.md` D4 et l'entrée « Redesign, passe D ». Le reste de la phrase ci-dessous décrit l'état d'origine, conservé pour trace. Pas de fade-in du titre, pas de reveal, pas de parallaxe, pas de vidéo. Une image apparaît. Six pastilles de couleur. Deux boutons.
 - L'image est en `next/image`, `priority`, `fetchPriority="high"`, AVIF, ~90 KB à 1600px.
 - Précharger **les deux premiers coloris seulement**. Pas les six.
 - Les swatches changent l'image en crossfade 120 ms. Rien d'autre ne bouge.
@@ -94,7 +94,7 @@ Si quelqu'un demande « on ne peut pas juste ajouter un petit fade sur le titre 
 - [ ] `llms.txt` servi en 200, sans mention fournisseur.
 - [ ] Le JSON-LD `FAQPage` et `Organization` valident au Rich Results Test.
 - [ ] Test blind-shipping : aucun token interdit dans le JSON-LD sérialisé de la homepage.
-- [ ] Aucun onglet horizontal sur la page. Aucun carrousel auto. Aucun compteur animé. Aucun badge d'urgence.
+- [ ] Aucun onglet horizontal sur la page. ~~Aucun carrousel auto.~~ ⚠️ **AMENDÉ le 2026-07-17** — le hero a désormais un carrousel auto assumé (cf. `docs/decisions.md` D4). Aucun compteur animé. Aucun badge d'urgence.
 - [ ] Dans Firefox stable : la page s'affiche complètement, sans reveal. Aucun contenu manquant.
 
 ---
