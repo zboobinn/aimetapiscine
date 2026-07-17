@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getSiteEnv().NEXT_PUBLIC_SITE_URL),
   // Correctif (30, rappel CLAUDE.md) : "Vente directe fabricant" impliquait à
   // tort une fabrication propre — nous sommes distributeur, jamais fabricant.
-  title: "Membranes Armées — Membrane armée sur mesure",
+  title: "ArmaPool — Membranes armées sur mesure",
   description:
     "Membranes armées piscine et accessoires de pose, livrés en France métropolitaine.",
 };

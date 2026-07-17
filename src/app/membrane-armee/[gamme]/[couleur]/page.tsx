@@ -85,11 +85,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const produit = getMembraneByGammeAndCouleur(gamme, couleur);
 
   if (!produit) {
-    return { title: "Produit introuvable | Membranes Armées" };
+    return { title: "Produit introuvable | ArmaPool" };
   }
 
   return {
-    title: `${produit.name} | Membranes Armées`,
+    title: `${produit.name} | ArmaPool`,
     description: produit.description,
     alternates: { canonical: `/membrane-armee/${gamme}/${couleur}` },
   };

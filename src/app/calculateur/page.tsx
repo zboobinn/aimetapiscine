@@ -5,7 +5,7 @@ import { getAccessories, getMembranes } from "@/lib/catalog/data";
 import { getBusinessConfigEnv } from "@/lib/env";
 
 export const metadata: Metadata = {
-  title: "Calculateur de pack | Membranes Armées",
+  title: "Calculateur de pack | ArmaPool",
   description:
     "Renseignez les dimensions de votre bassin et obtenez un pack prêt à poser : membrane et accessoires calculés automatiquement.",
   // Canonical figé sur l'URL nue : l'état du calculateur vit dans les

@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const label = getAccessoryCategoryLabel(produits[0]?.category ?? "");
 
   return {
-    title: `${label} | Accessoires | Membranes Armées`,
+    title: `${label} | Accessoires | ArmaPool`,
     description: `${label} pour la pose de membrane armée piscine.`,
     alternates: { canonical: `/accessoires/${categorie}` },
   };

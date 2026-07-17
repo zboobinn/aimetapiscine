@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Confirmation de commande | Membranes Armées",
+  title: "Confirmation de commande | ArmaPool",
   robots: { index: false, follow: false },
 };
 

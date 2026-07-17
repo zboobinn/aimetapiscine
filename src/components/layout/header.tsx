@@ -11,7 +11,7 @@ export function Header() {
           href="/"
           className="font-heading text-lg font-semibold tracking-tight text-ink"
         >
-          Membranes Armées
+          ArmaPool
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

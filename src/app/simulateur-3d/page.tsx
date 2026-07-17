@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Simulateur 3D | Membranes Armées",
+  title: "Simulateur 3D | ArmaPool",
   description: "Visualisez votre membrane armée en 3D avant de commander.",
   // Stub sans contenu réel (spec 16 reportée sine die, decisions.md) — à
   // retirer dès que l'intégration APF marque blanche existe.

@@ -14,4 +14,4 @@ process.env.BLIND_SHIPPING_DENYLIST = "zolvex,brumanor,zvx";
 // `buildProductJsonLd` appelle `absoluteUrl()` (`getSiteEnv()`, 18/26), qui
 // throw si `NEXT_PUBLIC_SITE_URL` est absent — valeur de test uniquement,
 // jamais utilisée pour un appel réseau réel.
-process.env.NEXT_PUBLIC_SITE_URL ??= "https://aimetapiscine.fr";
+process.env.NEXT_PUBLIC_SITE_URL ??= "https://armapool.fr";

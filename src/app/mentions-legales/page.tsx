@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mentions légales | Membranes Armées",
-  description: "Mentions légales de Membranes Armées.",
+  title: "Mentions légales | ArmaPool",
+  description: "Mentions légales d'ArmaPool.",
   alternates: { canonical: "/mentions-legales" },
 };
 

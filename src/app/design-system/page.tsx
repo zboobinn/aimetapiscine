@@ -12,7 +12,7 @@ import { Stepper } from "@/components/ui/stepper";
 // hors développement plutôt que la suppression pure : la page reste utile en
 // local pour visualiser les tokens/composants du design system (05).
 export const metadata: Metadata = {
-  title: "Design system | Membranes Armées",
+  title: "Design system | ArmaPool",
   robots: { index: false, follow: false },
 };
 
@@ -41,7 +41,7 @@ export default function DesignSystemPage() {
       <header className="flex flex-col gap-2 py-16">
         <p className="font-medium text-accent">Design system</p>
         <h1 className="font-heading text-4xl font-semibold text-ink">
-          Membranes Armées — composants de base
+          ArmaPool — composants de base
         </h1>
         <p className="max-w-2xl text-ink-muted">
           Page de démonstration temporaire : tokens et composants UI définis

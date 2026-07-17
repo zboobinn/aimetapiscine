@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { MettreAJourMotDePasseForm } from "./mettre-a-jour-mot-de-passe-form";
 
 export const metadata: Metadata = {
-  title: "Nouveau mot de passe | Membranes Armées",
+  title: "Nouveau mot de passe | ArmaPool",
   robots: { index: false, follow: false },
 };
 

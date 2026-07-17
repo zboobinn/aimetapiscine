@@ -20,7 +20,7 @@ import { poolMediaPlanSchema, resolvePoolMedia } from "@/lib/media/pool-media";
 const DESIGN_ROUTE_ENABLED = process.env.NEXT_PUBLIC_DESIGN_ROUTE_ENABLED === "true";
 
 export const metadata: Metadata = {
-  title: "Nuancier — fondations | Membranes Armées",
+  title: "Nuancier — fondations | ArmaPool",
   robots: { index: false, follow: false },
 };
 

@@ -1,4 +1,4 @@
-# Membranes Armées — E-commerce B2C/B2B (dropshipping APF)
+# ArmaPool — E-commerce B2C/B2B (dropshipping APF)
 
 Vente en ligne de membranes armées piscine et accessoires de pose, en dropshipping exclusif avec APF Pool Design (blind shipping). Cibles : particuliers (prix TTC) et pros vérifiés (prix HT remisés). France métropolitaine uniquement. Module phare : calculateur expert générant des « Packs Prêts à Poser ».
 

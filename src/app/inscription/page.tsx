@@ -3,7 +3,7 @@ import Link from "next/link";
 import { InscriptionForm } from "./inscription-form";
 
 export const metadata: Metadata = {
-  title: "Inscription | Membranes Armées",
+  title: "Inscription | ArmaPool",
   robots: { index: false, follow: false },
 };
 

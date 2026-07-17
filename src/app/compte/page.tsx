@@ -4,7 +4,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Mon compte | Membranes Armées",
+  title: "Mon compte | ArmaPool",
   robots: { index: false, follow: false },
 };
 

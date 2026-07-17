@@ -15,7 +15,7 @@ import { ProPrice } from "@/components/pricing/pro-price";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Accessoires de pose | Membranes Armées",
+  title: "Accessoires de pose | ArmaPool",
   description:
     "Feutre de protection, colles, PVC liquide, profilés et solvants pour la pose de membrane armée.",
   alternates: { canonical: "/accessoires" },

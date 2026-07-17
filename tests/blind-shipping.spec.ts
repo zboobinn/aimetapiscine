@@ -179,7 +179,7 @@ describe("vecteur 4 — brand/manufacturer/seller dans le JSON-LD produit", () =
   it("ne contient jamais de clé manufacturer et brand.name/seller.name restent figés, quel que soit l'input", () => {
     const jsonLd = buildProductJsonLd({
       produit: taintedProduit,
-      canonicalUrl: "https://aimetapiscine.fr/membrane-armee/uni/bleu",
+      canonicalUrl: "https://armapool.fr/membrane-armee/uni/bleu",
       publicTtcCents: 12900,
       revalidateSeconds: 3600,
     });
@@ -439,7 +439,7 @@ describe("critère de done (spec 27) — non-régression", () => {
         image: "/products/produit-test.jpg",
         in_stock: true,
       },
-      canonicalUrl: "https://aimetapiscine.fr/produit-test",
+      canonicalUrl: "https://armapool.fr/produit-test",
       publicTtcCents: 5000,
       revalidateSeconds: 3600,
     });

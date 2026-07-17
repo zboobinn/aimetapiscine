@@ -15,7 +15,7 @@ describe("buildProductJsonLd — garde blind shipping (27), PDP (29)", () => {
   it("ne contient ni `manufacturer` ni un token fournisseur dans le JSON sérialisé", () => {
     const jsonLd = buildProductJsonLd({
       produit: PRODUIT,
-      canonicalUrl: "https://aimetapiscine.fr/membrane-armee/uni/bleu",
+      canonicalUrl: "https://armapool.fr/membrane-armee/uni/bleu",
       publicTtcCents: 294000,
       revalidateSeconds: 3600,
     });
@@ -32,7 +32,7 @@ describe("buildProductJsonLd — garde blind shipping (27), PDP (29)", () => {
   it("brand/seller sont toujours SITE_BRAND — jamais un nom d'entité externe", () => {
     const jsonLd = buildProductJsonLd({
       produit: PRODUIT,
-      canonicalUrl: "https://aimetapiscine.fr/membrane-armee/uni/bleu",
+      canonicalUrl: "https://armapool.fr/membrane-armee/uni/bleu",
       publicTtcCents: 294000,
       revalidateSeconds: 3600,
     });

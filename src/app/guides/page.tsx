@@ -3,7 +3,7 @@ import Link from "next/link";
 import { guides } from "./guides-data";
 
 export const metadata: Metadata = {
-  title: "Guides | Membranes Armées",
+  title: "Guides | ArmaPool",
   description: "Conseils et guides pratiques pour choisir et poser votre membrane armée.",
   alternates: { canonical: "/guides" },
 };

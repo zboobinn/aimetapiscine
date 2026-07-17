@@ -78,7 +78,7 @@ export function buildProductJsonLd({
     "@context": "https://schema.org",
     "@type": "Product",
     "@id": canonicalUrl,
-    name: sanitizePublicField(produit.name, "product-jsonld-name", "Produit Membranes Armées"),
+    name: sanitizePublicField(produit.name, "product-jsonld-name", "Produit ArmaPool"),
     description: sanitizePublicField(
       produit.description ?? "",
       "product-jsonld-description",

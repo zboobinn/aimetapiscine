@@ -16,11 +16,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const guide = guides.find((g) => g.slug === slug);
 
   if (!guide) {
-    return { title: "Guide introuvable | Membranes Armées" };
+    return { title: "Guide introuvable | ArmaPool" };
   }
 
   return {
-    title: `${guide.title} | Guides | Membranes Armées`,
+    title: `${guide.title} | Guides | ArmaPool`,
     description: guide.excerpt,
     alternates: { canonical: `/guides/${slug}` },
   };

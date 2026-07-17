@@ -66,11 +66,27 @@ const PLAN_ALT_SUFFIX: Record<PoolMediaPlan, string> = {
   soudure: "détail d'un raccord soudé (placeholder)",
 };
 
+// Plan « bassin » : vraies photos (visuels TEMPORAIRES générés, à remplacer au
+// shooting en lumière naturelle — annexe-brief-photo, A3). Dimensions réelles
+// des fichiers = CLS 0. `placeholder` reste `true` : le brief exige 4 plans
+// photographiés, ces 3 bassins n'en ferment aucun. Les plans macro/echelle/
+// soudure restent des SVG neutres (PLAN_DIMENSIONS ci-dessus). Un coloris sans
+// entrée ici retombe proprement sur le SVG `{coloris}-bassin.svg`.
+const BASSIN_IMAGES: Record<string, { src: string; width: number; height: number }> = {
+  bleu: { src: `${PLACEHOLDER_DIR}/bleu-bassin.jpg`, width: 2742, height: 1536 },
+  "gris-anthracite": { src: `${PLACEHOLDER_DIR}/gris-anthracite-bassin.jpg`, width: 3114, height: 1376 },
+  nuage: { src: `${PLACEHOLDER_DIR}/nuage-bassin.jpg`, width: 2742, height: 1536 },
+};
+
 function placeholderPlanImage(colorisSlug: string, plan: PoolMediaPlan, label: string): PoolMediaPlanImage {
-  const { width, height } = PLAN_DIMENSIONS[plan];
+  const real = plan === "bassin" ? BASSIN_IMAGES[colorisSlug] : undefined;
+  const { src, width, height } = real ?? {
+    src: `${PLACEHOLDER_DIR}/${colorisSlug}-${plan}.svg`,
+    ...PLAN_DIMENSIONS[plan],
+  };
 
   return {
-    src: `${PLACEHOLDER_DIR}/${colorisSlug}-${plan}.svg`,
+    src,
     width,
     height,
     alt: `${label} — ${PLAN_ALT_SUFFIX[plan]}`,

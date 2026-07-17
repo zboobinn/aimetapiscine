@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PanierClient } from "./panier-client";
 
 export const metadata: Metadata = {
-  title: "Panier | Membranes Armées",
+  title: "Panier | ArmaPool",
   robots: { index: false, follow: false },
 };
 

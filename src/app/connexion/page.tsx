@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ConnexionForm } from "./connexion-form";
 
 export const metadata: Metadata = {
-  title: "Connexion | Membranes Armées",
+  title: "Connexion | ArmaPool",
   robots: { index: false, follow: false },
 };
 

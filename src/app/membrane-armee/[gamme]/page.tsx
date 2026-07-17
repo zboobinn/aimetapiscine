@@ -24,7 +24,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { gamme } = await params;
   return {
-    title: `Membrane armée — Gamme ${capitalize(gamme)} | Membranes Armées`,
+    title: `Membrane armée — Gamme ${capitalize(gamme)} | ArmaPool`,
     description: `Coloris disponibles dans la gamme ${gamme} de membranes armées, rouleaux 41,25 m².`,
     alternates: { canonical: `/membrane-armee/${gamme}` },
   };

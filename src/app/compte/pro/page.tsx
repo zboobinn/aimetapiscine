@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ProSignupForm } from "./pro-signup-form";
 
 export const metadata: Metadata = {
-  title: "Compte professionnel | Membranes Armées",
+  title: "Compte professionnel | ArmaPool",
   robots: { index: false, follow: false },
 };
 

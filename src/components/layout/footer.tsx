@@ -17,7 +17,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
           <div className="flex flex-col gap-2">
             <span className="font-heading text-base font-semibold text-ink">
-              Membranes Armées
+              ArmaPool
             </span>
             <p className="max-w-xs text-sm text-ink-muted">
               Membranes armées piscine et accessoires de pose, livrés en
@@ -60,7 +60,7 @@ export function Footer() {
         </div>
 
         <p className="text-xs text-ink-muted">
-          © {new Date().getFullYear()} Membranes Armées. Tous droits réservés.
+          © {new Date().getFullYear()} ArmaPool. Tous droits réservés.
         </p>
       </div>
     </footer>
