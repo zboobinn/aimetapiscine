@@ -19,16 +19,21 @@ const urlStateSchema = z.object({
   stairs: stairTypeSchema,
   // Gamme/couleur choisies à l'étape résultat (08) : indépendant des quantités.
   membrane: z.string().min(1).optional(),
+  // Étape d'arrivée du wizard (30, teaser homepage) : optionnel, absent pour
+  // tous les consommateurs existants (recalculer/partage, qui doivent
+  // continuer d'atterrir à l'étape résultat, comportement inchangé).
+  step: z.coerce.number().int().min(1).max(4).optional(),
 });
 
 export interface CalculatorUrlState {
   input: CalculatorInput;
   membraneSlug?: string;
+  step?: number;
 }
 
 export function serializeCalculatorState(state: CalculatorUrlState): URLSearchParams {
   const params = new URLSearchParams();
-  const { input, membraneSlug } = state;
+  const { input, membraneSlug, step } = state;
 
   params.set("shape", input.pool.shape);
   params.set("l", String(input.pool.dimensions.length));
@@ -36,6 +41,7 @@ export function serializeCalculatorState(state: CalculatorUrlState): URLSearchPa
   params.set("d", String(input.pool.dimensions.depth));
   params.set("stairs", input.stairType);
   if (membraneSlug) params.set("membrane", membraneSlug);
+  if (step !== undefined) params.set("step", String(step));
 
   return params;
 }
@@ -55,5 +61,6 @@ export function parseCalculatorState(params: URLSearchParams): CalculatorUrlStat
       stairType: parsed.data.stairs,
     },
     membraneSlug: parsed.data.membrane,
+    step: parsed.data.step,
   };
 }

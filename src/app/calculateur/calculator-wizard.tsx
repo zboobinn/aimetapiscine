@@ -75,7 +75,7 @@ export function CalculatorWizard({
     [lossCoeffBase, lossCoeffStairs],
   );
 
-  const [step, setStep] = useState(initialUrlState ? 4 : 1);
+  const [step, setStep] = useState(initialUrlState ? (initialUrlState.step ?? 4) : 1);
   const [dimensions, setDimensions] = useState<Record<DimensionField, string>>(
     toDimensionStrings(initialUrlState?.input.pool.dimensions),
   );
