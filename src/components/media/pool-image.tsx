@@ -9,6 +9,8 @@ export interface PoolImageProps {
   priority?: boolean;
   fetchPriority?: "high" | "low" | "auto";
   className?: string;
+  /** Pile crossfade (30) : masque les photos inactives aux lecteurs d'écran. */
+  ariaHidden?: boolean;
 }
 
 /**
@@ -18,7 +20,7 @@ export interface PoolImageProps {
  * 0, brief annexe-photo). Pas de `.withMetadata()` (27) : cohérent avec le
  * reste du pipeline média du projet.
  */
-export function PoolImage({ colorisSlug, plan, priority, fetchPriority, className }: PoolImageProps) {
+export function PoolImage({ colorisSlug, plan, priority, fetchPriority, className, ariaHidden }: PoolImageProps) {
   const entry = resolvePoolMedia(colorisSlug);
   const image = entry.plans[plan];
 
@@ -31,6 +33,7 @@ export function PoolImage({ colorisSlug, plan, priority, fetchPriority, classNam
       priority={priority}
       fetchPriority={fetchPriority}
       className={className}
+      aria-hidden={ariaHidden}
     />
   );
 }

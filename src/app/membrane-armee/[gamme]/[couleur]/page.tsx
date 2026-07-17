@@ -22,6 +22,7 @@ import {
   getMembranesByGamme,
 } from "@/lib/catalog/data";
 import { withLivePricing, withLivePricingOne } from "@/lib/catalog/live-pricing";
+import { swatchColorFor } from "@/lib/catalog/swatch-color";
 import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { resolvePoolMedia, type PoolMediaPlan } from "@/lib/media/pool-media";
@@ -39,22 +40,6 @@ interface PageProps {
 }
 
 const GALLERY_PLANS: PoolMediaPlan[] = ["macro", "bassin", "echelle", "soudure"];
-
-/**
- * Pastille de couleur des swatches (29) : le catalogue ne porte qu'un nom de
- * coloris (`couleur`), pas de valeur hex — mappage manuel, à étendre à
- * chaque nouveau coloris catalogue. Jamais `--turquoise` ici pour un coloris
- * qui n'est pas réellement turquoise (D1, la couleur du produit).
- */
-const SWATCH_COLOR_BY_COULEUR: Record<string, string> = {
-  bleu: "#0E5C8A",
-  "gris anthracite": "#3A3D3F",
-  nuage: "#D8D9D5",
-};
-
-function swatchColorFor(couleur: string): string {
-  return SWATCH_COLOR_BY_COULEUR[couleur.toLowerCase()] ?? "#B6B3AA";
-}
 
 // Highlights (29) : copie éditoriale PROVISOIRE — OK pour cette passe
 // (structure + prix), à remplacer avant publication réelle. Images tirées du
