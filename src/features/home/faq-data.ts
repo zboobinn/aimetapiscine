@@ -1,8 +1,46 @@
+import { getRemakeGuaranteeCopy } from "@/features/pdp/remake-guarantee-copy";
 import { SHIPPING_DELAY_LABEL } from "@/lib/shipping/delay-label";
 
 export interface FaqItem {
   question: string;
   answer: string;
+}
+
+/** Question dont la réponse dépend de `NEXT_PUBLIC_REMAKE_GUARANTEE` (30 §09, A1). */
+export const REMAKE_GUARANTEE_QUESTION =
+  "Puis-je retourner ma membrane si je me suis trompé de mesure ?";
+
+/**
+ * Réutilise la copie canonique de la PDP (`getRemakeGuaranteeCopy`, 29 §8) —
+ * une seule formulation de la garantie de reprise sur tout le site, jamais
+ * une deuxième version qui pourrait diverger. Fonction pure : prend la
+ * valeur déjà lue par l'appelant, ne lit jamais `process.env` elle-même.
+ */
+function resolveRemakeGuaranteeAnswer(rawValue: string | undefined): string {
+  const copy = getRemakeGuaranteeCopy(rawValue);
+  if (rawValue === "material-only" || rawValue === "full") {
+    return `${copy} Contactez notre service client pour connaître les modalités.`;
+  }
+  return `${copy} Vérifiez bien vos cotes avant de valider.`;
+}
+
+/**
+ * Applique la réponse résolue à l'item `REMAKE_GUARANTEE_QUESTION` — appelée
+ * indépendamment par `Faq` (rendu) et `page.tsx` (JSON-LD `FAQPage`), chacun
+ * avec sa PROPRE lecture LITTÉRALE de `NEXT_PUBLIC_REMAKE_GUARANTEE` (piège
+ * 28) : les deux lectures littérales du même nom de variable sont inlinées à
+ * la même valeur au build, donc texte affiché et texte balisé ne peuvent
+ * jamais diverger.
+ */
+export function withRemakeGuaranteeAnswer(
+  items: FaqItem[],
+  rawValue: string | undefined,
+): FaqItem[] {
+  return items.map((item) =>
+    item.question === REMAKE_GUARANTEE_QUESTION
+      ? { ...item, answer: resolveRemakeGuaranteeAnswer(rawValue) }
+      : item,
+  );
 }
 
 /**
@@ -29,9 +67,11 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
     answer: "Oui, la Corse est desservie, avec un léger surcoût de transport. (copie provisoire — OK)",
   },
   {
-    question: "Puis-je retourner ma membrane si je me suis trompé de mesure ?",
-    answer:
-      "Des conditions de retour existent — consultez notre page Livraison & retours avant de commander. (copie provisoire — OK)",
+    // Réponse réelle substituée par `withRemakeGuaranteeAnswer` (Faq + JSON-LD) —
+    // ce texte n'est qu'un repli si jamais l'un des deux appelants oublie
+    // d'appeler la fonction (ne devrait jamais s'afficher tel quel).
+    question: REMAKE_GUARANTEE_QUESTION,
+    answer: resolveRemakeGuaranteeAnswer(undefined),
   },
   {
     question: "Proposez-vous des tarifs professionnels ?",

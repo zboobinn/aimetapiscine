@@ -28,11 +28,12 @@ const STEPS: Step[] = [
 ];
 
 /**
- * Comment ça marche (30 §05) — 4 étapes numérotées, AUCUNE animation. La
- * numérotation encode une vraie séquence temporelle (mesurer → recevoir →
- * poser → profiter) : légitime ici, nulle part ailleurs sur le site (28,
- * « la numérotation n'est pas un motif décoratif »). Chiffres en mono (28,
- * règle stricte : mono réservé aux nombres/métadonnées).
+ * Comment ça marche (30 §05) — 4 étapes numérotées, AUCUNE animation. Frise
+ * LINÉAIRE ordonnée 01→04 : la ligne + les puces ne sont qu'un habillage
+ * visuel de la desktop (`lg:`), jamais un zigzag qui alternerait la position
+ * des libellés (ce qui inverserait la lecture) — un seul niveau de lecture,
+ * de gauche à droite, identique à la lecture mobile empilée. Chiffres en
+ * mono (28, règle stricte : mono réservé aux nombres/métadonnées).
  */
 export function HowItWorks() {
   return (
@@ -45,22 +46,34 @@ export function HowItWorks() {
         Comment ça marche
       </h2>
 
-      <ol className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {STEPS.map((step) => (
-          <li key={step.number} className="flex flex-col gap-2">
-            <span
-              className="font-mono"
-              style={{ fontSize: "var(--step-1)", color: "var(--deep-blue)" }}
-            >
-              {step.number}
-            </span>
-            <h3 className="font-display" style={{ fontSize: "var(--step-1)" }}>
-              {step.title}
-            </h3>
-            <p style={{ color: "var(--ink-60)", lineHeight: "var(--lh-body)" }}>{step.body}</p>
-          </li>
-        ))}
-      </ol>
+      <div className="relative mt-10">
+        <div
+          aria-hidden="true"
+          className="absolute left-0 right-0 top-3 hidden h-px lg:block"
+          style={{ background: "var(--coping)" }}
+        />
+        <ol className="relative grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step) => (
+            <li key={step.number} className="flex flex-col gap-3">
+              <span
+                aria-hidden="true"
+                className="hidden h-6 w-6 items-center justify-center rounded-full border-2 lg:flex"
+                style={{ borderColor: "var(--turquoise)", background: "var(--surface)" }}
+              />
+              <span
+                className="font-mono"
+                style={{ fontSize: "var(--step-1)", color: "var(--turquoise)" }}
+              >
+                {step.number}
+              </span>
+              <h3 className="font-display" style={{ fontSize: "var(--step-1)" }}>
+                {step.title}
+              </h3>
+              <p style={{ color: "var(--ink-60)", lineHeight: "var(--lh-body)" }}>{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

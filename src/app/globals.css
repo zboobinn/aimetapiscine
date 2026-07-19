@@ -72,7 +72,10 @@ h6 {
 :root {
   --ink: #101314;
   --lime-wash: #f2f3ef;
-  --turquoise: #3fb6a8;
+  /* --turquoise: #3fb6a8; */
+  --turquoise: #08b9d4;
+
+  
   --deep-blue: #0e5c8a;
   --coping: #b6b3aa;
   --signal: #e8452b;

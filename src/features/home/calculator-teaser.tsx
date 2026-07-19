@@ -7,6 +7,7 @@ import {
   serializeCalculatorState,
   type CalculatorInput,
 } from "@/features/calculator";
+import { HOME_CARD_BG, HOME_RADIUS, HOME_SHADOW } from "./home-look";
 import { computeTeaserPrice, type TeaserMembranePricing } from "./teaser-pricing";
 
 type DimensionField = "length" | "width" | "depth";
@@ -46,9 +47,18 @@ const SHAPE_OPTIONS: ShapeOption[] = [
 ];
 
 const formatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+const surfaceFormatter = new Intl.NumberFormat("fr-FR", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
 
 function formatCents(cents: number): string {
   return formatter.format(cents / 100);
+}
+
+/** Décimales françaises (virgule) — jamais `.toFixed()` brut (30 §03). */
+function formatSurfaceM2(surfaceM2: number): string {
+  return surfaceFormatter.format(surfaceM2);
 }
 
 export interface CalculatorTeaserProps {
@@ -140,7 +150,10 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <fieldset className="flex flex-col gap-3 border p-4" style={{ borderColor: "var(--coping)", borderRadius: "var(--radius)" }}>
+        <fieldset
+          className="flex flex-col gap-3 border p-4"
+          style={{ borderColor: "var(--coping)", borderRadius: HOME_RADIUS, boxShadow: HOME_SHADOW, background: HOME_CARD_BG }}
+        >
           <legend className="px-1 font-medium" style={{ color: "var(--ink)" }}>
             Forme du bassin
           </legend>
@@ -149,8 +162,10 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
               key={option.value}
               className="flex items-center gap-3 border p-3"
               style={{
-                borderColor: option.value === "rectangle" ? "var(--ink)" : "var(--coping)",
-                borderRadius: "var(--radius)",
+                borderColor: option.value === "rectangle" ? "var(--turquoise)" : "var(--coping)",
+                borderWidth: option.value === "rectangle" ? "2px" : "1px",
+                borderRadius: HOME_RADIUS,
+                background: option.value === "rectangle" ? "color-mix(in oklab, var(--turquoise) 8%, white)" : "var(--surface)",
                 opacity: option.available ? 1 : 0.5,
               }}
             >
@@ -161,6 +176,7 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
                 checked={option.value === "rectangle"}
                 disabled={!option.available}
                 readOnly
+                style={{ accentColor: "var(--turquoise)" }}
               />
               <span className="flex flex-col">
                 <span className="font-medium" style={{ color: "var(--ink)" }}>
@@ -174,7 +190,10 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
           ))}
         </fieldset>
 
-        <div className="flex flex-col gap-4 border p-4" style={{ borderColor: "var(--coping)", borderRadius: "var(--radius)" }}>
+        <div
+          className="flex flex-col gap-4 border p-4"
+          style={{ borderColor: "var(--coping)", borderRadius: HOME_RADIUS, boxShadow: HOME_SHADOW, background: HOME_CARD_BG }}
+        >
           <div className="flex flex-col gap-3">
             {(Object.keys(DIMENSION_LABELS) as DimensionField[]).map((field) => (
               <label key={field} className="flex flex-col gap-1">
@@ -189,7 +208,7 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
                     setDimensions((prev) => ({ ...prev, [field]: e.target.value }))
                   }
                   className="h-11 w-full border px-3 font-mono tabular-nums"
-                  style={{ borderColor: "var(--coping)", borderRadius: "var(--radius)" }}
+                  style={{ borderColor: "var(--coping)", borderRadius: HOME_RADIUS, background: "var(--surface)" }}
                   aria-invalid={Boolean(errors[field])}
                 />
                 {errors[field] ? (
@@ -205,7 +224,7 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
             <div className="flex items-baseline justify-between gap-4">
               <span style={{ color: "var(--ink-60)" }}>Surface</span>
               <span className="font-mono tabular-nums">
-                {result ? `${result.surfaceM2.toFixed(1)} m²` : "—"}
+                {result ? `${formatSurfaceM2(result.surfaceM2)} m²` : "—"}
               </span>
             </div>
             <div className="flex items-baseline justify-between gap-4">
@@ -220,10 +239,10 @@ export function CalculatorTeaser({ pricing, lossCoeffBase, lossCoeffStairs }: Ca
             type="button"
             className="w-full border px-4 py-3 font-medium disabled:opacity-50"
             style={{
-              borderColor: "var(--ink)",
-              borderRadius: "var(--radius)",
+              borderColor: "var(--turquoise)",
+              borderRadius: HOME_RADIUS,
               color: "var(--surface)",
-              background: "var(--ink)",
+              background: "var(--turquoise)",
             }}
             disabled={!result}
             onClick={handleContinue}

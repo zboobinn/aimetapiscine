@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { PoolImage } from "@/components/media/pool-image";
 import { couleurToSlug, getMembranes } from "@/lib/catalog/data";
+import { resolvePoolMedia } from "@/lib/media/pool-media";
 import { capitalize } from "@/lib/utils/text";
+import { NuancierCard } from "./nuancier-card";
 
 const MAX_ITEMS = 6;
 const STAGGER_STEP_MS = 60;
@@ -12,11 +12,14 @@ interface NuancierItem {
   couleurSlug: string;
   name: string;
   gammeLabel: string;
+  waterAppearance: string;
 }
 
 /**
  * Coloris DISTINCTS du catalogue (comme `buildHeroSwatchOptions`, 30 §01),
- * plafonné à 6 (30 §04) — pas une liste écrite à la main.
+ * plafonné à 6 (30 §04) — pas une liste écrite à la main. `waterAppearance`
+ * résolu ICI (Server Component) via `resolvePoolMedia()`, jamais depuis
+ * `NuancierCard` (Client Component) — même règle que `hero-swatch-options.ts`.
  */
 function buildNuancierItems(): NuancierItem[] {
   const seenSlugs = new Set<string>();
@@ -39,6 +42,7 @@ function buildNuancierItems(): NuancierItem[] {
       couleurSlug,
       name: capitalize(couleur),
       gammeLabel: capitalize(gamme),
+      waterAppearance: resolvePoolMedia(couleurSlug).waterAppearance,
     });
   }
 
@@ -68,46 +72,22 @@ export function Nuancier() {
           Le nuancier
         </h2>
         <p style={{ color: "var(--ink-60)", maxWidth: "var(--measure)" }}>
-          La matière au repos. Survolez un coloris pour voir le bassin rempli. (copie provisoire —
-          OK)
+          La matière au repos. Touchez ou survolez un coloris pour voir le bassin rempli.
+          (copie provisoire — OK)
         </p>
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-6 lg:grid-cols-3">
         {items.map((item, index) => (
-          <Link
+          <NuancierCard
             key={item.id}
             href={`/membrane-armee/${item.gamme}/${item.couleurSlug}`}
-            className="reveal group relative block overflow-hidden border"
-            style={{
-              borderColor: "var(--coping)",
-              borderRadius: "var(--radius)",
-              animationDelay: `${index * STAGGER_STEP_MS}ms`,
-            }}
-          >
-            <div className="relative w-full" style={{ aspectRatio: "4 / 3" }}>
-              <PoolImage
-                colorisSlug={item.couleurSlug}
-                plan="macro"
-                className="h-full w-full object-cover"
-              />
-              <PoolImage
-                colorisSlug={item.couleurSlug}
-                plan="bassin"
-                ariaHidden
-                className="swatch-crossfade absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-              />
-            </div>
-            <div className="flex items-center justify-between gap-2 px-4 py-3">
-              <span style={{ color: "var(--ink)" }}>{item.name}</span>
-              <span
-                className="font-mono"
-                style={{ fontSize: "var(--step--1)", color: "var(--ink-60)" }}
-              >
-                {item.gammeLabel}
-              </span>
-            </div>
-          </Link>
+            couleurSlug={item.couleurSlug}
+            name={item.name}
+            gammeLabel={item.gammeLabel}
+            waterAppearance={item.waterAppearance}
+            animationDelayMs={index * STAGGER_STEP_MS}
+          />
         ))}
       </div>
     </section>

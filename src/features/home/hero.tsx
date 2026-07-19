@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type FocusEvent } from "react";
 import Link from "next/link";
 import { PoolImage } from "@/components/media/pool-image";
 import { Bleed } from "@/components/nuancier/bleed";
+import { PauseIcon, PlayIcon } from "./home-icons";
+import { HOME_RADIUS } from "./home-look";
 import type { HeroSwatchOption } from "./hero-swatch-options";
 
 export interface HeroProps {
@@ -33,6 +35,7 @@ export function Hero({ swatchOptions }: HeroProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [firstLoaded, setFirstLoaded] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [manuallyPaused, setManuallyPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
   const count = swatchOptions.length;
@@ -65,14 +68,14 @@ export function Hero({ swatchOptions }: HeroProps) {
   }, []);
 
   // Rotation automatique — désactivée si : une seule photo, 1ʳᵉ image pas
-  // encore chargée, en pause (survol/focus), ou mouvement réduit.
+  // encore chargée, en pause (survol/focus/bouton explicite), ou mouvement réduit.
   useEffect(() => {
-    if (count <= 1 || !firstLoaded || paused || reducedMotion) return;
+    if (count <= 1 || !firstLoaded || paused || manuallyPaused || reducedMotion) return;
     const id = window.setInterval(() => {
       setActiveIndex((i) => (i + 1) % count);
     }, ROTATION_MS);
     return () => window.clearInterval(id);
-  }, [count, firstLoaded, paused, reducedMotion]);
+  }, [count, firstLoaded, paused, manuallyPaused, reducedMotion]);
 
   const handleBlur = (event: FocusEvent<HTMLElement>) => {
     if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
@@ -183,9 +186,9 @@ export function Hero({ swatchOptions }: HeroProps) {
                 href="/membrane-armee"
                 className="pointer-events-auto px-5 py-3 text-center font-medium"
                 style={{
-                  borderRadius: "var(--radius)",
+                  borderRadius: HOME_RADIUS,
                   color: "var(--surface)",
-                  background: "var(--deep-blue)",
+                  background: "var(--turquoise)",
                 }}
               >
                 Découvrir nos membranes
@@ -194,7 +197,7 @@ export function Hero({ swatchOptions }: HeroProps) {
                 href="/calculateur"
                 className="pointer-events-auto border px-5 py-3 text-center font-medium"
                 style={{
-                  borderRadius: "var(--radius)",
+                  borderRadius: HOME_RADIUS,
                   color: "var(--surface)",
                   borderColor: "rgba(255,255,255,0.7)",
                 }}
@@ -206,7 +209,8 @@ export function Hero({ swatchOptions }: HeroProps) {
 
           {/*
            * Points de contrôle (affordance du carrousel + pause implicite au
-           * focus). Actif en `--deep-blue`, JAMAIS `--turquoise` (D1). Cible
+           * focus). Actif en `--turquoise` (override maquette, route `/`
+           * uniquement — D1 garde `--deep-blue` partout ailleurs). Cible
            * tactile élargie par le padding (≥24px, WCAG 2.5.8).
            */}
           {count > 1 ? (
@@ -231,7 +235,7 @@ export function Hero({ swatchOptions }: HeroProps) {
                       className="block h-2.5 rounded-full transition-all"
                       style={{
                         width: active ? "1.5rem" : "0.625rem",
-                        background: active ? "var(--deep-blue)" : "rgba(255,255,255,0.55)",
+                        background: active ? "var(--turquoise)" : "rgba(255,255,255,0.55)",
                         border: active ? "1px solid rgba(255,255,255,0.75)" : "none",
                       }}
                     />
@@ -239,6 +243,30 @@ export function Hero({ swatchOptions }: HeroProps) {
                 );
               })}
             </div>
+          ) : null}
+
+          {/*
+           * Bouton pause/lecture explicite (WCAG 2.2.2 — mécanisme requis dès
+           * qu'un contenu défile automatiquement > 5 s, indépendant de la
+           * pause implicite survol/focus ci-dessus, utile en particulier au
+           * tactile qui n'a pas de `:hover`). N'affecte pas `reducedMotion`,
+           * déjà arrêté par ailleurs.
+           */}
+          {count > 1 && !reducedMotion ? (
+            <button
+              type="button"
+              onClick={() => setManuallyPaused((p) => !p)}
+              aria-pressed={manuallyPaused}
+              aria-label={
+                manuallyPaused
+                  ? "Reprendre le défilement automatique des photos"
+                  : "Mettre en pause le défilement automatique des photos"
+              }
+              className="pointer-events-auto absolute bottom-5 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full sm:right-6"
+              style={{ background: "rgba(16,19,20,0.45)", color: "var(--surface)" }}
+            >
+              {manuallyPaused ? <PlayIcon /> : <PauseIcon />}
+            </button>
           ) : null}
         </div>
       </Bleed>
