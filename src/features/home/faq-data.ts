@@ -49,8 +49,9 @@ export function withRemakeGuaranteeAnswer(
  * texte affiché et le texte balisé ne peuvent jamais diverger, par
  * construction (Google exige une correspondance exacte). Copie éditoriale
  * provisoire — sauf le délai de livraison, qui reprend `SHIPPING_DELAY_LABEL`
- * (12), donnée réelle déjà affichée ailleurs sur le site (reassurance-bar,
- * 30 §02).
+ * (12), même donnée réelle (5 à 10 jours ouvrés) que la forme courte affichée
+ * dans le bandeau de réassurance (reassurance-bar, 30 §02), reformulée pour
+ * tenir sur une ligne.
  */
 export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
