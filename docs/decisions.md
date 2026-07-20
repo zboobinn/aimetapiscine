@@ -663,6 +663,18 @@ Question ouverte : le BL est-il un « livrable client » au sens de l'exception
 - **Validé** : `pnpm typecheck` / `pnpm vitest run` (200 tests, inchangé) / `pnpm build` verts. Vérifié en local (`pnpm dev` + Playwright, non commité) : 10 sections rendues, aucun `<select>`/onglet horizontal, zéro erreur console, capture desktop (1440px) + mobile (390px) + gros plans footer/FAQ/hero conformes à la maquette ; `.reveal` (Nuancier §04, Bento §07) confirmé fonctionnel au scroll réel (une capture plein-page en un seul rendu ne déclenche pas `animation-timeline: view()`, artefact de capture, pas un bug de rendu). **Non revérifié manuellement** : `prefers-reduced-motion: reduce` forcé, rendu Firefox stable, LCP/CLS/first-load JS (toujours bloqués sur les vraies photos, cf. passes précédentes).
 - **Reste à faire** : page `/contact` et mention médiation restent des coquilles minimales (contenu réel hors périmètre visuel de cette passe).
 
+### 2026-07-19 — Redesign, passe E : look ArmaPool étendu à la homepage
+
+- **Décision** : le registre visuel « ArmaPool » (maquettes, passe E ci-dessus) est prolongé à l'intégralité de la route `/` (sections 01→10 + footer). Le PDP (spec 29) et le nuancier (spec 28) gardent le registre « Nuancier » éditorial d'origine. Deux registres visuels assumés en parallèle, la frontière est la route : `/` en ArmaPool, tout le reste en Nuancier.
+- **Amendements d'invariants confirmés, route `/` UNIQUEMENT** (ailleurs, invariants d'origine 28/D2/D18 maintenus sans changement) : ombres portées autorisées ; `--radius` ~10px (au lieu de 2px) ; la règle « police mono réservée aux nombres » n'est pas appliquée sur cette route ; usage de `--turquoise` comme accent d'UI (CTA, sélection, indicateurs), pas seulement la couleur du produit.
+- **Couleur `--turquoise`** : la valeur porte désormais le bleu clair du logo, `#08b9d4` (valeurs précédentes : `#29B6D8`, puis `#3fb6a8` en passe E initiale, cf. ci-dessus). D1 reste préservé dans l'intention — l'accent d'UI est le bleu du logo, distinct du turquoise-eau du produit (`waterAppearance`, nuancier) — mais pas dans le nommage du token (voir dette ci-dessous).
+- **Logo** : une variante claire du logo, adaptée pour fond foncé, a été produite et intégrée au footer (`public/brand/logo.png`), taille d'affichage ~48px. Le header conserve sa version sur fond clair (passe C, inchangée).
+- **Dettes ouvertes** :
+  * le token s'appelle toujours `--turquoise` alors qu'il porte désormais un bleu clair d'UI, pas la couleur du produit — renommage `--brand`/`--accent` à prévoir (l'ambiguïté que D1 cherchait justement à éviter) ;
+  * CTA fond `#08b9d4` + texte blanc ≈ 2,4:1 — échoue WCAG AA (angle mort accessibilité déjà noté en passe E initiale sur l'ancienne valeur, toujours non corrigé avec la nouvelle).
+- **Impact** : 28 (valeur `--turquoise`), 30 ; `public/brand/logo.png` (variante fond foncé), footer.
+- **Statut** : entrée documentaire — travail déjà codé et poussé avant cette entrée, aucune nouvelle vérification `pnpm build`/`pnpm test` associée.
+
 ### Décisions en attente
 
 **A1 — Garantie de reprise sur erreur de cote.**
