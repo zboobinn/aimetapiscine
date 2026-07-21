@@ -13,7 +13,7 @@ export function Header() {
             par la classe (`h-11 w-auto`). `priority` : au-dessus de la flottaison. */}
         <Link href="/" className="flex items-center" aria-label="ArmaPool — accueil">
           <Image
-            src="/brand/logo.png"
+            src="/brand/logo-bleu.png"
             alt="ArmaPool"
             width={322}
             height={82}

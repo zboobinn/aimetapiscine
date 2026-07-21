@@ -1,0 +1,2070 @@
+[
+  {
+    "slug": "baguette-angle",
+    "nom_affiche": "Baguette d'angle rentrant 50 × 50 mm",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2100,
+        "ref_apf": "D41616AR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2100,
+        "ref_apf": "D41616AS"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2100,
+        "ref_apf": "D41616AS2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1900,
+        "ref_apf": "D41616AS3"
+      }
+    ]
+  },
+  {
+    "slug": "baguette-pvc",
+    "nom_affiche": "Baguette PVC de finition",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1040,
+        "ref_apf": "D41624A9"
+      }
+    ]
+  },
+  {
+    "slug": "bande-soudure",
+    "nom_affiche": "Bande de soudure PVC armé",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1550,
+        "ref_apf": "D41622BA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1330,
+        "ref_apf": "D41627BA"
+      }
+    ]
+  },
+  {
+    "slug": "bandelette-soudure",
+    "nom_affiche": "Bandelette de soudure 9 mm",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3570,
+        "ref_apf": "D41612B"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 29000,
+        "ref_apf": "D41626B"
+      }
+    ]
+  },
+  {
+    "slug": "colle-aerosol",
+    "nom_affiche": "Colle et aérosols de pose",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3570,
+        "ref_apf": "D34610CF"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2490,
+        "ref_apf": "D34611PS"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2490,
+        "ref_apf": "D34611PSPO"
+      }
+    ]
+  },
+  {
+    "slug": "colle-bostik-1220",
+    "nom_affiche": "Colle Bostik 1220 (nitrile)",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8200,
+        "ref_apf": "D41619CB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 2450,
+        "ref_apf": "D41619CB2"
+      }
+    ]
+  },
+  {
+    "slug": "colle-bostik-1400",
+    "nom_affiche": "Colle Bostik 1400 (néoprène)",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 5450,
+        "ref_apf": "D41620CB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1980,
+        "ref_apf": "D41620CB2"
+      }
+    ]
+  },
+  {
+    "slug": "colle-contact",
+    "nom_affiche": "Colle contact néoprène",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 12000,
+        "ref_apf": "D41629"
+      }
+    ]
+  },
+  {
+    "slug": "colle-pvc-pose",
+    "nom_affiche": "Colle PVC de pose",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 17100,
+        "ref_apf": "D41618AL"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 15400,
+        "ref_apf": "D41623CN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 29900,
+        "ref_apf": "D41625CA"
+      }
+    ]
+  },
+  {
+    "slug": "colle-pvc-vinylique",
+    "nom_affiche": "Colle PVC vinylique (Bostik Vinicol 170)",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 17000,
+        "ref_apf": "D41617CP"
+      }
+    ]
+  },
+  {
+    "slug": "colle-thermo",
+    "nom_affiche": "Colle thermo-adhésive sans acétone",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 14000,
+        "ref_apf": "D41628"
+      }
+    ]
+  },
+  {
+    "slug": "entretien-antitaches",
+    "nom_affiche": "Produit antitaches",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 7250,
+        "ref_apf": "D34423AT"
+      }
+    ]
+  },
+  {
+    "slug": "entretien-nettoyant",
+    "nom_affiche": "Nettoyant ligne d'eau",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3500,
+        "ref_apf": "D41612AN1"
+      }
+    ]
+  },
+  {
+    "slug": "entretien-pretraitement",
+    "nom_affiche": "Prétraitement du support",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 9080,
+        "ref_apf": "D34612AC"
+      }
+    ]
+  },
+  {
+    "slug": "feutre-geotextile",
+    "nom_affiche": "Feutre géotextile",
+    "type": "accessoire",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 530,
+        "ref_apf": "D34513FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 560,
+        "ref_apf": "D34514FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 580,
+        "ref_apf": "D34515FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 670,
+        "ref_apf": "D34516FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 300,
+        "ref_apf": "D34532FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 310,
+        "ref_apf": "D34533FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 440,
+        "ref_apf": "D34534FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 760,
+        "ref_apf": "D34536FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 840,
+        "ref_apf": "D34537FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 840,
+        "ref_apf": "D34537FBN"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 990,
+        "ref_apf": "D34540FBN"
+      }
+    ]
+  },
+  {
+    "slug": "flacon-applicateur",
+    "nom_affiche": "Flacon applicateur PVC liquide",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1420,
+        "ref_apf": "D41614FA"
+      }
+    ]
+  },
+  {
+    "slug": "jonc-blocage",
+    "nom_affiche": "Jonc de blocage",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30BF"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30BL"
+      },
+      {
+        "coloris": "BLEU PALE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30BP"
+      },
+      {
+        "coloris": "CIMENT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30CI"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30GC"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30GF"
+      },
+      {
+        "coloris": "NOIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30NO"
+      },
+      {
+        "coloris": "OLIVE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30OL"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30SA"
+      },
+      {
+        "coloris": "VERT ANTILLES",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30VA"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 150,
+        "ref_apf": "D34410E30VC"
+      }
+    ]
+  },
+  {
+    "slug": "mastic-colle",
+    "nom_affiche": "Mastic-colle",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLANC",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4940,
+        "ref_apf": "D34860BLA"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4940,
+        "ref_apf": "D34860GRI"
+      },
+      {
+        "coloris": "NOIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4940,
+        "ref_apf": "D34860NOI"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870BLA"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870BLE"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870GRA"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870GRI"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870HIG"
+      },
+      {
+        "coloris": "NOIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870NOI"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870SAB"
+      },
+      {
+        "coloris": "TRANSPARENT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3710,
+        "ref_apf": "D34870TRA"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-150-antiderapante",
+    "nom_affiche": "Membrane armée 150/100 — antidérapante",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40313VC-N"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40310AB-N"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40310AS-N"
+      },
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40311AF-N"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40312AB-N"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40316AG-N"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40316GF-N"
+      },
+      {
+        "coloris": "OLIVE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2700,
+        "ref_apf": "D40318VO-N"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3980,
+        "ref_apf": "TOUT"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-150-grand-relief",
+    "nom_affiche": "Membrane armée 150/100 — grand relief",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5560,
+        "ref_apf": "D40230GRA2"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5560,
+        "ref_apf": "D40230GRI2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5560,
+        "ref_apf": "D40230OCR2"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5560,
+        "ref_apf": "D40230SAB2"
+      },
+      {
+        "coloris": "VERT",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5560,
+        "ref_apf": "D40230VER2"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-150-lisse",
+    "nom_affiche": "Membrane armée 150/100 — lisse",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40110BP-H"
+      },
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40111BF-H"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40112BL-H"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40113VC-H"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40115SA-H"
+      },
+      {
+        "coloris": "OLIVE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40117VO-H"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40116GRA-H"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40116GRI-H"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40A116GRA-H"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40A116GRI-H"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40A115SA-H"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40A110BP-H"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2140,
+        "ref_apf": "D40A112BL-H"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-150-relief",
+    "nom_affiche": "Membrane armée 150/100 — relief",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220BE"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220BL2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220BT"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220GC2"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220GF2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220JA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220MN2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220OC2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220PJ2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220PO"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220SB"
+      },
+      {
+        "coloris": "VERT",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4850,
+        "ref_apf": "D40220VE"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-150-vernie",
+    "nom_affiche": "Membrane armée 150/100 — vernie",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40110BP3"
+      },
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40111BF3"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40112BL3"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40113VC3"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40115SA3"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40116GRI3"
+      },
+      {
+        "coloris": "OLIVE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40117VO3"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40116GRA3"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A116GRA3"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A110BP3"
+      },
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A111BF3"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A112BL3"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A115SA3"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2650,
+        "ref_apf": "D40A116GRI3"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-antiderapante-relief",
+    "nom_affiche": "Membrane armée 150/100 — antidérapante relief",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40316GF-R"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40316AG-R"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40313VC-R"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40310AB-R"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40310AS-R"
+      },
+      {
+        "coloris": "BLEU ADRIATIQUE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40311AF-R"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5310,
+        "ref_apf": "D40312AB-R"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 7040,
+        "ref_apf": "TOUT"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6380,
+        "ref_apf": "D40320PB1"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 8370,
+        "ref_apf": "D40320PB1"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-confort-150",
+    "nom_affiche": "Membrane armée 150/100 — confort",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40112BL2"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40110BP2"
+      },
+      {
+        "coloris": "BLEU ADRIATIQUE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40111BF2"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40113VC2"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40115SA2"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40116GRA2"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40116GRI2"
+      },
+      {
+        "coloris": "BLEU ADRIATIQUE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A111BF2"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A112BL2"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A115SA2"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A116GRA2"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A116GRI2N"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 3660,
+        "ref_apf": "D40A110BP2"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-essentielle-150",
+    "nom_affiche": "Membrane armée 150/100 — essentielle",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2310,
+        "ref_apf": "D40110BP1"
+      },
+      {
+        "coloris": "BLEU ADRIATIQUE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2310,
+        "ref_apf": "D40111BF1"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2310,
+        "ref_apf": "D40112BL1"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2310,
+        "ref_apf": "D40115SA1"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 2310,
+        "ref_apf": "D40116GRI1NEW"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-nacree",
+    "nom_affiche": "Membrane armée 150/100 — nacrée",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": "BLANC ADRIATIQUE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40510BA"
+      },
+      {
+        "coloris": "BLEU TURQUOISE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40510BT"
+      },
+      {
+        "coloris": "GRIS PERLE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40510GP"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-premium-150",
+    "nom_affiche": "Membrane armée 150/100 — premium",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210AA"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210BB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210CA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210MA"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210MO"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210PB"
+      },
+      {
+        "coloris": "NOIR",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210PN"
+      },
+      {
+        "coloris": "VIEUX ROSE",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 5110,
+        "ref_apf": "D40210PR"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-relief-structure",
+    "nom_affiche": "Membrane armée 150/100 — relief structuré",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410AU2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410EL2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410OR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410OR2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410PB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410PB2"
+      },
+      {
+        "coloris": "GRIS BETON",
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410PR2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410SU2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 6890,
+        "ref_apf": "D40410VA2"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-renforcee-150",
+    "nom_affiche": "Membrane armée 150/100 — renforcée",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40710IC"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40720SA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40730BL"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40740AZ"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40750SI+"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40770ON"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40A710IC"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 2.05,
+        "longueur_rouleau_m": 25,
+        "prix_public_ht_cents": 4650,
+        "ref_apf": "D40A730BL"
+      }
+    ]
+  },
+  {
+    "slug": "membrane-renforcee-antiderapante",
+    "nom_affiche": "Membrane armée 150/100 — renforcée antidérapante",
+    "type": "membrane",
+    "unite": "m2",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40323IC"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40324SA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40325BL"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40326AZ"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40327SI"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40328VO"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 5950,
+        "ref_apf": "D40329ON"
+      },
+      {
+        "coloris": null,
+        "largeur_m": 1.65,
+        "longueur_rouleau_m": 10,
+        "prix_public_ht_cents": 7650,
+        "ref_apf": "TOUT"
+      }
+    ]
+  },
+  {
+    "slug": "profile-alu-horizontal",
+    "nom_affiche": "Profilé de finition alu — horizontal",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 630,
+        "ref_apf": "D34210HA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1590,
+        "ref_apf": "D34211HA"
+      }
+    ]
+  },
+  {
+    "slug": "profile-alu-vertical",
+    "nom_affiche": "Profilé de finition alu — vertical",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 695,
+        "ref_apf": "D34110VA-"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1830,
+        "ref_apf": "D34212AV"
+      }
+    ]
+  },
+  {
+    "slug": "profile-pvc-horizontal",
+    "nom_affiche": "Profilé de finition PVC — horizontal",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1070,
+        "ref_apf": "D34110HFM"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 300,
+        "ref_apf": "D34110HH38"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 330,
+        "ref_apf": "D34110HH-C"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 705,
+        "ref_apf": "D34111HH2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 540,
+        "ref_apf": "D34112HA"
+      }
+    ]
+  },
+  {
+    "slug": "profile-pvc-vertical",
+    "nom_affiche": "Profilé de finition PVC — vertical",
+    "type": "accessoire",
+    "unite": "ml",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 475,
+        "ref_apf": "D34310HV-C"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1310,
+        "ref_apf": "D34311HA"
+      }
+    ]
+  },
+  {
+    "slug": "pvc-liquide",
+    "nom_affiche": "PVC liquide d'étanchéité",
+    "type": "pvc-liquide",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41510LP-H"
+      },
+      {
+        "coloris": "BLEU FRANCE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41511LF-H"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41513LV-H"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41515SA-H"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41516GR-H"
+      },
+      {
+        "coloris": "GRIS FONCE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41518GRA-H"
+      },
+      {
+        "coloris": "VERT OLIVE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41520VO-H"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41512LB-H"
+      },
+      {
+        "coloris": "VERT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41564VE"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41565BT"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41566BE"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41519PET-H"
+      },
+      {
+        "coloris": "VERT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41539GRT-H"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4840,
+        "ref_apf": "D41541DUN-H"
+      }
+    ]
+  },
+  {
+    "slug": "pvc-liquide-s2",
+    "nom_affiche": "PVC liquide d'étanchéité — série 2",
+    "type": "pvc-liquide",
+    "unite": "unite",
+    "statut": "brouillon",
+    "variantes": [
+      {
+        "coloris": "VERT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 5260,
+        "ref_apf": "D41556VE"
+      },
+      {
+        "coloris": "BLEU",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 5260,
+        "ref_apf": "D41557BL"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 5260,
+        "ref_apf": "D41558GR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 5260,
+        "ref_apf": "D41563BU"
+      },
+      {
+        "coloris": "BLEU CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41510LP1"
+      },
+      {
+        "coloris": "BLEU ADRIATIQUE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41511LF1"
+      },
+      {
+        "coloris": "VERT CARAIBES",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41513LV1"
+      },
+      {
+        "coloris": "BLANC",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41512LB1"
+      },
+      {
+        "coloris": "SABLE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41515SA1"
+      },
+      {
+        "coloris": "GRIS CLAIR",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41516GR1"
+      },
+      {
+        "coloris": "TRANSPARENT",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41517TR"
+      },
+      {
+        "coloris": "GRIS ANTHRACITE",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6160,
+        "ref_apf": "D41518GRA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41532XI"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41533XS"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41534XB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41535XA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41536XS"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41537XV"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6410,
+        "ref_apf": "D41538XO"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8310,
+        "ref_apf": "D41520PL1"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41522AR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41523AU"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41524PB"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41525OR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41528VA"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41529SU"
+      },
+      {
+        "coloris": "GRIS BETON",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41530PR"
+      },
+      {
+        "coloris": "GRIS",
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41542QU"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41543TR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41544NO"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41545LE"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41552VI"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41553UR"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41554SU"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41560DU"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41561AS"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 8320,
+        "ref_apf": "D41562EV"
+      }
+    ]
+  },
+  {
+    "slug": "rivets",
+    "nom_affiche": "Rivets à frapper Ø4,8 × 26 mm",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6630,
+        "ref_apf": "D41613RD1"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 7650,
+        "ref_apf": "D41614RD1"
+      }
+    ]
+  },
+  {
+    "slug": "solvant",
+    "nom_affiche": "Solvant de nettoyage THF",
+    "type": "accessoire",
+    "unite": "unite",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 4490,
+        "ref_apf": "D41612SO2"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 3890,
+        "ref_apf": "D41612SO3"
+      }
+    ]
+  },
+  {
+    "slug": "tole-colaminee",
+    "nom_affiche": "Tôle colaminée PVC",
+    "type": "accessoire",
+    "unite": "m2",
+    "statut": "publie",
+    "variantes": [
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 6900,
+        "ref_apf": "D41615TP"
+      },
+      {
+        "coloris": null,
+        "largeur_m": null,
+        "longueur_rouleau_m": null,
+        "prix_public_ht_cents": 1250,
+        "ref_apf": "D41616TB"
+      }
+    ]
+  }
+]

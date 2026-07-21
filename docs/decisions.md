@@ -675,6 +675,16 @@ Question ouverte : le BL est-il un « livrable client » au sens de l'exception
 - **Impact** : 28 (valeur `--turquoise`), 30 ; `public/brand/logo.png` (variante fond foncé), footer.
 - **Statut** : entrée documentaire — travail déjà codé et poussé avant cette entrée, aucune nouvelle vérification `pnpm build`/`pnpm test` associée.
 
+### 2026-07-21 — Conditionnement « à la découpe » hors V1 + dettes seed catalogue
+
+- **Décision** : en V1, les membranes sont vendues au ROULEAU uniquement. Le conditionnement « à la découpe / sur-mesure » (prix au m² majoré, minimum 1,65 m²) est reporté — à réintroduire plus tard comme une variante de conditionnement à part entière (dimension distincte du coloris et de la largeur, pas une simple ligne de prix parallèle).
+- **Lignes source exclues du catalogue** (non seedées) : les 3 lignes catch-all `TOUT` (Hydroflex antidérapant, Alkorplan relief, Alkorplan Xtreme antidérapant) et la ligne découpe de `D40320PB1` (83,70 €). `D40320PB1` est en base en version ROULEAU (63,80 €).
+- **Règle de dédoublonnage durcie** (`scripts/apf/seed-products.ts`) : sur un doublon de `ref_apf` (même réf portée par une ligne rouleau ET une ligne découpe dans la grille source, cas `D40320PB1`), le rouleau est désormais préféré EXPLICITEMENT à la découpe (`buildConditionnementLookup()`, lecture de la désignation/l'unité dans `catalog-raw.json`) — plus par simple ordre d'apparition dans le fichier. Avant ce durcissement, le bon résultat (rouleau conservé) tenait à l'ordre du fichier source, pas à une règle ; un réordonnancement futur de la grille APF l'aurait cassé silencieusement. Repli sur le comportement précédent (garder la première occurrence) + `warning: true` journalisé si aucune règle ne permet de trancher.
+- **Dette `weight_grams`** : les 239 variantes seedées portent `weight_grams = 0` (placeholder) — donnée absente de toute la grille APF (aucune colonne poids, ni dans `catalog-raw.json` ni dans `catalog-facade.json`). Bloque tout calcul de frais de port réel : le tunnel de commande n'est pas testable en port réel tant que non renseigné. À réclamer à APF (réponse questionnaire fournisseur : « OK >>> achats »).
+- **Dette `D41612B`** : unité provisoirement `ml` alors que le prix affiché est au rouleau de 25 m — variante forcée `is_active = false` au seed, à corriger avant toute publication.
+- **Motif** : décision métier actée par Léo après vérification du seed du 2026-07-20 (le cas `D40320PB1` fonctionnait déjà correctement, mais par hasard d'ordre de fichier) ; les 4 dettes ci-dessus étaient déjà connues du rapport de seed mais pas encore consignées ici.
+- **Impact** : 04, 08, 12 ; `scripts/apf/seed-products.ts`, `tests/apf-seed-products.spec.ts`, `data/apf/mapping-familles.md`.
+
 ### Décisions en attente
 
 **A1 — Garantie de reprise sur erreur de cote.**

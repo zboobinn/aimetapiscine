@@ -13,6 +13,7 @@
     "db:migrate": "supabase migration up",
     "db:seed": "supabase db reset",
     "catalog:import": "tsx --env-file=.env.local scripts/import-catalog.ts",
+    "apf:seed": "tsx --env-file=.env.local scripts/apf/seed-products.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripe"
   },
   "dependencies": {
@@ -46,6 +47,7 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.0",
     "typescript": "^5",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "xlsx": "^0.18.5"
   }
 }

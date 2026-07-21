@@ -1,0 +1,3800 @@
+[
+  {
+    "ref_apf": "D40110BP-H",
+    "designation_brute": "Hydroflex native standard 15/10 BLEU CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40111BF-H",
+    "designation_brute": "Hydroflex native standard 15/10 BLEU FRANCE - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40112BL-H",
+    "designation_brute": "Hydroflex native standard 15/10 BLANC - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40113VC-H",
+    "designation_brute": "Hydroflex native standard 15/10 VERT CARAIBES - Rouleau de 25 m x 1.6",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40115SA-H",
+    "designation_brute": "Hydroflex native standard 15/10 SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40117VO-H",
+    "designation_brute": "Hydroflex native standard 15/10 OLIVE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "OLIVE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRA-H",
+    "designation_brute": "Hydroflex native standard 15/10 GRIS FONCE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRI-H",
+    "designation_brute": "Hydroflex native standard 15/10 GRIS CLAIR - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRA-H",
+    "designation_brute": "Hydroflex native standard 15/10 GRIS FONCE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRI-H",
+    "designation_brute": "Hydroflex native standard 15/10 GRIS CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A115SA-H",
+    "designation_brute": "Hydroflex native standard 15/10 SABLE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A110BP-H",
+    "designation_brute": "Hydroflex native standard 15/10 BLEU CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A112BL-H",
+    "designation_brute": "Hydroflex native standard 15/10 BLANC - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE STANDARD - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2140,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40110BP3",
+    "designation_brute": "Hydroflex native verni 15/10 BLEU CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40111BF3",
+    "designation_brute": "Hydroflex native verni 15/10 BLEU FRANCE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40112BL3",
+    "designation_brute": "Hydroflex native verni 15/10 BLANC - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40113VC3",
+    "designation_brute": "Hydroflex native verni 15/10 VERT CARAIBES - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40115SA3",
+    "designation_brute": "Hydroflex native verni 15/10 SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRI3",
+    "designation_brute": "Hydroflex native verni 15/10 GRIS CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40117VO3",
+    "designation_brute": "Hydroflex native verni 15/10 OLIVE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "OLIVE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRA3",
+    "designation_brute": "Hydroflex native verni 15/10 GRIS FONCE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRA3",
+    "designation_brute": "Hydroflex native verni 15/10 GRIS FONCE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A110BP3",
+    "designation_brute": "Hydroflex native verni 15/10 BLEU CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A111BF3",
+    "designation_brute": "Hydroflex native verni 15/10 BLEU FRANCE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A112BL3",
+    "designation_brute": "Hydroflex native verni 15/10 BLANC - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A115SA3",
+    "designation_brute": "Hydroflex native verni 15/10 SABLE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRI3",
+    "designation_brute": "Hydroflex native verni 15/10 GRIS CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "HYDROFLEX NATIVE VERNI - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40313VC-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant VERT CAR.-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40310AB-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant BLEU CLAIR-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40310AS-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant SABLE-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40311AF-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant BLEU FRANCE-Rouleau de 25m x 1.65",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40312AB-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant BLANC-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40316AG-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant GRIS CLAIR-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40316GF-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant GRIS ANTH-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40318VO-N",
+    "designation_brute": "Hydroflex native 15/10 antidérapant OLIVE-Rouleau de 25m x 1.65m",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2700,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "OLIVE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "TOUT",
+    "designation_brute": "Hydroflex native 15/10 antidérapant - à la Decoupe 1ml mini soit 1,65m², le ml",
+    "famille_brute": "HYDROFLEX ANTIDERAPANT - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "ml",
+    "prix_public_ht_cents": 3980,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (m2) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D40220BE",
+    "designation_brute": "Hydroflex 3D Sensation 15/10 BLEU - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40220BL2",
+    "designation_brute": "Hydroflex 3D Sensation Blanc V2 - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40220BT",
+    "designation_brute": "Hydroflex 3D Sensation 15/10 BETON - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220GC2",
+    "designation_brute": "Hydroflex 3D Sensation Gris Clair V2 - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40220GF2",
+    "designation_brute": "Hydroflex 3D Sensation Gris Foncé V2 - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40220JA",
+    "designation_brute": "Hydroflex 3D Sensation Pierre de Jade - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220MN2",
+    "designation_brute": "Hydroflex 3D Sensation Marron V2 - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220OC2",
+    "designation_brute": "Hydroflex 3D Sensation Ocre V2 - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220PJ2",
+    "designation_brute": "Hydroflex 3D Sensation Pierre de Java - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220PO",
+    "designation_brute": "Hydroflex 3D Sensation Pierre d'Etna - Rouleau de 25 m x 1.65",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40220SB",
+    "designation_brute": "Hydroflex 3D Sensation 15/10 SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40220VE",
+    "designation_brute": "Hydroflex 3D Sensation 15/10 VERT - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 3D SENSATION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4850,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40230GRA2",
+    "designation_brute": "Hydroflex 4D Perception Gris Anthracite V2 - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 4D PERCEPTION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40230GRI2",
+    "designation_brute": "Hydroflex 4D Perception Gris Silex V2 - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 4D PERCEPTION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40230OCR2",
+    "designation_brute": "Hydroflex 4D Perception Ocre V2 - Rouleau de 25 x 1.65 m",
+    "famille_brute": "HYDROFLEX 4D PERCEPTION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40230SAB2",
+    "designation_brute": "Hydroflex 4D Perception Sable V2- Rouleau de 25 m x 1.65 m",
+    "famille_brute": "HYDROFLEX 4D PERCEPTION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": null,
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40230VER2",
+    "designation_brute": "Hydroflex 4D Perception vert V2 - Rouleau de 25 x 1.65 m",
+    "famille_brute": "HYDROFLEX 4D PERCEPTION - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41510LP-H",
+    "designation_brute": "PVC liquide Hydroflex Bleu clair - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41511LF-H",
+    "designation_brute": "PVC liquide Hydroflex Bleu France - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41513LV-H",
+    "designation_brute": "PVC liquide Hydroflex Vert Caraïbes - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41515SA-H",
+    "designation_brute": "PVC liquide Hydroflex Sable - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41516GR-H",
+    "designation_brute": "PVC liquide Hydroflex Gris clair - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41518GRA-H",
+    "designation_brute": "PVC liquide Hydroflex Gris foncé - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS FONCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41520VO-H",
+    "designation_brute": "PVC liquide Hydroflex Vert olive - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT OLIVE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41512LB-H",
+    "designation_brute": "PVC liquide Hydroflex Blanc + 3D Blanc et Gris Clair - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41564VE",
+    "designation_brute": "PVC liquide Hydroflex 3D Sensation VERT - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41565BT",
+    "designation_brute": "PVC liquide Hydroflex 3D Sensation BETON - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41566BE",
+    "designation_brute": "PVC liquide Hydroflex 3D Sensation BLEU - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41519PET-H",
+    "designation_brute": "PVC liquide Hydroflex Etna & 4D percept Gris Ant - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41539GRT-H",
+    "designation_brute": "PVC liquide 3D Granite, Jade, Gr.Foncé, Marron- 4D Vert - Flacon 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41541DUN-H",
+    "designation_brute": "PVC liquide Hydroflex Dune et 3D-4D Ocre - Flacon de 1 kg",
+    "famille_brute": "PVC LIQUIDE HYDROFLEX",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4840,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40110BP1",
+    "designation_brute": "Alkorplan standard 15/10 BLEU CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 1000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2310,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40111BF1",
+    "designation_brute": "Alkorplan standard 15/10 BLEU ADRIATIQUE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 1000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2310,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40112BL1",
+    "designation_brute": "Alkorplan standard 15/10 BLANC - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 1000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2310,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40115SA1",
+    "designation_brute": "Alkorplan standard 15/10 SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 1000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2310,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRI1NEW",
+    "designation_brute": "Alkorplan standard 15/10 GRIS CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 1000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 2310,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40112BL2",
+    "designation_brute": "Alkorplan verni 15/10 BLANC - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40110BP2",
+    "designation_brute": "Alkorplan verni 15/10 BLEU CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40111BF2",
+    "designation_brute": "Alkorplan verni 15/10 BLEU ADRIATIQUE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40113VC2",
+    "designation_brute": "Alkorplan verni 15/10 VERT CARAIBES - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40115SA2",
+    "designation_brute": "Alkorplan verni 15/10 SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRA2",
+    "designation_brute": "Alkorplan verni 15/10 GRIS ANTHRACITE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40116GRI2",
+    "designation_brute": "Alkorplan verni 15/10 GRIS CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A111BF2",
+    "designation_brute": "Alkorplan verni 15/10 BLEU ADRIATIQUE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A112BL2",
+    "designation_brute": "Alkorplan verni 15/10 BLANC - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A115SA2",
+    "designation_brute": "Alkorplan verni 15/10 SABLE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRA2",
+    "designation_brute": "Alkorplan verni 15/10 GRIS ANTHRACITE - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A116GRI2N",
+    "designation_brute": "Alkorplan verni 15/10 GRIS CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40A110BP2",
+    "designation_brute": "Alkorplan verni 15/10 BLEU CLAIR - Rouleau de 25 m x 2.05 m",
+    "famille_brute": "ALKORPLAN RENOLIT 2000 - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 3660,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40210AA",
+    "designation_brute": "Alkorplan imprimé 15/10 Platinium - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40210BB",
+    "designation_brute": "Alkorplan imprimé 15/10 Byzance bleu - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40210CA",
+    "designation_brute": "Alkorplan imprimé 15/10 Carrara - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40210MA",
+    "designation_brute": "Alkorplan imprimé 15/10 Marbré - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40210MO",
+    "designation_brute": "# Alkorplan imprimé 15/10 Mosaïque bleu - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40210PB",
+    "designation_brute": "Alkorplan imprimé 15/10 Persia bleu - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40210PN",
+    "designation_brute": "Alkorplan imprimé 15/10 Persia noir - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "NOIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40210PR",
+    "designation_brute": "Alkorplan imprimé 15/10 Persia vieux rose - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3000 - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "VIEUX ROSE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40316GF-R",
+    "designation_brute": "Alkorplan 18/10 Relief GRIS ANTH - Rouleau de 25 m x 1.65",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40316AG-R",
+    "designation_brute": "Alkorplan 18/10 Relief GRIS CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40313VC-R",
+    "designation_brute": "Alkorplan 18/10 Relief VERT CAR. - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40310AB-R",
+    "designation_brute": "Alkorplan 18/10 Relief BLEU CLAIR - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40310AS-R",
+    "designation_brute": "Alkorplan 18/10 Relief SABLE - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40311AF-R",
+    "designation_brute": "Alkorplan 18/10 Relief BLEU ADRIAT - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "BLEU ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40312AB-R",
+    "designation_brute": "Alkorplan 18/10 Relief BLANC - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5310,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "TOUT",
+    "designation_brute": "Alkorplan 18/10 Relief - à la Decoupe 1ml mini soit 1,65m², le ml",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "ml",
+    "prix_public_ht_cents": 7040,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (m2) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D40320PB1",
+    "designation_brute": "Alkorplan 18/10 antidérapant Persia bleu - Rouleau de 12.6 m x 1.65 m",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6380,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40320PB1",
+    "designation_brute": "Alkorplan 18/10 antidérapant Persia bleu - à la Decoupe 1m mini soit 1,65m², le ml",
+    "famille_brute": "ALKORPLAN ANTIDERAPANT RELIEF - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "ml",
+    "prix_public_ht_cents": 8370,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": "BLEU",
+    "warnings": [
+      "unité de la ligne (ml) diffère de la famille (m2) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D40710IC",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Ice - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40720SA",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Sahara - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40730BL",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Blue Fresh - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40740AZ",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Azur - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40750SI+",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Silver - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40770ON",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Onyx - Rouleau de 25 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40A710IC",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Ice - Rouleau de 25 m x 2,05 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40A730BL",
+    "designation_brute": "# Alkorplan Xtreme 15/10 Blue Fresh - Rouleau de 25 m x 2,05 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME - 25m x 2,05m - le m² -",
+    "largeur_m": 2.05,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 4650,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40323IC",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Ice - Rouleau de 10 m x 1,65",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40324SA",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Sahara - R. de 10 m x 1,65",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40325BL",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Blue Fresh - R. de 10 mx1,65",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40326AZ",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Azur - R. de 10 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40327SI",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Silver - R. de 10 m x 1,65 m",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40328VO",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Volcano - R. de 10 m x 1,65",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40329ON",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant Onyx - R. de 10 m x 1,65",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "m2",
+    "prix_public_ht_cents": 5950,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "TOUT",
+    "designation_brute": "# Alkorplan Xtreme 18/10 Antidérapant  - à la découpe 1ml mini soit 1,65m² le ml",
+    "famille_brute": "ALKORPLAN RENOLIT XTREME ANTIDERAPANT -10m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 10,
+    "unite": "ml",
+    "prix_public_ht_cents": 7650,
+    "epaisseur_raw": "18/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (m2) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D40410AU2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Authentic - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410EL2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Elegance - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410OR",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Origin - Rouleau de 21 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410OR2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Origin - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410PB",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Relax - Rouleau de 21 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410PB2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Relax - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410PR2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Prestige Gris Béton - Rouleau de 25m x 1.65m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": "GRIS BETON",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40410SU2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Sublime - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40410VA2",
+    "designation_brute": "Alkorplan 3D Touch 20/10 Vanity - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT 3D TOUCH - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40430BL",
+    "designation_brute": "Alkorplan Alive 165/100 Bleu - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT ALIVE -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": "65/10",
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40430GR",
+    "designation_brute": "Alkorplan Alive 165/100 Gris - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT ALIVE -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": "65/10",
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40430SA",
+    "designation_brute": "Alkorplan Alive 165/100 Sand - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT ALIVE -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": "65/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40430VE",
+    "designation_brute": "Alkorplan Alive 165/100 Vert - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT ALIVE -25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5560,
+    "epaisseur_raw": "65/10",
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40432AS",
+    "designation_brute": "Alkorplan Evolve 20/10 Ashen - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT EVOLVE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40432DU",
+    "designation_brute": "Alkorplan Evolve 20/10 Dune - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT EVOLVE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40432VE",
+    "designation_brute": "Alkorplan Evolve 20/10 Verdant - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT EVOLVE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40510BA",
+    "designation_brute": "# Alkorplan nacré 15/10 Blanc adriatique - Rouleau de 25 m x 1.65m",
+    "famille_brute": "ALKORPLAN RENOLIT NACRE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLANC ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40510BT",
+    "designation_brute": "# Alkorplan nacré 15/10 Bleu turquoise - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT NACRE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "BLEU TURQUOISE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40510GP",
+    "designation_brute": "# Alkorplan nacré 15/10 Gris perle - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT NACRE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 5110,
+    "epaisseur_raw": "15/10",
+    "coloris_candidat": "GRIS PERLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D40810VI2",
+    "designation_brute": "Alkorplan Vogue 20/10 Vintage - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40820UR2",
+    "designation_brute": "Alkorplan Vogue 20/10 Urban - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40830SU2",
+    "designation_brute": "Alkorplan Vogue 20/10 Summer - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40840TR2",
+    "designation_brute": "Alkorplan Vogue 20/10 Tropical - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40850NO",
+    "designation_brute": "Alkorplan Vogue 20/10 Nordic - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40860LE",
+    "designation_brute": "Alkorplan Vogue 20/10 Legacy - Rouleau de 25 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D40910QU",
+    "designation_brute": "Alkorplan Tile 20/10 Quartz Gris - Rouleau de 21 m x 1.65 m",
+    "famille_brute": "ALKORPLAN RENOLIT VOGUE - 25m x 1,65m - le m² -",
+    "largeur_m": 1.65,
+    "longueur_rouleau_m": 25,
+    "unite": "m2",
+    "prix_public_ht_cents": 6890,
+    "epaisseur_raw": "20/10",
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41556VE",
+    "designation_brute": "PVC liquide Alkorplan Alive Vert - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5260,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41557BL",
+    "designation_brute": "PVC liquide Alkorplan Alive Bleu - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5260,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41558GR",
+    "designation_brute": "PVC liquide Alkorplan Alive Gris - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5260,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41563BU",
+    "designation_brute": "PVC liquide Alkorplan Alive Sand - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5260,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41510LP1",
+    "designation_brute": "PVC liquide Alkorplan Bleu clair - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41511LF1",
+    "designation_brute": "PVC liquide Alkorplan Bleu adriatique - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU ADRIATIQUE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41513LV1",
+    "designation_brute": "PVC liquide Alkorplan Vert Caraïbes - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41512LB1",
+    "designation_brute": "PVC liquide Alkorplan Blanc - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41515SA1",
+    "designation_brute": "PVC liquide Alkorplan Sable - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41516GR1",
+    "designation_brute": "PVC liquide Alkorplan Gris clair - Flacon de 1 litre",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41517TR",
+    "designation_brute": "PVC liquide Alkorplan Transparent - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "TRANSPARENT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41518GRA",
+    "designation_brute": "PVC liquide Alkorplan Gris ANTHRACITE - Flacon de 1 Litre",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6160,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41532XI",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Ice - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41533XS",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Sahara - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41534XB",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Blue Fresh - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41535XA",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Azur - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41536XS",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Silver - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41537XV",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Volcano - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41538XO",
+    "designation_brute": "PVC liquide Alkorplan Xtreme Onyx - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6410,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41520PL1",
+    "designation_brute": "PVC liquide Alkorplan Platinium - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8310,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41522AR",
+    "designation_brute": "PVC liquide Alkorplan Elégance - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41523AU",
+    "designation_brute": "PVC liquide Alkorplan Authentic - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41524PB",
+    "designation_brute": "PVC liquide Alkorplan Relax - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41525OR",
+    "designation_brute": "PVC liquide Alkorplan Origin - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41528VA",
+    "designation_brute": "PVC liquide Alkorplan Vanity - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41529SU",
+    "designation_brute": "PVC liquide Alkorplan Sublime - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41530PR",
+    "designation_brute": "PVC liquide Alkorplan Prestige Gris Béton - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS BETON",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41542QU",
+    "designation_brute": "PVC liquide Alkorplan Tile Quartz Gris - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41543TR",
+    "designation_brute": "PVC liquide Alkorplan Vogue Tropical - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41544NO",
+    "designation_brute": "PVC liquide Alkorplan Vogue Nordic - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41545LE",
+    "designation_brute": "PVC liquide Alkorplan Voge Legacy - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41552VI",
+    "designation_brute": "PVC liquide Alkorplan Vintage - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41553UR",
+    "designation_brute": "PVC liquide Alkorplan Urban - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41554SU",
+    "designation_brute": "PVC liquide Alkorplan Summer - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41560DU",
+    "designation_brute": "PVC liquide Alkorplan Evolve Dune - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41561AS",
+    "designation_brute": "PVC liquide Alkorplan Evolve Ashen - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41562EV",
+    "designation_brute": "PVC liquide Alkorplan Evolve Verdant - Flacon de 900 gr",
+    "famille_brute": "PVC LIQUIDE ALKORPLAN RENOLIT",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8320,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34110HFM",
+    "designation_brute": "Hung PVC horizontal FORME LIBRE - Baguette 1.5 m x 4.6 cm",
+    "famille_brute": "HUNG PVC HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1070,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34110HH38",
+    "designation_brute": "Hung PVC horizontal - Baguette 2 m x 3.8 cm",
+    "famille_brute": "HUNG PVC HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 300,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34110HH-C",
+    "designation_brute": "Hung PVC horizontal - Baguette 2 m x 4.6 cm",
+    "famille_brute": "HUNG PVC HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 330,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34111HH2",
+    "designation_brute": "Hung PVC horizontal - Baguette 2 m x 9 cm",
+    "famille_brute": "HUNG PVC HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 705,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34112HA",
+    "designation_brute": "Hung PVC horizontal angle rayon 15 cm x 4.6 cm PREFORME",
+    "famille_brute": "HUNG PVC HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 540,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34210HA",
+    "designation_brute": "Hung ALU horizontal - Baguette 2 m x 5 cm",
+    "famille_brute": "HUNG ALU HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 630,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34211HA",
+    "designation_brute": "Hung ALU horizontal angle rayon 15 cm PREFORME",
+    "famille_brute": "HUNG ALU HORIZONTAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1590,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34110VA-",
+    "designation_brute": "Hung ALU vertical - Baguette 2 m x 3.5 cm",
+    "famille_brute": "HUNG ALU VERTICAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 695,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34212AV",
+    "designation_brute": "Hung ALU angle vertical angle rayon 15 cm PREFORME",
+    "famille_brute": "HUNG ALU VERTICAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1830,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34310HV-C",
+    "designation_brute": "Hung PVC vertical - Baguette 2 m x 3.3 cm",
+    "famille_brute": "HUNG PVC VERTICAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 475,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34311HA",
+    "designation_brute": "Hung PVC vertical angle rayon 15 cm PREFORME",
+    "famille_brute": "HUNG PVC VERTICAL - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1310,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34410E30BF",
+    "designation_brute": "Stop out BLEU FRANCE - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU FRANCE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30BL",
+    "designation_brute": "Stop out BLANC - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30BP",
+    "designation_brute": "Stop out BLEU PALE - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU PALE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30CI",
+    "designation_brute": "Stop out CIMENT - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "CIMENT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30GC",
+    "designation_brute": "Stop out GRIS CLAIR - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS CLAIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30GF",
+    "designation_brute": "Stop out GRIS ANTHRACITE - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30NO",
+    "designation_brute": "Stop out NOIR - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "NOIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30OL",
+    "designation_brute": "Stop out OLIVE - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "OLIVE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30SA",
+    "designation_brute": "Stop out SABLE - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30VA",
+    "designation_brute": "Stop out VERT ANTILLES - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT ANTILLES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34410E30VC",
+    "designation_brute": "Stop out VERT CARAIBES - Echeveau de 30 m",
+    "famille_brute": "STOP OUT - JONC de BLOCAGE - le ml -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 150,
+    "epaisseur_raw": null,
+    "coloris_candidat": "VERT CARAIBES",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34513FBN",
+    "designation_brute": "Feutre stabilisé 350 gr/m² PP/Thermofixé 1F - Rouleau 50 m x 2 m -",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 530,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34514FBN",
+    "designation_brute": "Feutre stabilisé 350 gr/m² PP/Thermofixé 1F - Rouleau 30 m x 2 m -",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 560,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34515FBN",
+    "designation_brute": "Feutre stabilisé 350 gr/m² PP/Thermofixé 1F - Rouleau 50 m x 1.5 m",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 580,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34516FBN",
+    "designation_brute": "Feutre stabilisé 400 gr/m² PP/Thermofixé 2F -Rouleau 50 m x 2 m -",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 670,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34532FBN",
+    "designation_brute": "Feutre stabilisé 200 gr/m² polyester/Non Thermofixé  - 50 m x 2 m -",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 300,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34533FBN",
+    "designation_brute": "Feutre stabilisé 200 gr/m² polyester/Non Thermofixé - 50 m x 1.5 m",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 310,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34534FBN",
+    "designation_brute": "Feutre stabilisé 280 gr/m² PP/Non Thermofixé  - Rouleau 50 m x 2 m",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 440,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34536FBN",
+    "designation_brute": "Feutre stabilisé 500 gr/m² polyester/Non Thermofixé - 30 m x 2 m -",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 760,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34537FBN",
+    "designation_brute": "Feutre stabilisé 500 gr/m² polyester/Non Thermofixé/Fibre verte - 25",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 840,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34537FBN",
+    "designation_brute": "Feutre stabilisé 500 gr/m² polyester/Non Thermofixé/Fibre verte - 25 m x 1.16 m",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 840,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34540FBN",
+    "designation_brute": "Feutre Renolit stabilisé 400 gr/m² Thermofixé 2F - Rouleau 50m x 1.5m",
+    "famille_brute": "FEUTRES et MOUSSES - le m² -",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 990,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34610CF",
+    "designation_brute": "Colle spéciale feutre - Pot de 5 kg",
+    "famille_brute": "COLLES et AEROSOLS",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3570,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34611PS",
+    "designation_brute": "Aérosol colle feutre standard de 500 ml - Uniquement par 12 un",
+    "famille_brute": "COLLES et AEROSOLS",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 2490,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34611PSPO",
+    "designation_brute": "Aérosol colle feutre sans acétone de 500 ml - Uniquement par 12 un",
+    "famille_brute": "COLLES et AEROSOLS",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 2490,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34860BLA",
+    "designation_brute": "Mastic d'étanchéité et de collage ADHESEAL INNOTEC (290ml) blanc",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4940,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34860GRI",
+    "designation_brute": "Mastic d'étanchéité et de collage ADHESEAL INNOTEC (290ml) gris",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4940,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34860NOI",
+    "designation_brute": "Mastic d'étanchéité et de collage ADHESEAL INNOTEC (290ml) noir",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4940,
+    "epaisseur_raw": null,
+    "coloris_candidat": "NOIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870BLA",
+    "designation_brute": "Mastic colle MS 3000 blanc 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLANC",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870BLE",
+    "designation_brute": "Mastic colle MS 3000 bleu 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "BLEU",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870GRA",
+    "designation_brute": "Mastic Colle MS 3000 gris anthracite 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS ANTHRACITE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870GRI",
+    "designation_brute": "Mastic colle MS 3000 gris 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "GRIS",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870HIG",
+    "designation_brute": "Mastic Colle MS 3000 Hightack 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34870NOI",
+    "designation_brute": "Mastic colle MS 3000 noir 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "NOIR",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870SAB",
+    "designation_brute": "Mastic colle MS 3000 sable 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "SABLE",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D34870TRA",
+    "designation_brute": "Mastic colle MS 3000 transparent 290 ml",
+    "famille_brute": "MASTIC COLLE",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3710,
+    "epaisseur_raw": null,
+    "coloris_candidat": "TRANSPARENT",
+    "warnings": []
+  },
+  {
+    "ref_apf": "D41614FA",
+    "designation_brute": "Flacon applicateur PVC liquide avec 1 embout pointu et 1 bouchon",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 1420,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41612B",
+    "designation_brute": "Bandelette de 9 mm - Rouleau de 25 m",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3570,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41626B",
+    "designation_brute": "Carton de 10 bandelettes Hydroflex 9 mm - Rouleaux de 25m",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 29000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41612SO2",
+    "designation_brute": "Solvant THF - Flacon de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 4490,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41612SO3",
+    "designation_brute": "Solvant MEK - Pot de 1 kg",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3890,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41613RD1",
+    "designation_brute": "Rivets drive à frapper Ø4.8 x 26 mm - Boite de 200",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6630,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41614RD1",
+    "designation_brute": "Rivets à frapper Ø4.8 x 20 mm- Boite de 250",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 7650,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41615TP",
+    "designation_brute": "Tôle spéciale avec PVC colaminé - 2 m x 1 m - le m² -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "m2",
+    "prix_public_ht_cents": 6900,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (m²) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41616TB",
+    "designation_brute": "Tôle spéciale avec PVC colaminé COUPÉE - Baguette de  2 m x 5 cm - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1250,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41616AR",
+    "designation_brute": "Tôle colaminé Angle Rentrant de 50 x 50 mm - Baguette de 2 m - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 2100,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41616AS",
+    "designation_brute": "Tôle colaminé Angle Sortant de 50 x 50 mm - Baguette de 2 m - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 2100,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41616AS2",
+    "designation_brute": "Tôle colaminé Angle Sortant de 70 x 30 mm - Baguette de 2 m - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 2100,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41616AS3",
+    "designation_brute": "Baguette Pvc Angle 90° 45 x 45 mm - Baguette de 2 m - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1900,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41624A9",
+    "designation_brute": "Baguette Pvc 0,05 x 2 ml - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1040,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41622BA",
+    "designation_brute": "Bande de soudure PVC armé 0.15 cm  x 20 ml - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1550,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41627BA",
+    "designation_brute": "Bande de Soudure PVC armé HYDROFLEX 0.15 cm x 25 ml - le ml -",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "ml",
+    "prix_public_ht_cents": 1330,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main",
+      "unité de la ligne (ml) diffère de la famille (unite) — unité de la ligne retenue"
+    ]
+  },
+  {
+    "ref_apf": "D41617CP",
+    "designation_brute": "Colle PVC Bostik (vinicol170) - Pot de 5 litres",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 17000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41618AL",
+    "designation_brute": "Colle ALKORPLAN - Pot de 5 litres",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 17100,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41628",
+    "designation_brute": "Colle thermo-adhésive sans acétone APF Pool Design Hydrocol 170 - pot de 5 litres",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 14000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41623CN",
+    "designation_brute": "Colle Alkorglue - Pot de 5kg",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 15400,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41629",
+    "designation_brute": "Colle contact néoprène APF Pool Design Hydroglue - pot de 5 litres",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 12000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41625CA",
+    "designation_brute": "Colle Alkorglue zéro solvant - Pot de 20 kg",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 29900,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41619CB",
+    "designation_brute": "Colle Bostik 1220 Nitrile - Pot de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8200,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41619CB2",
+    "designation_brute": "Colle Bostik 1220 Nitrile - Tube de 125 ml",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 2450,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41620CB",
+    "designation_brute": "Colle Bostik 1400 Néoprène - Pot de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5450,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41620CB2",
+    "designation_brute": "Colle Bostik 1400 Néoprène - Tube de 125 ml",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 1980,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34423AT",
+    "designation_brute": "Produit antitaches Alkorplus - Flacon de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 7250,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D34612AC",
+    "designation_brute": "Prétraitement du support ALKORCHEM - Flacon de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 9080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41612AN1",
+    "designation_brute": "Nettoyant ligne d'eau Alkorclean - Flacon de 1 litre",
+    "famille_brute": "ACCESSOIRES de POSE PVC ARME",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3500,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41510LE",
+    "designation_brute": "Leister 1600 W TRIAC \"ST\" à reglage éléctronique sans buse",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 92000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41520LE",
+    "designation_brute": "Leister 1600 W TRIAC \"AT\" à affichage digital sans buse",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 110500,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41530LE",
+    "designation_brute": "Leister 460 W Hot Jet S sans buse",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 119000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41811LE",
+    "designation_brute": "Buse ronde Ø5 mm standard",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8500,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41812LE",
+    "designation_brute": "Buse plate coudée 20 mm",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8500,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41813LE",
+    "designation_brute": "Buse plate coudée 40 mm",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 8500,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41814LE",
+    "designation_brute": "Buse de 20 mm relevée de 15°",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 9800,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41815LE",
+    "designation_brute": "Buse de 20 mm courbée de 75°",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 9800,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41816LE",
+    "designation_brute": "Buse de 20 mm relevée de 120°",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 23600,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41820LE",
+    "designation_brute": "Buse ronde Ø5 mm pour Hot Jet S",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 9200,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41821LE",
+    "designation_brute": "Buse  plate 20 mm pour Hot Jet S",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 9200,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41817LE",
+    "designation_brute": "Buse rapide 8 à 2 mm pour bandelette d'accrochage",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6700,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41818LE",
+    "designation_brute": "Roulette de pression 40 mm  Nouvelle génération",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 11800,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41819LE",
+    "designation_brute": "Roulette de pression 28 mm  Nouvelle génération",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 12300,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41830LE",
+    "designation_brute": "Résistance pour triac AT/ST 230V 1550W (embase ronde)",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 13300,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41831LE",
+    "designation_brute": "Résistance standard pour triac et triac éco/diode (embase carrée)",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 18800,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41832LE",
+    "designation_brute": "Résistance 230 V pour Hot Jet S",
+    "famille_brute": "LEISTER",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 16200,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41550WE",
+    "designation_brute": "Weld'air 1600 W - ST à reglage électronique avec malette transport",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 49000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41551WEKIT",
+    "designation_brute": "Kit démarrage, Weld'air 1600w, 2 buses, rouleau, brosse et poinçon",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 67000,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41850WE",
+    "designation_brute": "Buse ronde Ø5 mm standard",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41851WE",
+    "designation_brute": "Buse plate coudée 20 mm",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41852WE",
+    "designation_brute": "Buse plate coudée 40 mm",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41853WE",
+    "designation_brute": "Buse de 20 mm coudée à 60°",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41854WE",
+    "designation_brute": "Buse de 20 mm coudée à 90°",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41855WE",
+    "designation_brute": "Buse rapide de 9 x 4 mm pour bandelette d'accrochage",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 7230,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41856WE",
+    "designation_brute": "Roulette de pression 40 mm -Silicone-roulement à bille",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 6080,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41857WE",
+    "designation_brute": "Roulette de pression 28 mm -Silicone-roulement à bille",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 5360,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41858WE",
+    "designation_brute": "Roulette laiton de finition 8 mm",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3460,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41859WE",
+    "designation_brute": "Poinçon de contrôle - Pliable",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 3050,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41860WE",
+    "designation_brute": "Brosse en laiton",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 1580,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  },
+  {
+    "ref_apf": "D41861WE",
+    "designation_brute": "Résistance 230 V pour Weld'air ST avec fourreau isolant",
+    "famille_brute": "WELD'AIR",
+    "largeur_m": null,
+    "longueur_rouleau_m": null,
+    "unite": "unite",
+    "prix_public_ht_cents": 7650,
+    "epaisseur_raw": null,
+    "coloris_candidat": null,
+    "warnings": [
+      "coloris non détecté (best effort) — à mapper à la main"
+    ]
+  }
+]
