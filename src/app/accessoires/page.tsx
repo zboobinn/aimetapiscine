@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { getAccessoryCategoryLabel, getAccessoryCategorySlug } from "@/lib/catalog/data";
 import {
-  getAccessories,
-  getAccessoryCategorySlug,
-  getAccessoryCategoryLabel,
-  getAccessoryCategorySlugs,
-} from "@/lib/catalog/data";
-import { withLivePricing } from "@/lib/catalog/live-pricing";
+  FALLBACK_CATALOG_IMAGE,
+  getLiveAccessoryProducts,
+  getLiveAccessoryCategorySlugs,
+  minActiveVariantPriceCents,
+} from "@/lib/catalog/live-catalog";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ui/card";
@@ -22,8 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AccessoiresHubPage() {
-  const categorySlugs = getAccessoryCategorySlugs();
-  const accessories = await withLivePricing(getAccessories());
+  const [categorySlugs, accessories] = await Promise.all([
+    getLiveAccessoryCategorySlugs(),
+    getLiveAccessoryProducts(),
+  ]);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -40,7 +42,7 @@ export default async function AccessoiresHubPage() {
       <div className="flex flex-col gap-14">
         {categorySlugs.map((categorieSlug) => {
           const produits = accessories.filter(
-            (p) => getAccessoryCategorySlug(p.category) === categorieSlug,
+            (produit) => getAccessoryCategorySlug(produit.category) === categorieSlug,
           );
           const label = getAccessoryCategoryLabel(produits[0]?.category ?? "");
 
@@ -58,22 +60,28 @@ export default async function AccessoiresHubPage() {
                 </Link>
               </div>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {produits.map((produit) => (
-                  <ProductCard
-                    key={produit.slug}
-                    href={`/accessoires/${categorieSlug}/${produit.slug}`}
-                    imageSrc={produit.image}
-                    imageAlt={produit.name}
-                    title={produit.name}
-                    badge={<Badge variant="in-stock">En stock</Badge>}
-                    price={
-                      <ProPrice
-                        slug={produit.slug}
-                        publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
-                      />
-                    }
-                  />
-                ))}
+                {produits.map((produit) => {
+                  const minPriceCents = minActiveVariantPriceCents(produit);
+                  return (
+                    <ProductCard
+                      key={produit.slug}
+                      href={`/accessoires/${categorieSlug}/${produit.slug}`}
+                      imageSrc={produit.imageUrl ?? FALLBACK_CATALOG_IMAGE}
+                      imageAlt={produit.name}
+                      title={produit.name}
+                      badge={<Badge variant="in-stock">En stock</Badge>}
+                      price={
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-xs text-ink-muted">À partir de</span>
+                          <ProPrice
+                            slug={produit.slug}
+                            publicAmountCents={computePublicTtcCents(minPriceCents, produit.vatRateBps)}
+                          />
+                        </div>
+                      }
+                    />
+                  );
+                })}
               </div>
             </section>
           );

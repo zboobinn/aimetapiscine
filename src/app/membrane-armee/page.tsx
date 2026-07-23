@@ -1,9 +1,10 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import { couleurToSlug, getGammes, getMembranes } from "@/lib/catalog/data";
-import { withLivePricing } from "@/lib/catalog/live-pricing";
+import {
+  FALLBACK_CATALOG_IMAGE,
+  getLiveMembraneProducts,
+  minActiveVariantPriceCents,
+} from "@/lib/catalog/live-catalog";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
-import { capitalize } from "@/lib/utils/text";
 import { ProPrice } from "@/components/pricing/pro-price";
 import { ProductCard } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,13 +14,12 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Membrane armée | ArmaPool",
   description:
-    "Membranes armées piscine par gamme : unies, imprimées. Rouleaux 41,25 m², pose par des professionnels qualifiés.",
+    "Membranes armées piscine par gamme : unies, imprimées. Rouleaux, pose par des professionnels qualifiés.",
   alternates: { canonical: "/membrane-armee" },
 };
 
 export default async function MembraneArmeeHubPage() {
-  const gammes = getGammes();
-  const membranes = await withLivePricing(getMembranes());
+  const gammes = await getLiveMembraneProducts();
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
@@ -28,50 +28,40 @@ export default async function MembraneArmeeHubPage() {
           Membrane armée
         </h1>
         <p className="max-w-2xl text-ink-muted">
-          Rouleaux de 41,25 m², déclinés par gamme et coloris. Chaque
-          référence est vendue au mètre linéaire ou en rouleau complet.
+          Déclinées par gamme et coloris. Chaque référence est vendue au
+          rouleau.
         </p>
       </header>
 
-      <div className="flex flex-col gap-14">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {gammes.map((gamme) => {
-          const produits = membranes.filter((p) => p.gamme === gamme);
+          const minPriceCents = minActiveVariantPriceCents(gamme);
           return (
-            <section key={gamme} className="flex flex-col gap-6">
-              <div className="flex items-center justify-between">
-                <h2 className="font-heading text-xl font-semibold text-ink">
-                  Gamme {capitalize(gamme)}
-                </h2>
-                <Link
-                  href={`/membrane-armee/${gamme}`}
-                  className="text-sm font-medium text-accent hover:underline"
-                >
-                  Voir toute la gamme
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {produits.map((produit) => (
-                  <ProductCard
-                    key={produit.slug}
-                    href={`/membrane-armee/${gamme}/${couleurToSlug(produit.couleur as string)}`}
-                    imageSrc={produit.image}
-                    imageAlt={produit.name}
-                    title={produit.name}
-                    subtitle="Rouleau 41,25 m²"
-                    badge={<Badge variant="in-stock">En stock</Badge>}
-                    price={
-                      <ProPrice
-                        slug={produit.slug}
-                        publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
-                      />
-                    }
+            <ProductCard
+              key={gamme.slug}
+              href={`/membrane-armee/${gamme.slug}`}
+              imageSrc={gamme.imageUrl ?? FALLBACK_CATALOG_IMAGE}
+              imageAlt={gamme.name}
+              title={gamme.name}
+              subtitle={`${gamme.variants.length} coloris`}
+              badge={<Badge variant="in-stock">En stock</Badge>}
+              price={
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs text-ink-muted">À partir de</span>
+                  <ProPrice
+                    slug={gamme.slug}
+                    publicAmountCents={computePublicTtcCents(minPriceCents, gamme.vatRateBps)}
                   />
-                ))}
-              </div>
-            </section>
+                </div>
+              }
+            />
           );
         })}
       </div>
+
+      {gammes.length === 0 ? (
+        <p className="text-ink-muted">Aucune gamme disponible pour le moment.</p>
+      ) : null}
     </div>
   );
 }

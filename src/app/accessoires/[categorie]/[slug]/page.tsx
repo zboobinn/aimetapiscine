@@ -5,13 +5,13 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { ProPrice } from "@/components/pricing/pro-price";
+import { getAccessoryCategoryLabel, getAccessoryCategorySlug } from "@/lib/catalog/data";
 import {
-  getAccessories,
-  getAccessoryBySlug,
-  getAccessoryCategoryLabel,
-  getAccessoryCategorySlug,
-} from "@/lib/catalog/data";
-import { withLivePricingOne } from "@/lib/catalog/live-pricing";
+  getLiveAccessoryBySlug,
+  getLiveAccessoryProducts,
+  pickPdpVariant,
+  toCatalogEntry,
+} from "@/lib/catalog/live-catalog";
 import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { buildProductJsonLd } from "@/lib/seo/product-jsonld";
@@ -25,8 +25,9 @@ interface PageProps {
   params: Promise<{ categorie: string; slug: string }>;
 }
 
-export function generateStaticParams() {
-  return getAccessories().map((produit) => ({
+export async function generateStaticParams() {
+  const produits = await getLiveAccessoryProducts();
+  return produits.map((produit) => ({
     categorie: getAccessoryCategorySlug(produit.category),
     slug: produit.slug,
   }));
@@ -34,7 +35,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { categorie, slug } = await params;
-  const produit = getAccessoryBySlug(categorie, slug);
+  const produit = await getLiveAccessoryBySlug(categorie, slug);
 
   if (!produit) {
     return { title: "Produit introuvable | ArmaPool" };
@@ -42,20 +43,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `${produit.name} | ArmaPool`,
-    description: produit.description,
+    description: produit.description ?? undefined,
     alternates: { canonical: `/accessoires/${categorie}/${slug}` },
   };
 }
 
 export default async function AccessoireFichePage({ params }: PageProps) {
   const { categorie, slug } = await params;
-  const produitCatalogue = getAccessoryBySlug(categorie, slug);
+  const produitLive = await getLiveAccessoryBySlug(categorie, slug);
+  const variant = produitLive ? pickPdpVariant(produitLive) : undefined;
 
-  if (!produitCatalogue) {
+  if (!produitLive || !variant) {
     notFound();
   }
 
-  const produit = await withLivePricingOne(produitCatalogue);
+  const produit = toCatalogEntry(produitLive, variant);
   const label = getAccessoryCategoryLabel(produit.category);
   const canonicalUrl = absoluteUrl(`/accessoires/${categorie}/${slug}`);
   const publicTtcCents = computePublicTtcCents(produit.base_price_ht, produit.vat_rate);
@@ -108,7 +110,7 @@ export default async function AccessoireFichePage({ params }: PageProps) {
             <h1 className="font-heading text-3xl font-semibold text-ink">
               {produit.name}
             </h1>
-            <p className="text-ink-muted">{produit.description}</p>
+            {produit.description ? <p className="text-ink-muted">{produit.description}</p> : null}
           </div>
 
           <ProPrice

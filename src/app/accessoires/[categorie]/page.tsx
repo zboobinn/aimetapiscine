@@ -4,12 +4,13 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/ui/card";
 import { ProPrice } from "@/components/pricing/pro-price";
+import { getAccessoryCategoryLabel } from "@/lib/catalog/data";
 import {
-  getAccessoriesByCategorySlug,
-  getAccessoryCategoryLabel,
-  getAccessoryCategorySlugs,
-} from "@/lib/catalog/data";
-import { withLivePricing } from "@/lib/catalog/live-pricing";
+  FALLBACK_CATALOG_IMAGE,
+  getLiveAccessoriesByCategorySlug,
+  getLiveAccessoryCategorySlugs,
+  minActiveVariantPriceCents,
+} from "@/lib/catalog/live-catalog";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/structured-data";
@@ -20,13 +21,14 @@ interface PageProps {
   params: Promise<{ categorie: string }>;
 }
 
-export function generateStaticParams() {
-  return getAccessoryCategorySlugs().map((categorie) => ({ categorie }));
+export async function generateStaticParams() {
+  const categorySlugs = await getLiveAccessoryCategorySlugs();
+  return categorySlugs.map((categorie) => ({ categorie }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { categorie } = await params;
-  const produits = getAccessoriesByCategorySlug(categorie);
+  const produits = await getLiveAccessoriesByCategorySlug(categorie);
   const label = getAccessoryCategoryLabel(produits[0]?.category ?? "");
 
   return {
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function AccessoireCategoriePage({ params }: PageProps) {
   const { categorie } = await params;
-  const produits = await withLivePricing(getAccessoriesByCategorySlug(categorie));
+  const produits = await getLiveAccessoriesByCategorySlug(categorie);
 
   if (produits.length === 0) {
     notFound();
@@ -73,22 +75,28 @@ export default async function AccessoireCategoriePage({ params }: PageProps) {
       </header>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {produits.map((produit) => (
-          <ProductCard
-            key={produit.slug}
-            href={`/accessoires/${categorie}/${produit.slug}`}
-            imageSrc={produit.image}
-            imageAlt={produit.name}
-            title={produit.name}
-            badge={<Badge variant="in-stock">En stock</Badge>}
-            price={
-              <ProPrice
-                slug={produit.slug}
-                publicAmountCents={computePublicTtcCents(produit.base_price_ht, produit.vat_rate)}
-              />
-            }
-          />
-        ))}
+        {produits.map((produit) => {
+          const minPriceCents = minActiveVariantPriceCents(produit);
+          return (
+            <ProductCard
+              key={produit.slug}
+              href={`/accessoires/${categorie}/${produit.slug}`}
+              imageSrc={produit.imageUrl ?? FALLBACK_CATALOG_IMAGE}
+              imageAlt={produit.name}
+              title={produit.name}
+              badge={<Badge variant="in-stock">En stock</Badge>}
+              price={
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-xs text-ink-muted">À partir de</span>
+                  <ProPrice
+                    slug={produit.slug}
+                    publicAmountCents={computePublicTtcCents(minPriceCents, produit.vatRateBps)}
+                  />
+                </div>
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );

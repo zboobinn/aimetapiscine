@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { PoolImage } from "@/components/media/pool-image";
 import { CollapsibleSection, SpecTable, StickyBuyBox, SwatchGroup } from "@/components/nuancier";
 import type { SpecRow } from "@/components/nuancier";
 import { getCompatibleAccessories } from "@/features/cart";
@@ -14,24 +14,24 @@ import { computePdpBuyBoxAmounts } from "@/features/pdp/buy-box-pricing";
 import { PdpBuyBox } from "@/features/pdp/pdp-buy-box";
 import { PdpChecklistUpsell } from "@/features/pdp/pdp-checklist-upsell";
 import { PdpProvider } from "@/features/pdp/pdp-context";
+import { couleurToSlug, getAccessories } from "@/lib/catalog/data";
 import {
-  couleurToSlug,
-  getAccessories,
-  getMembraneByGammeAndCouleur,
-  getMembranes,
-  getMembranesByGamme,
-} from "@/lib/catalog/data";
-import { withLivePricing, withLivePricingOne } from "@/lib/catalog/live-pricing";
+  FALLBACK_CATALOG_IMAGE,
+  formatColorisLabel,
+  getLiveMembraneProductBySlug,
+  getLiveMembraneProducts,
+  pickPdpVariant,
+  toCatalogEntry,
+} from "@/lib/catalog/live-catalog";
 import { swatchColorFor } from "@/lib/catalog/swatch-color";
 import { toCartProductSummary } from "@/lib/cart/product-summary";
 import { getBusinessConfigEnv } from "@/lib/env";
-import { resolvePoolMedia, type PoolMediaPlan } from "@/lib/media/pool-media";
+import { resolvePoolMedia, type PoolMediaEntry } from "@/lib/media/pool-media";
 import { computePublicTtcCents } from "@/lib/pricing/vat";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { buildProductJsonLd } from "@/lib/seo/product-jsonld";
 import { absoluteUrl } from "@/lib/seo/site-url";
 import { buildBreadcrumbJsonLd } from "@/lib/seo/structured-data";
-import { capitalize } from "@/lib/utils/text";
 
 export const revalidate = 3600;
 
@@ -39,76 +39,97 @@ interface PageProps {
   params: Promise<{ gamme: string; couleur: string }>;
 }
 
-const GALLERY_PLANS: PoolMediaPlan[] = ["macro", "bassin", "echelle", "soudure"];
-
 // Highlights (29) : copie éditoriale PROVISOIRE — OK pour cette passe
-// (structure + prix), à remplacer avant publication réelle. Images tirées du
-// manifeste médias (couture 29.0) en rotation, faute d'une image dédiée par
-// highlight (bloqué sur assets photo, docs/annexe-brief-photo.md).
-const HIGHLIGHTS: { title: string; body: string; plan: PoolMediaPlan }[] = [
+// (structure + prix), à remplacer avant publication réelle.
+const HIGHLIGHTS: { title: string; body: string }[] = [
   {
     title: "Armature",
     body: "Armature tissée haute résistance, conçue pour encaisser les variations thermiques et la pression de l'eau sans se déformer. (copie provisoire — OK)",
-    plan: "macro",
   },
   {
     title: "Vernis",
     body: "Vernis de finition anti-UV et anti-algues, pensé pour une eau claire toute la saison sans entretien lourd. (copie provisoire — OK)",
-    plan: "bassin",
   },
   {
     title: "Épaisseur",
-    body: "1,5 mm d'épaisseur constante sur toute la surface — la membrane armée qui tient la distance face aux chocs de chantier. (copie provisoire — OK)",
-    plan: "echelle",
+    body: "Épaisseur constante sur toute la surface — la membrane armée qui tient la distance face aux chocs de chantier. (copie provisoire — OK)",
   },
   {
     title: "Pose",
     body: "Lés soudés à chaud, sans colle sur les joints structurels — une pose fiable pour un rendu étanche dans la durée. (copie provisoire — OK)",
-    plan: "soudure",
   },
   {
     title: "Garantie",
     body: "10 ans de garantie fabricant sur la membrane posée dans les règles de l'art. (copie provisoire — OK)",
-    plan: "macro",
   },
 ];
 
-export function generateStaticParams() {
-  return getMembranes().map((produit) => ({
-    gamme: produit.gamme as string,
-    couleur: couleurToSlug(produit.couleur as string),
-  }));
+/**
+ * Le manifeste photo (`resolvePoolMedia`, annexe-brief-photo) ne connaît que
+ * les 3 coloris du fixture de test `data/catalog.json` — il throw pour tout
+ * autre coloris. Le catalogue réel (`data/apf/catalog-facade.json`, 239
+ * variantes) est très majoritairement hors de ce manifeste tant que le
+ * shooting réel n'a pas eu lieu (bloqué sur assets photo, docs/29-page-
+ * produit.md). Ce repli reste local à cette page (ne modifie pas
+ * `pool-media.ts`) : un coloris inconnu du manifeste affiche un visuel
+ * générique plutôt que de faire planter la fiche produit.
+ */
+function safePoolMedia(colorisSlug: string): PoolMediaEntry | null {
+  try {
+    return resolvePoolMedia(colorisSlug);
+  } catch {
+    return null;
+  }
+}
+
+export async function generateStaticParams() {
+  const gammes = await getLiveMembraneProducts();
+  return gammes.flatMap((gamme) =>
+    gamme.variants
+      .filter((variant) => variant.coloris !== null)
+      .map((variant) => ({
+        gamme: gamme.slug,
+        couleur: couleurToSlug(variant.coloris as string),
+      })),
+  );
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { gamme, couleur } = await params;
-  const produit = getMembraneByGammeAndCouleur(gamme, couleur);
+  const produit = await getLiveMembraneProductBySlug(gamme);
+  const variant = produit ? pickPdpVariant(produit, couleur) : undefined;
 
-  if (!produit) {
+  if (!produit || !variant) {
     return { title: "Produit introuvable | ArmaPool" };
   }
 
+  const name = variant.coloris ? `${produit.name} — ${formatColorisLabel(variant.coloris)}` : produit.name;
+
   return {
-    title: `${produit.name} | ArmaPool`,
-    description: produit.description,
+    title: `${name} | ArmaPool`,
+    description: produit.description ?? undefined,
     alternates: { canonical: `/membrane-armee/${gamme}/${couleur}` },
   };
 }
 
 export default async function MembraneFichePage({ params }: PageProps) {
   const { gamme, couleur } = await params;
-  const produitCatalogue = getMembraneByGammeAndCouleur(gamme, couleur);
+  const produitLive = await getLiveMembraneProductBySlug(gamme);
+  const variant = produitLive ? pickPdpVariant(produitLive, couleur) : undefined;
 
-  if (!produitCatalogue) {
+  if (!produitLive || !variant) {
     notFound();
   }
 
-  const produit = await withLivePricingOne(produitCatalogue);
-  const compatibleAccessories = await withLivePricing(getCompatibleAccessories(getAccessories()));
+  const produit = toCatalogEntry(produitLive, variant, { gammeSlug: gamme, couleurSlug: couleur });
+  const compatibleAccessories = getCompatibleAccessories(getAccessories());
   const canonicalUrl = absoluteUrl(`/membrane-armee/${gamme}/${couleur}`);
   const publicTtcCents = computePublicTtcCents(produit.base_price_ht, produit.vat_rate);
 
-  const media = resolvePoolMedia(couleur);
+  const media = safePoolMedia(couleur);
+  const displayName = variant.coloris
+    ? `${produitLive.name} — ${formatColorisLabel(variant.coloris)}`
+    : produitLive.name;
 
   // Prix serveur sur les cotes par défaut (D5) : état initial du calculateur
   // inline (29b), rendu SSR pour le SEO — le moteur (08) est appelé tel
@@ -157,29 +178,30 @@ export default async function MembraneFichePage({ params }: PageProps) {
   // docs/decisions.md.
   const buyBox = await computePdpBuyBoxAmounts(produit, "b2c", membrane.quantity, surface.grossM2);
 
-  const siblings = getMembranesByGamme(gamme);
-  const swatchOptions = siblings.map((sibling) => {
-    const siblingCouleur = sibling.couleur as string;
-    const siblingSlug = couleurToSlug(siblingCouleur);
-    const siblingMedia = resolvePoolMedia(siblingSlug);
+  const swatchOptions = produitLive.variants
+    .filter((sibling) => sibling.coloris !== null)
+    .map((sibling) => {
+      const siblingCouleur = sibling.coloris as string;
+      const siblingSlug = couleurToSlug(siblingCouleur);
+      const siblingMedia = safePoolMedia(siblingSlug);
 
-    return {
-      id: siblingSlug,
-      name: capitalize(siblingCouleur),
-      color: swatchColorFor(siblingCouleur),
-      image: { src: siblingMedia.plans.bassin.src, alt: siblingMedia.plans.bassin.alt },
-    };
-  });
+      return {
+        id: siblingSlug,
+        name: formatColorisLabel(siblingCouleur),
+        color: swatchColorFor(siblingCouleur),
+        image: siblingMedia
+          ? { src: siblingMedia.plans.bassin.src, alt: siblingMedia.plans.bassin.alt }
+          : { src: FALLBACK_CATALOG_IMAGE, alt: formatColorisLabel(siblingCouleur) },
+      };
+    });
 
   const specRows: SpecRow[] = [
     { label: "Référence", value: produit.slug },
-    { label: "Gamme", value: capitalize(gamme) },
-    { label: "Coloris", value: capitalize(produit.couleur as string) },
-    { label: "Surface au rouleau", value: `${produit.roll_area_m2} m²` },
+    { label: "Gamme", value: produitLive.name },
+    ...(variant.coloris ? [{ label: "Coloris", value: formatColorisLabel(variant.coloris) }] : []),
+    ...(produit.roll_area_m2 ? [{ label: "Surface au rouleau", value: `${produit.roll_area_m2} m²` }] : []),
     { label: "Poids au rouleau", value: `${((produit.weight_grams as number) / 1000).toFixed(1)} kg` },
     { label: "Conditionnement", value: produit.unit },
-    { label: "Épaisseur", value: "1,5 mm (à confirmer)" },
-    { label: "Garantie", value: "10 ans (à confirmer)" },
   ];
 
   return (
@@ -199,8 +221,8 @@ export default async function MembraneFichePage({ params }: PageProps) {
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "/" },
           { name: "Membrane armée", url: "/membrane-armee" },
-          { name: capitalize(gamme), url: `/membrane-armee/${gamme}` },
-          { name: capitalize(produit.couleur as string), url: `/membrane-armee/${gamme}/${couleur}` },
+          { name: produitLive.name, url: `/membrane-armee/${gamme}` },
+          { name: displayName, url: `/membrane-armee/${gamme}/${couleur}` },
         ])}
       />
 
@@ -229,14 +251,15 @@ export default async function MembraneFichePage({ params }: PageProps) {
         <Breadcrumbs
           items={[
             { href: "/membrane-armee", label: "Membrane armée" },
-            { href: `/membrane-armee/${gamme}`, label: capitalize(gamme) },
-            { href: `/membrane-armee/${gamme}/${couleur}`, label: capitalize(produit.couleur as string) },
+            { href: `/membrane-armee/${gamme}`, label: produitLive.name },
+            { href: `/membrane-armee/${gamme}/${couleur}`, label: displayName },
           ]}
         />
       </div>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* Colonne gauche : galerie — toutes les vignettes visibles (29). */}
+        {/* Colonne gauche : galerie — visuel générique tant que le shooting
+            réel n'a pas eu lieu pour ce coloris (bloqué sur assets photo). */}
         <div className="flex flex-col gap-3 lg:sticky lg:top-[var(--header-h)] lg:self-start">
           <div
             className="relative w-full overflow-hidden border"
@@ -247,30 +270,14 @@ export default async function MembraneFichePage({ params }: PageProps) {
               background: "var(--lime-wash)",
             }}
           >
-            <PoolImage
-              colorisSlug={couleur}
-              plan="bassin"
+            <Image
+              src={media?.plans.bassin.src ?? FALLBACK_CATALOG_IMAGE}
+              alt={media?.plans.bassin.alt ?? displayName}
+              fill
               priority
               fetchPriority="high"
               className="h-full w-full object-cover"
             />
-          </div>
-
-          <div className="grid grid-cols-4 gap-3">
-            {GALLERY_PLANS.map((plan) => (
-              <div
-                key={plan}
-                className="relative overflow-hidden border"
-                style={{
-                  aspectRatio: "4 / 3",
-                  borderColor: "var(--coping)",
-                  borderRadius: "var(--radius)",
-                  background: "var(--lime-wash)",
-                }}
-              >
-                <PoolImage colorisSlug={couleur} plan={plan} className="h-full w-full object-cover" />
-              </div>
-            ))}
           </div>
         </div>
 
@@ -289,7 +296,7 @@ export default async function MembraneFichePage({ params }: PageProps) {
                   {produit.in_stock ? "En stock" : "Indisponible"}
                 </span>
                 <h1 className="font-display" style={{ fontSize: "var(--step-1)" }}>
-                  {produit.name}
+                  {displayName}
                 </h1>
               </div>
 
@@ -297,14 +304,18 @@ export default async function MembraneFichePage({ params }: PageProps) {
                   (28b, primitive non modifiée) est contraint en largeur pour ne
                   pas repousser le bloc prix sous la ligne de flottaison — la
                   galerie de gauche porte déjà l'image principale en grand. */}
-              <div className="flex flex-col gap-2">
-                <div style={{ maxWidth: "9rem" }}>
-                  <SwatchGroup label="Coloris de la membrane" options={swatchOptions} defaultSelectedId={couleur} />
+              {swatchOptions.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  <div style={{ maxWidth: "9rem" }}>
+                    <SwatchGroup label="Coloris de la membrane" options={swatchOptions} defaultSelectedId={couleur} />
+                  </div>
+                  {media?.waterAppearance ? (
+                    <p className="text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
+                      {media.waterAppearance}
+                    </p>
+                  ) : null}
                 </div>
-                <p className="text-[var(--step--1)]" style={{ color: "var(--ink-60)" }}>
-                  {media.waterAppearance}
-                </p>
-              </div>
+              ) : null}
 
               <PdpBuyBox
                 compatibleAccessories={compatibleAccessories.map((accessory) =>
@@ -337,7 +348,12 @@ export default async function MembraneFichePage({ params }: PageProps) {
                 background: "var(--lime-wash)",
               }}
             >
-              <PoolImage colorisSlug={couleur} plan={highlight.plan} className="h-full w-full object-cover" />
+              <Image
+                src={FALLBACK_CATALOG_IMAGE}
+                alt={`${highlight.title} — visuel à venir`}
+                fill
+                className="h-full w-full object-cover"
+              />
             </div>
             <div className="flex flex-col justify-center gap-2">
               <h2 className="font-display" style={{ fontSize: "var(--step-1)" }}>
