@@ -5,8 +5,7 @@ import { z } from "zod";
 import { ApiErrorCode } from "@/lib/api/errors";
 import { NO_STORE_HEADERS, apiError, apiSuccess } from "@/lib/api/response";
 import { parseJsonBody } from "@/lib/api/validate";
-import { getAllProducts } from "@/lib/catalog/data";
-import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { getLiveCatalogEntries } from "@/lib/catalog/live-catalog";
 import { getBusinessConfigEnv, getSiteEnv } from "@/lib/env";
 import { computeLineDiscountsBps } from "@/lib/pricing/discounts";
 import { computeLineCharge } from "@/lib/pricing/resolve-price";
@@ -21,9 +20,10 @@ import { createClient } from "@/lib/supabase/server";
  * Création de la session Stripe Checkout (10). Le client n'envoie QUE des
  * SLUG + quantités : tout montant (prix selon rôle, port) est recalculé ici
  * depuis le catalogue serveur, jamais accepté depuis la requête (23). `slug`
- * (jamais `sku`, préfixé `APF-...`) est l'identifiant transmis par le client
- * — le SKU réel n'est utilisé qu'en métadonnée Stripe interne (serveur à
- * serveur, jamais rendu au navigateur, 01/23).
+ * est le seul identifiant transmis par le client — la ligne Stripe ne
+ * transporte que `variant_id` (UUID `product_variants.id`) en métadonnée
+ * interne (serveur à serveur, jamais rendu au navigateur) : JAMAIS `ref_apf`,
+ * server-only par construction, Stripe n'a pas à le connaître (tranche 2).
  */
 
 export const runtime = "nodejs";
@@ -93,7 +93,9 @@ export async function POST(request: Request) {
   } = await supabase.auth.getUser();
 
   const role = await resolvePricingRole();
-  const products = await withLivePricing(getAllProducts());
+  // Même résolution de variante que /api/cart/resolve (tranche 2) : une
+  // seule source de prix live, jamais un second chemin de lecture.
+  const catalog = await getLiveCatalogEntries();
 
   const unavailableSlugs: string[] = [];
   const lineItems: Array<{
@@ -113,19 +115,20 @@ export async function POST(request: Request) {
   );
 
   for (const [index, { slug, quantity }] of data.lines.entries()) {
-    const product = products.find((p) => p.slug === slug);
+    const match = catalog.find((c) => c.entry.slug === slug);
 
-    if (!product || !product.in_stock) {
+    if (!match || !match.entry.in_stock) {
       unavailableSlugs.push(slug);
       continue;
     }
 
+    const { entry: product, variantId } = match;
     const discountBps = discountBpsByLine[index];
     // Point d'entrée UNIQUE du calcul de ligne (`lib/pricing/resolve-price.ts`),
     // partagé à l'identique avec `/api/cart/resolve` (affichage panier) : le
     // montant vu avant paiement et le montant Stripe encaissé ne peuvent donc
     // jamais diverger — ni sur le HT/TVA d'un pro, ni sur un arrondi de ligne.
-    const charge = await computeLineCharge(product, role, quantity, discountBps);
+    const charge = await computeLineCharge(product, role, quantity, discountBps, variantId);
 
     lineItems.push({
       price_data: {
@@ -134,7 +137,7 @@ export async function POST(request: Request) {
         product_data: {
           name: discountBps > 0 ? `${product.name} (Pack -${discountBps / 100} %)` : product.name,
           metadata: {
-            sku: product.sku,
+            variant_id: variantId,
             unit_ht_cents: String(charge.unitHtCents),
             discount_bps: String(discountBps),
             quantity: String(quantity),

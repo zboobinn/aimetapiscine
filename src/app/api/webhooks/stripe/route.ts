@@ -72,7 +72,8 @@ async function findOrderBySession(
   return data;
 }
 
-async function createOrderFromSession(
+// exporté pour les tests (24), portée élargie sans changement de comportement
+export async function createOrderFromSession(
   supabase: SupabaseClient,
   sessionId: string,
 ): Promise<OrderRecord> {
@@ -89,7 +90,10 @@ async function createOrderFromSession(
       ? product.metadata
       : undefined;
 
-    const sku = metadata?.sku;
+    // `variant_id` (jamais `ref_apf`, tranche 2) : identifiant maison
+    // (UUID `product_variants.id`) déposé en métadonnée par `/api/checkout`
+    // — Stripe n'a jamais connu la référence fournisseur.
+    const variantId = metadata?.variant_id;
     const unitHtCents = Number(metadata?.unit_ht_cents ?? 0);
     const discountBps = Number(metadata?.discount_bps ?? 0);
     // Quantité réelle du produit : côté checkout, les lignes remisées (13)
@@ -102,15 +106,15 @@ async function createOrderFromSession(
     // exact quelle que soit la quantité Stripe (1 pour les lignes remisées).
     const amountChargedCents = item.amount_total ?? 0;
 
-    if (!sku) {
-      throw new Error(`Ligne Stripe sans SKU en métadonnées (session ${sessionId})`);
+    if (!variantId) {
+      throw new Error(`Ligne Stripe sans variant_id en métadonnées (session ${sessionId})`);
     }
 
     const htBeforeDiscount = unitHtCents * quantity;
     const discountHt = Math.round((htBeforeDiscount * discountBps) / 10000);
     const htAfterDiscount = htBeforeDiscount - discountHt;
 
-    return { sku, quantity, unitHtCents, discountBps, htAfterDiscount, amountChargedCents };
+    return { variantId, quantity, unitHtCents, discountBps, htAfterDiscount, amountChargedCents };
   });
 
   const totalAmountHt = orderItemsInput.reduce((sum, item) => sum + item.htAfterDiscount, 0);
@@ -127,20 +131,6 @@ async function createOrderFromSession(
 
   const customerEmail = customerDetails?.email ?? session.customer_email ?? "";
   const userId = session.metadata?.user_id || null;
-
-  const { data: products, error: productsError } = await supabase
-    .from("products")
-    .select("id, sku")
-    .in(
-      "sku",
-      orderItemsInput.map((i) => i.sku),
-    );
-
-  if (productsError) {
-    throw new Error(`Lecture produits échouée (session ${sessionId}) : ${productsError.message}`);
-  }
-
-  const productIdBySku = new Map((products ?? []).map((p) => [p.sku, p.id]));
 
   const { data: order, error: orderError } = await supabase
     .from("orders")
@@ -173,24 +163,20 @@ async function createOrderFromSession(
     throw new Error(`Création commande échouée (session ${sessionId}) : ${orderError.message}`);
   }
 
-  const orderItemsRows = orderItemsInput.map((item) => {
-    const productId = productIdBySku.get(item.sku);
-    if (!productId) {
-      throw new Error(`SKU ${item.sku} introuvable en DB (session ${sessionId})`);
-    }
-
-    return {
-      order_id: order.id,
-      product_id: productId,
-      quantity: item.quantity,
-      // Snapshot AVANT remise (03) : `discount_bps` porte la remise, jamais
-      // appliquée deux fois — même contrat que `computeLineTotals`
-      // (lib/pdf/invoice.ts), qui recalcule htAfterDiscount à partir de ces
-      // deux colonnes.
-      unit_price_ht: item.unitHtCents,
-      discount_bps: item.discountBps,
-    };
-  });
+  // `variant_id` référence directement `product_variants(id)` (contrainte
+  // FK, migration `order_items_variant`, tranche 2) : plus besoin de
+  // résoudre un `product_id` par SKU, la variante est déjà connue.
+  const orderItemsRows = orderItemsInput.map((item) => ({
+    order_id: order.id,
+    variant_id: item.variantId,
+    quantity: item.quantity,
+    // Snapshot AVANT remise (03) : `discount_bps` porte la remise, jamais
+    // appliquée deux fois — même contrat que `computeLineTotals`
+    // (lib/pdf/invoice.ts), qui recalcule htAfterDiscount à partir de ces
+    // deux colonnes.
+    unit_price_ht: item.unitHtCents,
+    discount_bps: item.discountBps,
+  }));
 
   const { error: itemsError } = await supabase.from("order_items").insert(orderItemsRows);
 
@@ -205,39 +191,45 @@ async function createOrderFromSession(
   return order;
 }
 
-interface OrderItemWithProduct {
+interface OrderItemWithVariant {
   quantity: number;
   unit_price_ht: number;
   discount_bps: number;
-  products: { sku: string; name: string; vat_rate: number } | null;
+  product_variants: { ref_apf: string; products: { name: string; vat_rate: number } | null } | null;
 }
 
+/**
+ * Jointure `order_items` → `product_variants` → `products` (tranche 2,
+ * remplace le `product_id` retiré d'`order_items`) : `ref_apf` (server-only,
+ * 23/27) n'est lisible qu'ici, via `service_role` — jamais depuis un chemin
+ * anon/authenticated (privilège de colonne posé sur `product_variants`).
+ */
 async function loadDocumentLines(
   supabase: SupabaseClient,
   orderId: string,
 ): Promise<OrderDocumentLine[]> {
   const { data, error } = await supabase
     .from("order_items")
-    .select("quantity, unit_price_ht, discount_bps, products(sku, name, vat_rate)")
+    .select("quantity, unit_price_ht, discount_bps, product_variants(ref_apf, products(name, vat_rate))")
     .eq("order_id", orderId)
-    .returns<OrderItemWithProduct[]>();
+    .returns<OrderItemWithVariant[]>();
 
   if (error) {
     throw new Error(`Lecture des lignes de commande échouée (commande ${orderId}) : ${error.message}`);
   }
 
   return (data ?? []).map((row) => {
-    if (!row.products) {
-      throw new Error(`Produit introuvable pour une ligne de commande ${orderId}`);
+    if (!row.product_variants || !row.product_variants.products) {
+      throw new Error(`Variante ou produit introuvable pour une ligne de commande ${orderId}`);
     }
 
     return {
-      sku: row.products.sku,
-      name: row.products.name,
+      refApf: row.product_variants.ref_apf,
+      name: row.product_variants.products.name,
       quantity: row.quantity,
       unitPriceHtCents: row.unit_price_ht,
       discountBps: row.discount_bps,
-      vatRateBps: row.products.vat_rate,
+      vatRateBps: row.product_variants.products.vat_rate,
     };
   });
 }

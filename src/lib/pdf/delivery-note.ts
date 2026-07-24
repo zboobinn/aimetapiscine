@@ -10,8 +10,9 @@ import type { OrderDocumentData } from "./types";
 /**
  * Bon de livraison blind shipping (11) : en-tête NOTRE société uniquement,
  * mention obligatoire bien visible, AUCUN prix (le colis arrive chez le
- * client final). Le SKU APF reste affiché en tant que référence produit
- * nécessaire à la préparation — ce n'est pas une « mention APF » à masquer.
+ * client final). `ref_apf` (référence fournisseur réelle, `product_variants`,
+ * tranche 2) reste affiché en tant que référence de préparation — ce n'est
+ * pas une « mention APF » à masquer, c'est le seul document qui la voit.
  */
 export function generateDeliveryNotePdf(data: OrderDocumentData): Promise<Buffer> {
   const company = getCompanyInfo();
@@ -69,7 +70,7 @@ export function generateDeliveryNotePdf(data: OrderDocumentData): Promise<Buffer
     const col = { sku: 50, name: 160, qty: 470 };
 
     doc.font(PDF_FONT_BOLD).fontSize(10);
-    doc.text("SKU", col.sku, tableTop);
+    doc.text("Réf. APF", col.sku, tableTop);
     doc.text("Désignation", col.name, tableTop);
     doc.text("Quantité", col.qty, tableTop);
     doc.moveTo(50, tableTop + 15).lineTo(doc.page.width - 50, tableTop + 15).stroke();
@@ -77,7 +78,7 @@ export function generateDeliveryNotePdf(data: OrderDocumentData): Promise<Buffer
     doc.font(PDF_FONT_REGULAR).fontSize(10);
     let rowY = tableTop + 22;
     for (const line of data.lines) {
-      doc.text(line.sku, col.sku, rowY, { width: col.name - col.sku - 10 });
+      doc.text(line.refApf, col.sku, rowY, { width: col.name - col.sku - 10 });
       doc.text(line.name, col.name, rowY, { width: col.qty - col.name - 10 });
       doc.text(String(line.quantity), col.qty, rowY);
       rowY += 20;

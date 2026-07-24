@@ -32,7 +32,7 @@ const DOCUMENT_LINES_ROW = {
   quantity: 1,
   unit_price_ht: 10000,
   discount_bps: 0,
-  products: { sku: "APF-TEST-SKU", name: "Produit test", vat_rate: 2000 },
+  product_variants: { ref_apf: "APF-TEST-SKU", products: { name: "Produit test", vat_rate: 2000 } },
 };
 
 interface FakeSupabase {

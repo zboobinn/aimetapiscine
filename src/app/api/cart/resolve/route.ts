@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { getAllProducts } from "@/lib/catalog/data";
-import { withLivePricing } from "@/lib/catalog/live-pricing";
+import { getLiveCatalogEntries } from "@/lib/catalog/live-catalog";
 import { getBusinessConfigEnv } from "@/lib/env";
 import { NO_STORE_HEADERS, apiSuccess } from "@/lib/api/response";
 import { parseJsonBody } from "@/lib/api/validate";
@@ -71,7 +70,11 @@ export async function POST(request: Request) {
   const { data } = parsed;
 
   const role = await resolvePricingRole();
-  const products = await withLivePricing(getAllProducts());
+  // Point d'entrée unique de résolution de variante (tranche 2) : remplace
+  // `getAllProducts()` (data/catalog.json) + `withLivePricing()`, qui lisait
+  // des colonnes retirées de `products` par la migration `product_variants`
+  // (prix/poids/stock descendus au niveau variante).
+  const catalog = await getLiveCatalogEntries();
 
   const discountBpsRate = getBusinessConfigEnv().PACK_DISCOUNT_BPS;
   const discountBpsByLine = computeLineDiscountsBps(
@@ -82,19 +85,20 @@ export async function POST(request: Request) {
 
   const lines: ResolvedCartLine[] = await Promise.all(
     data.lines.map(async ({ slug, quantity }, index) => {
-      const product = products.find((p) => p.slug === slug);
+      const match = catalog.find((c) => c.entry.slug === slug);
 
-      if (!product) {
+      if (!match) {
         return buildUnavailableCartLine(slug, quantity);
       }
 
+      const { entry: product, variantId } = match;
       const discountBps = discountBpsByLine[index];
       // Même fonction qu'au checkout (`computeLineCharge`) : garantit que le
       // montant affiché ici est EXACTEMENT celui qui sera facturé (10/13/23).
-      const charge = await computeLineCharge(product, role, quantity, discountBps);
+      const charge = await computeLineCharge(product, role, quantity, discountBps, variantId);
       const compareAtLineTtcCents =
         discountBps > 0
-          ? (await computeLineCharge(product, role, quantity, 0)).lineTtcCents
+          ? (await computeLineCharge(product, role, quantity, 0, variantId)).lineTtcCents
           : undefined;
 
       return buildResolvedCartLine(product, quantity, discountBps, charge, compareAtLineTtcCents);

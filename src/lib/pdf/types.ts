@@ -1,5 +1,6 @@
 export interface OrderDocumentLine {
-  sku: string;
+  /** Référence fournisseur réelle (`product_variants.ref_apf`, server-only, 01/23/27) — jamais sur la facture client, uniquement sur le BL fournisseur. */
+  refApf: string;
   name: string;
   quantity: number;
   unitPriceHtCents: number;

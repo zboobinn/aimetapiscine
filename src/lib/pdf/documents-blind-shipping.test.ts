@@ -33,7 +33,7 @@ process.env.COMPANY_ADDRESS = "1 rue de la Piscine, 75000 Paris";
 const SUPPLIER_SKU = "APF-MEMB-UNI-BLEU";
 
 const fixtureLine: OrderDocumentLine = {
-  sku: SUPPLIER_SKU,
+  refApf: SUPPLIER_SKU,
   name: "Membrane armée unie bleue",
   quantity: 2,
   unitPriceHtCents: 12000,

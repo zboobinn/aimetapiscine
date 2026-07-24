@@ -69,7 +69,7 @@ export async function sendSupplierShippingOrderEmail(input: SupplierShippingOrde
     react: SupplierShippingOrderEmail({
       orderId: input.orderId,
       createdAt: input.createdAt,
-      lines: input.lines.map((line) => ({ sku: line.sku, name: line.name, quantity: line.quantity })),
+      lines: input.lines.map((line) => ({ sku: line.refApf, name: line.name, quantity: line.quantity })),
       shippingAddressLines: formatShippingAddress(input.shippingAddress),
     }),
     attachments: [{ filename: `bl-${input.orderId}.pdf`, content: input.deliveryNotePdf }],

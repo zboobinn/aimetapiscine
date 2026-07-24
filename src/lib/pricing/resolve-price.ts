@@ -30,24 +30,27 @@ export interface PriceBreakdown {
 }
 
 /**
- * Résout le HT unitaire pro (14) : `pro_price_ht` s'il est renseigné sur le
- * produit (prix pro spécifique) ; sinon le pourcentage pro global de
- * `store_settings` appliqué à `base_price_ht` (13/26, `lib/store-settings.ts`).
- * Centralisé ici : panier, checkout et affichage en dépendent tous, jamais
- * de duplication de cette règle de repli.
+ * Résout le HT unitaire pro (14) : `pro_price_ht` s'il est renseigné sur LA
+ * VARIANTE (prix pro spécifique) ; sinon le pourcentage pro global de
+ * `store_settings` appliqué à `base_price_ht` de cette même variante (13/26,
+ * `lib/store-settings.ts`). Centralisé ici : panier, checkout et affichage
+ * en dépendent tous, jamais de duplication de cette règle de repli.
  *
- * Lit `pro_price_ht` EN LIVE via `service_role` (23) — jamais le champ
- * `product.pro_price_ht` fusionné par `withLivePricing()`, qui ne le lit
- * plus depuis que la clé anon a perdu ce privilège de colonne (migration
- * `20260713000000_products_column_privileges.sql`, prix pro non exposable à
- * la clé anon publique).
+ * `variantId` (jamais `sku`, tranche 2) : depuis `product_variants`, un même
+ * `sku` produit peut porter plusieurs variantes à des prix différents — seul
+ * l'identifiant de variante désigne un prix pro sans ambiguïté. Lu EN LIVE
+ * via `service_role` (23), jamais un champ fusionné publiquement (le
+ * privilège de colonne empêche de toute façon la clé anon de le lire).
  */
-export async function resolveProUnitHtCents(product: CatalogEntry): Promise<number> {
-  const liveProPriceHtCents = await fetchLiveProPriceHtCents(product.sku);
+export async function resolveProUnitHtCents(
+  variantId: string,
+  fallbackBasePriceHtCents: number,
+): Promise<number> {
+  const liveProPriceHtCents = await fetchLiveProPriceHtCents(variantId);
   if (liveProPriceHtCents !== null) return liveProPriceHtCents;
 
   const discountBps = await getProDiscountBps();
-  return Math.round((product.base_price_ht * (10000 - discountBps)) / 10000);
+  return Math.round((fallbackBasePriceHtCents * (10000 - discountBps)) / 10000);
 }
 
 /**
@@ -57,15 +60,24 @@ export async function resolveProUnitHtCents(product: CatalogEntry): Promise<numb
  * le HT pro (résolu ci-dessus) est affiché tel quel, label « HT » — les pros
  * paient aussi la TVA, mais seulement au moment de payer/facturer (11), pas
  * sur le prix affiché en fiche produit.
+ *
+ * `variantId` optionnel : seuls panier/checkout/`product-price` (tranche 2)
+ * résolvent réellement un rôle "b2b" avec une variante identifiée — les
+ * autres appelants (`PriceBlock`, buy-box PDP, D5) restent figés en rôle
+ * "b2c" et n'atteignent donc jamais la branche qui l'exige.
  */
 export async function resolvePriceBreakdown(
   product: CatalogEntry,
   role: PricingRole,
+  variantId?: string,
 ): Promise<PriceBreakdown> {
   const vatRateBps = product.vat_rate;
 
   if (role === "b2b") {
-    const unitHtCents = await resolveProUnitHtCents(product);
+    if (!variantId) {
+      throw new Error("resolvePriceBreakdown : variantId requis pour résoudre un prix pro (b2b)");
+    }
+    const unitHtCents = await resolveProUnitHtCents(variantId, product.base_price_ht);
     return { unitAmountCents: unitHtCents, unitHtCents };
   }
 
@@ -79,15 +91,17 @@ export async function resolvePriceBreakdown(
  * du catalogue (04) : résout le HT unitaire pour CE rôle (14, prix pro
  * spécifique ou pourcentage global) puis applique la même formule que la
  * facture (11). `/api/cart/resolve` et `/api/checkout` appellent tous les
- * deux CETTE fonction — jamais de calcul dupliqué qui pourrait diverger
- * entre panier affiché et montant payé.
+ * deux CETTE fonction, avec le `variantId` de la ligne (tranche 2) — jamais
+ * de calcul dupliqué qui pourrait diverger entre panier affiché et montant
+ * payé.
  */
 export async function computeLineCharge(
   product: CatalogEntry,
   role: PricingRole,
   quantity: number,
   discountBps: number,
+  variantId?: string,
 ): Promise<LineCharge> {
-  const { unitHtCents } = await resolvePriceBreakdown(product, role);
+  const { unitHtCents } = await resolvePriceBreakdown(product, role, variantId);
   return computeLineChargeFromUnitHt(unitHtCents, quantity, discountBps, product.vat_rate);
 }

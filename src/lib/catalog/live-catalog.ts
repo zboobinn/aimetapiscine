@@ -237,6 +237,53 @@ export function formatColorisLabel(coloris: string): string {
     .join(" ");
 }
 
+export interface LiveCatalogEntry {
+  entry: CatalogEntry;
+  variantId: string;
+}
+
+/**
+ * Aplatit le catalogue live (membranes + accessoires) en entrées adressables
+ * par LE MÊME `slug` que celui déjà envoyé au panier depuis les fiches
+ * produit (`toCartProductSummary(toCatalogEntry(...))`, 29/29-page-produit) :
+ * `${gammeSlug}-${couleurSlug}` pour une membrane, `product.slug` pour un
+ * accessoire (pas de sélecteur de variante côté PDP accessoire dans cette
+ * tranche, 2b — on retient donc la MÊME variante que celle affichée,
+ * `pickPdpVariant(product)` sans coloris, la moins chère des actives).
+ *
+ * Point d'entrée UNIQUE pour panier/checkout/tarification (tranche 2,
+ * remplace `getAllProducts()` + `withLivePricing()` qui lisaient des
+ * colonnes retirées de `products` par la migration `product_variants`) :
+ * aucun second chemin de lecture catalogue côté tarification live.
+ */
+export async function getLiveCatalogEntries(): Promise<LiveCatalogEntry[]> {
+  const [membranes, accessories] = await Promise.all([
+    getLiveMembraneProducts(),
+    getLiveAccessoryProducts(),
+  ]);
+
+  const membraneEntries = membranes.flatMap((product) =>
+    product.variants
+      .filter((variant) => variant.coloris !== null)
+      .map((variant) => {
+        const couleurSlug = couleurToSlug(variant.coloris as string);
+        return {
+          entry: toCatalogEntry(product, variant, { gammeSlug: product.slug, couleurSlug }),
+          variantId: variant.id,
+        };
+      }),
+  );
+
+  const accessoryEntries: LiveCatalogEntry[] = [];
+  for (const product of accessories) {
+    const variant = pickPdpVariant(product);
+    if (!variant) continue;
+    accessoryEntries.push({ entry: toCatalogEntry(product, variant), variantId: variant.id });
+  }
+
+  return [...membraneEntries, ...accessoryEntries];
+}
+
 /**
  * Construit un objet compatible `CatalogEntry` pour UNE variante précise,
  * afin de réutiliser telles quelles les fonctions canoniques déjà en place
